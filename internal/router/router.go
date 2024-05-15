@@ -9,4 +9,5 @@ import (
 func Router(r *gin.Engine) {
 	api := r.Group("/api")
 	api.GET("/schedule", handler.ScheduleHandler)
+	api.GET("/group_rank_info", handler.GroupRankInfoHandler)
 }
