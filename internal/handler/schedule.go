@@ -6,11 +6,23 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
 
+const scheduleDebug = false
+
 func ScheduleHandler(c *gin.Context) {
+	if scheduleDebug {
+		staticJson, err := os.Open("static/schedule.json")
+		if err == nil {
+			bytes, _ := io.ReadAll(staticJson)
+			c.Data(200, "application/json", bytes)
+			return
+		}
+	}
+
 	cached, b := svc.Cache.Get("schedule")
 	if b {
 		c.Data(200, "application/json", cached.([]byte))
