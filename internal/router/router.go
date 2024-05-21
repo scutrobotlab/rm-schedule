@@ -11,4 +11,5 @@ func Router(r *gin.Engine) {
 	api.GET("/schedule", handler.ScheduleHandler)
 	api.GET("/group_rank_info", handler.GroupRankInfoHandler)
 	api.GET("/static/rm-static_djicdn_com/games-backend/:uuid", handler.RMStaticHandler)
+	api.GET("/mp/match", handler.MpMatchHandler)
 }
