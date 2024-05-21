@@ -74,8 +74,10 @@ func MpMatchHandler(c *gin.Context) {
 			if err != nil {
 				log.Printf("failed to read response body: %v", err)
 				c.JSON(500, gin.H{"error": "failed to read response body"})
+				response.Body.Close()
 				return
 			}
+			response.Body.Close()
 
 			var _mpMatchResp MpMatchSrcResp
 			err = json.Unmarshal(bytes, &_mpMatchResp)
