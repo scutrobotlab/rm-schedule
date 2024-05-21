@@ -29,10 +29,14 @@ type MpMatchDstResp struct {
 }
 
 type MpMatchData struct {
-	MatchId   int `json:"matchId"`
-	RedCount  int `json:"redCount"`
-	BlueCount int `json:"blueCount"`
-	TieCount  int `json:"tieCount"`
+	MatchId    int     `json:"matchId"`
+	RedCount   int     `json:"redCount"`
+	BlueCount  int     `json:"blueCount"`
+	TieCount   int     `json:"tieCount"`
+	TotalCount int     `json:"totalCount"`
+	RedRate    float64 `json:"redRate"`
+	BlueRate   float64 `json:"blueRate"`
+	TieRate    float64 `json:"tieRate"`
 }
 
 func MpMatchHandler(c *gin.Context) {
@@ -94,7 +98,13 @@ func MpMatchHandler(c *gin.Context) {
 				BlueCount: _mpMatchResp.Data.BlueCount,
 				TieCount:  _mpMatchResp.Data.TieCount,
 			}
-			svc.Cache.Set("mp_match:"+id, data, 5*time.Second)
+			data.TotalCount = data.RedCount + data.BlueCount + data.TieCount
+			if data.TotalCount != 0 {
+				data.RedRate = float64(data.RedCount) / float64(data.TotalCount)
+				data.BlueRate = float64(data.BlueCount) / float64(data.TotalCount)
+				data.TieRate = float64(data.TieCount) / float64(data.TotalCount)
+			}
+			svc.Cache.Set("mp_match:"+id, data, 30*time.Second)
 			mpMatchRespList = append(mpMatchRespList, data)
 		} else {
 			mpMatchRespList = append(mpMatchRespList, mpMatch.(MpMatchData))
