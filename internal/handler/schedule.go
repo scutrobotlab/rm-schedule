@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -35,7 +36,14 @@ func ScheduleHandler(c *gin.Context) {
 		})
 		return
 	}
+	bytes = replaceRMStatic(bytes)
 	svc.Cache.Set("schedule", bytes, 5*time.Second)
 
 	c.Data(200, "application/json", bytes)
+}
+
+func replaceRMStatic(data []byte) []byte {
+	str := string(data)
+	str = strings.ReplaceAll(str, "https://rm-static.djicdn.com/games-backend/", "/api/static/rm-static_djicdn_com/games-backend/")
+	return []byte(str)
 }
