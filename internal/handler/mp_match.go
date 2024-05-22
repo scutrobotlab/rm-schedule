@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/scutrobotlab/RMSituationBackend/internal/svc"
 	"io"
@@ -12,6 +11,11 @@ import (
 	"strconv"
 	"strings"
 	"time"
+)
+
+const (
+	MpMatchCacheRefreshTime = 10 * time.Second // 缓存即将过期时，异步刷新
+	MapMatchCacheExpiration = 60 * time.Second // 缓存过期时间
 )
 
 type MpMatchSrcResp struct {
@@ -56,61 +60,72 @@ func MpMatchHandler(c *gin.Context) {
 			return
 		}
 
-		mpMatch, b := svc.Cache.Get("mp_match:" + id)
+		mpMatch, expiration, b := svc.Cache.GetWithExpiration("mp_match:" + id)
 		if !b {
-			_url, err := url.Parse("https://mp.robomaster.com/api/v1/match?matchID=" + id)
-			request := http.Request{
-				Method: http.MethodGet,
-				URL:    _url,
-				Header: http.Header{
-					"Referer": []string{"https://servicewechat.com/wx449772ad6960c39f/34/page-frame.html"},
-				},
-			}
-
-			response, err := http.DefaultClient.Do(&request)
+			data, err := loadMpMatch(_id)
 			if err != nil {
-				log.Printf("failed to fetch data from mp.robomaster.com: %v", err)
-				c.JSON(500, gin.H{"error": "failed to fetch data from mp.robomaster.com"})
+				log.Printf("Failed to get mp match: %v\n", err)
+				c.JSON(500, gin.H{"code": -1, "msg": "Failed to get mp match"})
 				return
 			}
-
-			bytes, err := io.ReadAll(response.Body)
-			if err != nil {
-				log.Printf("failed to read response body: %v", err)
-				c.JSON(500, gin.H{"error": "failed to read response body"})
-				response.Body.Close()
-				return
-			}
-			response.Body.Close()
-
-			var _mpMatchResp MpMatchSrcResp
-			err = json.Unmarshal(bytes, &_mpMatchResp)
-			if err != nil {
-				log.Printf("failed to unmarshal response body: %v", err)
-				fmt.Printf("%s", bytes)
-				c.JSON(500, gin.H{"error": "failed to unmarshal response body"})
-				return
-			}
-
-			data := MpMatchData{
-				MatchId:   _id,
-				RedCount:  _mpMatchResp.Data.RedCount,
-				BlueCount: _mpMatchResp.Data.BlueCount,
-				TieCount:  _mpMatchResp.Data.TieCount,
-			}
-			data.TotalCount = data.RedCount + data.BlueCount + data.TieCount
-			if data.TotalCount != 0 {
-				data.RedRate = float64(data.RedCount) / float64(data.TotalCount)
-				data.BlueRate = float64(data.BlueCount) / float64(data.TotalCount)
-				data.TieRate = float64(data.TieCount) / float64(data.TotalCount)
-			}
-			svc.Cache.Set("mp_match:"+id, data, 60*time.Second)
-			mpMatchRespList = append(mpMatchRespList, data)
+			mpMatchRespList = append(mpMatchRespList, *data)
 		} else {
+			// 如果缓存即将过期，异步刷新
+			if expiration.Sub(time.Now()) < MpMatchCacheRefreshTime {
+				go func(id int) {
+					_, err := loadMpMatch(id)
+					if err != nil {
+						log.Printf("Failed to get mp match: %v\n", err)
+					}
+				}(_id)
+			}
+
 			mpMatchRespList = append(mpMatchRespList, mpMatch.(MpMatchData))
 		}
 	}
 
-	c.Header("Cache-Control", "public, max-age=60")
+	c.Header("Cache-Control", "public, max-age=10")
 	c.JSON(200, MpMatchDstResp{List: mpMatchRespList})
+}
+
+func loadMpMatch(id int) (*MpMatchData, error) {
+	_url, err := url.Parse("https://mp.robomaster.com/api/v1/match?matchID=" + strconv.Itoa(id))
+	request := http.Request{
+		Method: http.MethodGet,
+		URL:    _url,
+		Header: http.Header{"Referer": []string{"https://servicewechat.com/wx449772ad6960c39f/34/page-frame.html"}},
+	}
+
+	response, err := http.DefaultClient.Do(&request)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+
+	bytes, err := io.ReadAll(response.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var _mpMatchResp MpMatchSrcResp
+	err = json.Unmarshal(bytes, &_mpMatchResp)
+	if err != nil {
+		return nil, err
+	}
+
+	data := MpMatchData{
+		MatchId:   id,
+		RedCount:  _mpMatchResp.Data.RedCount,
+		BlueCount: _mpMatchResp.Data.BlueCount,
+		TieCount:  _mpMatchResp.Data.TieCount,
+	}
+	data.TotalCount = data.RedCount + data.BlueCount + data.TieCount
+	if data.TotalCount != 0 {
+		data.RedRate = float64(data.RedCount) / float64(data.TotalCount)
+		data.BlueRate = float64(data.BlueCount) / float64(data.TotalCount)
+		data.TieRate = float64(data.TieCount) / float64(data.TotalCount)
+	}
+	svc.Cache.Set("mp_match:"+strconv.Itoa(id), data, MapMatchCacheExpiration)
+
+	return &data, nil
 }
