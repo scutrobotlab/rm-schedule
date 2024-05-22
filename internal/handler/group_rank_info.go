@@ -12,6 +12,7 @@ import (
 func GroupRankInfoHandler(c *gin.Context) {
 	cached, b := svc.Cache.Get("group_rank_info")
 	if b {
+		c.Header("Cache-Control", "public, max-age=5")
 		c.Data(200, "application/json", cached.([]byte))
 		return
 	}
@@ -32,5 +33,6 @@ func GroupRankInfoHandler(c *gin.Context) {
 	}
 	svc.Cache.Set("group_rank_info", bytes, 5*time.Second)
 
+	c.Header("Cache-Control", "public, max-age=5")
 	c.Data(200, "application/json", bytes)
 }

@@ -104,12 +104,13 @@ func MpMatchHandler(c *gin.Context) {
 				data.BlueRate = float64(data.BlueCount) / float64(data.TotalCount)
 				data.TieRate = float64(data.TieCount) / float64(data.TotalCount)
 			}
-			svc.Cache.Set("mp_match:"+id, data, 30*time.Second)
+			svc.Cache.Set("mp_match:"+id, data, 60*time.Second)
 			mpMatchRespList = append(mpMatchRespList, data)
 		} else {
 			mpMatchRespList = append(mpMatchRespList, mpMatch.(MpMatchData))
 		}
 	}
 
+	c.Header("Cache-Control", "public, max-age=60")
 	c.JSON(200, MpMatchDstResp{List: mpMatchRespList})
 }

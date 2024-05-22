@@ -18,6 +18,7 @@ func ScheduleHandler(c *gin.Context) {
 		staticJson, err := os.Open("static/schedule.json")
 		if err == nil {
 			bytes, _ := io.ReadAll(staticJson)
+			c.Header("Cache-Control", "no-cache")
 			c.Data(200, "application/json", bytes)
 			return
 		}
@@ -25,6 +26,7 @@ func ScheduleHandler(c *gin.Context) {
 
 	cached, b := svc.Cache.Get("schedule")
 	if b {
+		c.Header("Cache-Control", "public, max-age=5")
 		c.Data(200, "application/json", cached.([]byte))
 		return
 	}
@@ -46,6 +48,7 @@ func ScheduleHandler(c *gin.Context) {
 	bytes = replaceRMStatic(bytes)
 	svc.Cache.Set("schedule", bytes, 5*time.Second)
 
+	c.Header("Cache-Control", "public, max-age=5")
 	c.Data(200, "application/json", bytes)
 }
 
