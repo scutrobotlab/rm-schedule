@@ -30,7 +30,7 @@
                         "team": {
                           "id": "114",
                           "name": "TRoMaC",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                           "collegeName": "太原理工大学"
                         }
                       },
@@ -43,7 +43,7 @@
                         "team": {
                           "id": "739",
                           "name": "齐奇",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/eadacc4d-2d55-4372-95d7-2db78ec86491",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/eadacc4d-2d55-4372-95d7-2db78ec86491",
                           "collegeName": "山东理工大学"
                         }
                       },
@@ -69,7 +69,7 @@
                         "team": {
                           "id": "755",
                           "name": "Adam",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
                           "collegeName": "齐鲁工业大学"
                         }
                       },
@@ -82,7 +82,7 @@
                         "team": {
                           "id": "782",
                           "name": "木鸢Birdiebot",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
                           "collegeName": "上海工程技术大学"
                         }
                       },
@@ -108,8 +108,8 @@
                         "team": {
                           "id": "2813",
                           "name": "GMaster",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
-                          "collegeName": "西交利物浦大学\u0026利物浦大学"
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
+                          "collegeName": "西交利物浦大学&利物浦大学"
                         }
                       },
                       {
@@ -121,7 +121,7 @@
                         "team": {
                           "id": "183",
                           "name": "Born of Fire",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
                           "collegeName": "南京航空航天大学金城学院"
                         }
                       },
@@ -147,7 +147,7 @@
                         "team": {
                           "id": "139",
                           "name": "Magician",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
                           "collegeName": "上海科技大学"
                         }
                       },
@@ -173,7 +173,7 @@
                         "team": {
                           "id": "746",
                           "name": "SPR",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/5b448a32-b9d7-456f-b1c4-593191f7b7e2",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/5b448a32-b9d7-456f-b1c4-593191f7b7e2",
                           "collegeName": "中国石油大学（北京）"
                         }
                       },
@@ -186,7 +186,7 @@
                         "team": {
                           "id": "688",
                           "name": "征龙凌沧",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/268fbd8e-b1bd-4601-8183-cd36ce2471d8",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/268fbd8e-b1bd-4601-8183-cd36ce2471d8",
                           "collegeName": "东北大学秦皇岛分校"
                         }
                       },
@@ -199,7 +199,7 @@
                         "team": {
                           "id": "683",
                           "name": "WDR",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/20183ede-23e2-4ccd-93be-3eb1a479ba71",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/20183ede-23e2-4ccd-93be-3eb1a479ba71",
                           "collegeName": "合肥工业大学(宣城校区)"
                         }
                       },
@@ -212,7 +212,7 @@
                         "team": {
                           "id": "672",
                           "name": "PIE",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
                           "collegeName": "首都师范大学"
                         }
                       },
@@ -272,7 +272,7 @@
                         "team": {
                           "id": "453",
                           "name": "DynamicX",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
                           "collegeName": "广东工业大学"
                         }
                       },
@@ -298,7 +298,7 @@
                         "team": {
                           "id": "738",
                           "name": "HERO",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
                           "collegeName": "哈尔滨工业大学（威海）"
                         }
                       },
@@ -311,7 +311,7 @@
                         "team": {
                           "id": "50",
                           "name": "Ambition",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
                           "collegeName": "沈阳理工大学"
                         }
                       },
@@ -337,7 +337,7 @@
                         "team": {
                           "id": "676",
                           "name": "Climber",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/f8173b3b-f146-4c9c-bd1e-cd62cff5777b",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f8173b3b-f146-4c9c-bd1e-cd62cff5777b",
                           "collegeName": "常州大学"
                         }
                       },
@@ -350,7 +350,7 @@
                         "team": {
                           "id": "1515",
                           "name": "陆擎",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/02c17fe3-643b-42be-945b-3a945bb3e31d",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/02c17fe3-643b-42be-945b-3a945bb3e31d",
                           "collegeName": "陆军勤务学院"
                         }
                       },
@@ -363,7 +363,7 @@
                         "team": {
                           "id": "666",
                           "name": "TARS_Go",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
                           "collegeName": "吉林大学"
                         }
                       },
@@ -376,7 +376,7 @@
                         "team": {
                           "id": "771",
                           "name": "DIODE",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/b92da3a0-9f6c-40fb-9f1f-c5ce3f12f560",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/b92da3a0-9f6c-40fb-9f1f-c5ce3f12f560",
                           "collegeName": "东华大学"
                         }
                       },
@@ -389,7 +389,7 @@
                         "team": {
                           "id": "2780",
                           "name": "起源",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
                           "collegeName": "华东理工大学"
                         }
                       },
@@ -402,7 +402,7 @@
                         "team": {
                           "id": "682",
                           "name": "RoboWalker",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
                           "collegeName": "中国科学技术大学"
                         }
                       },
@@ -428,7 +428,7 @@
                         "team": {
                           "id": "679",
                           "name": "606",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/545f6aae-fcc7-4094-85e0-ea6f30596d73",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/545f6aae-fcc7-4094-85e0-ea6f30596d73",
                           "collegeName": "中北大学"
                         }
                       },
@@ -441,7 +441,7 @@
                         "team": {
                           "id": "786",
                           "name": "PHOENIX",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
                           "collegeName": "杭州电子科技大学"
                         }
                       }
@@ -511,7 +511,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -551,7 +551,7 @@
                       "team": {
                         "id": "139",
                         "name": "Magician",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
                         "collegeName": "上海科技大学"
                       }
                     },
@@ -577,7 +577,7 @@
                       "team": {
                         "id": "739",
                         "name": "齐奇",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/eadacc4d-2d55-4372-95d7-2db78ec86491",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/eadacc4d-2d55-4372-95d7-2db78ec86491",
                         "collegeName": "山东理工大学"
                       }
                     },
@@ -683,7 +683,7 @@
                       "team": {
                         "id": "746",
                         "name": "SPR",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/5b448a32-b9d7-456f-b1c4-593191f7b7e2",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/5b448a32-b9d7-456f-b1c4-593191f7b7e2",
                         "collegeName": "中国石油大学（北京）"
                       }
                     },
@@ -709,7 +709,7 @@
                       "team": {
                         "id": "755",
                         "name": "Adam",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
                         "collegeName": "齐鲁工业大学"
                       }
                     },
@@ -749,7 +749,7 @@
                       "team": {
                         "id": "688",
                         "name": "征龙凌沧",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/268fbd8e-b1bd-4601-8183-cd36ce2471d8",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/268fbd8e-b1bd-4601-8183-cd36ce2471d8",
                         "collegeName": "东北大学秦皇岛分校"
                       }
                     },
@@ -757,7 +757,7 @@
                   },
                   "redSideId": "38084",
                   "redSideScore": 1,
-                  "redSideWinGameCount": 1,
+                  "redSideWinGameCount": 2,
                   "redSide": {
                     "id": "38084",
                     "preparedStatus": "TO_GAME_FIELD",
@@ -775,7 +775,7 @@
                       "team": {
                         "id": "782",
                         "name": "木鸢Birdiebot",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
                         "collegeName": "上海工程技术大学"
                       }
                     },
@@ -815,7 +815,7 @@
                       "team": {
                         "id": "683",
                         "name": "WDR",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/20183ede-23e2-4ccd-93be-3eb1a479ba71",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/20183ede-23e2-4ccd-93be-3eb1a479ba71",
                         "collegeName": "合肥工业大学(宣城校区)"
                       }
                     },
@@ -863,7 +863,7 @@
                   "loserPlaceholdName": null,
                   "blueSideId": "38089",
                   "blueSideScore": 1,
-                  "blueSideWinGameCount": 0,
+                  "blueSideWinGameCount": 2,
                   "blueSide": {
                     "id": "38089",
                     "preparedStatus": "TO_GAME_FIELD",
@@ -881,7 +881,7 @@
                       "team": {
                         "id": "672",
                         "name": "PIE",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
                         "collegeName": "首都师范大学"
                       }
                     },
@@ -907,8 +907,8 @@
                       "team": {
                         "id": "2813",
                         "name": "GMaster",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
-                        "collegeName": "西交利物浦大学\u0026利物浦大学"
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
+                        "collegeName": "西交利物浦大学&利物浦大学"
                       }
                     },
                     "updatedAt": "2024-05-15T05:54:10Z"
@@ -955,7 +955,7 @@
                   },
                   "redSideId": "38090",
                   "redSideScore": 1,
-                  "redSideWinGameCount": 0,
+                  "redSideWinGameCount": 2,
                   "redSide": {
                     "id": "38090",
                     "preparedStatus": "TO_GAME_FIELD",
@@ -973,7 +973,7 @@
                       "team": {
                         "id": "183",
                         "name": "Born of Fire",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
                         "collegeName": "南京航空航天大学金城学院"
                       }
                     },
@@ -1039,7 +1039,7 @@
                       "team": {
                         "id": "739",
                         "name": "齐奇",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/eadacc4d-2d55-4372-95d7-2db78ec86491",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/eadacc4d-2d55-4372-95d7-2db78ec86491",
                         "collegeName": "山东理工大学"
                       }
                     },
@@ -1079,7 +1079,7 @@
                       "team": {
                         "id": "782",
                         "name": "木鸢Birdiebot",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
                         "collegeName": "上海工程技术大学"
                       }
                     },
@@ -1145,7 +1145,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -1171,7 +1171,7 @@
                       "team": {
                         "id": "672",
                         "name": "PIE",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
                         "collegeName": "首都师范大学"
                       }
                     },
@@ -1211,7 +1211,7 @@
                       "team": {
                         "id": "183",
                         "name": "Born of Fire",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
                         "collegeName": "南京航空航天大学金城学院"
                       }
                     },
@@ -1237,7 +1237,7 @@
                       "team": {
                         "id": "755",
                         "name": "Adam",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
                         "collegeName": "齐鲁工业大学"
                       }
                     },
@@ -1277,7 +1277,7 @@
                       "team": {
                         "id": "746",
                         "name": "SPR",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/5b448a32-b9d7-456f-b1c4-593191f7b7e2",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/5b448a32-b9d7-456f-b1c4-593191f7b7e2",
                         "collegeName": "中国石油大学（北京）"
                       }
                     },
@@ -1343,8 +1343,8 @@
                       "team": {
                         "id": "2813",
                         "name": "GMaster",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
-                        "collegeName": "西交利物浦大学\u0026利物浦大学"
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
+                        "collegeName": "西交利物浦大学&利物浦大学"
                       }
                     },
                     "updatedAt": "2024-05-16T01:15:58Z"
@@ -1435,7 +1435,7 @@
                       "team": {
                         "id": "688",
                         "name": "征龙凌沧",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/268fbd8e-b1bd-4601-8183-cd36ce2471d8",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/268fbd8e-b1bd-4601-8183-cd36ce2471d8",
                         "collegeName": "东北大学秦皇岛分校"
                       }
                     },
@@ -1475,7 +1475,7 @@
                       "team": {
                         "id": "139",
                         "name": "Magician",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
                         "collegeName": "上海科技大学"
                       }
                     },
@@ -1501,7 +1501,7 @@
                       "team": {
                         "id": "683",
                         "name": "WDR",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/20183ede-23e2-4ccd-93be-3eb1a479ba71",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/20183ede-23e2-4ccd-93be-3eb1a479ba71",
                         "collegeName": "合肥工业大学(宣城校区)"
                       }
                     },
@@ -1567,7 +1567,7 @@
                       "team": {
                         "id": "183",
                         "name": "Born of Fire",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
                         "collegeName": "南京航空航天大学金城学院"
                       }
                     },
@@ -1633,7 +1633,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -1673,7 +1673,7 @@
                       "team": {
                         "id": "672",
                         "name": "PIE",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
                         "collegeName": "首都师范大学"
                       }
                     },
@@ -1699,7 +1699,7 @@
                       "team": {
                         "id": "739",
                         "name": "齐奇",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/eadacc4d-2d55-4372-95d7-2db78ec86491",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/eadacc4d-2d55-4372-95d7-2db78ec86491",
                         "collegeName": "山东理工大学"
                       }
                     },
@@ -1765,7 +1765,7 @@
                       "team": {
                         "id": "782",
                         "name": "木鸢Birdiebot",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
                         "collegeName": "上海工程技术大学"
                       }
                     },
@@ -1805,7 +1805,7 @@
                       "team": {
                         "id": "755",
                         "name": "Adam",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
                         "collegeName": "齐鲁工业大学"
                       }
                     },
@@ -1871,7 +1871,7 @@
                       "team": {
                         "id": "139",
                         "name": "Magician",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
                         "collegeName": "上海科技大学"
                       }
                     },
@@ -1897,8 +1897,8 @@
                       "team": {
                         "id": "2813",
                         "name": "GMaster",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
-                        "collegeName": "西交利物浦大学\u0026利物浦大学"
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
+                        "collegeName": "西交利物浦大学&利物浦大学"
                       }
                     },
                     "updatedAt": "2024-05-16T12:04:05Z"
@@ -1937,7 +1937,7 @@
                       "team": {
                         "id": "1515",
                         "name": "陆擎",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/02c17fe3-643b-42be-945b-3a945bb3e31d",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/02c17fe3-643b-42be-945b-3a945bb3e31d",
                         "collegeName": "陆军勤务学院"
                       }
                     },
@@ -2003,7 +2003,7 @@
                       "team": {
                         "id": "666",
                         "name": "TARS_Go",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
                         "collegeName": "吉林大学"
                       }
                     },
@@ -2069,7 +2069,7 @@
                       "team": {
                         "id": "771",
                         "name": "DIODE",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/b92da3a0-9f6c-40fb-9f1f-c5ce3f12f560",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/b92da3a0-9f6c-40fb-9f1f-c5ce3f12f560",
                         "collegeName": "东华大学"
                       }
                     },
@@ -2095,7 +2095,7 @@
                       "team": {
                         "id": "453",
                         "name": "DynamicX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
                         "collegeName": "广东工业大学"
                       }
                     },
@@ -2135,7 +2135,7 @@
                       "team": {
                         "id": "2780",
                         "name": "起源",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
                         "collegeName": "华东理工大学"
                       }
                     },
@@ -2201,7 +2201,7 @@
                       "team": {
                         "id": "682",
                         "name": "RoboWalker",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
                         "collegeName": "中国科学技术大学"
                       }
                     },
@@ -2227,7 +2227,7 @@
                       "team": {
                         "id": "738",
                         "name": "HERO",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
                         "collegeName": "哈尔滨工业大学（威海）"
                       }
                     },
@@ -2293,7 +2293,7 @@
                       "team": {
                         "id": "50",
                         "name": "Ambition",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
                         "collegeName": "沈阳理工大学"
                       }
                     },
@@ -2333,7 +2333,7 @@
                       "team": {
                         "id": "679",
                         "name": "606",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/545f6aae-fcc7-4094-85e0-ea6f30596d73",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/545f6aae-fcc7-4094-85e0-ea6f30596d73",
                         "collegeName": "中北大学"
                       }
                     },
@@ -2399,7 +2399,7 @@
                       "team": {
                         "id": "786",
                         "name": "PHOENIX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
                         "collegeName": "杭州电子科技大学"
                       }
                     },
@@ -2425,7 +2425,7 @@
                       "team": {
                         "id": "676",
                         "name": "Climber",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/f8173b3b-f146-4c9c-bd1e-cd62cff5777b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f8173b3b-f146-4c9c-bd1e-cd62cff5777b",
                         "collegeName": "常州大学"
                       }
                     },
@@ -2491,7 +2491,7 @@
                       "team": {
                         "id": "738",
                         "name": "HERO",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
                         "collegeName": "哈尔滨工业大学（威海）"
                       }
                     },
@@ -2557,7 +2557,7 @@
                       "team": {
                         "id": "453",
                         "name": "DynamicX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
                         "collegeName": "广东工业大学"
                       }
                     },
@@ -2597,7 +2597,7 @@
                       "team": {
                         "id": "666",
                         "name": "TARS_Go",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
                         "collegeName": "吉林大学"
                       }
                     },
@@ -2623,7 +2623,7 @@
                       "team": {
                         "id": "786",
                         "name": "PHOENIX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
                         "collegeName": "杭州电子科技大学"
                       }
                     },
@@ -2729,7 +2729,7 @@
                       "team": {
                         "id": "771",
                         "name": "DIODE",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/b92da3a0-9f6c-40fb-9f1f-c5ce3f12f560",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/b92da3a0-9f6c-40fb-9f1f-c5ce3f12f560",
                         "collegeName": "东华大学"
                       }
                     },
@@ -2755,7 +2755,7 @@
                       "team": {
                         "id": "679",
                         "name": "606",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/545f6aae-fcc7-4094-85e0-ea6f30596d73",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/545f6aae-fcc7-4094-85e0-ea6f30596d73",
                         "collegeName": "中北大学"
                       }
                     },
@@ -2795,7 +2795,7 @@
                       "team": {
                         "id": "682",
                         "name": "RoboWalker",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
                         "collegeName": "中国科学技术大学"
                       }
                     },
@@ -2821,7 +2821,7 @@
                       "team": {
                         "id": "50",
                         "name": "Ambition",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
                         "collegeName": "沈阳理工大学"
                       }
                     },
@@ -2861,7 +2861,7 @@
                       "team": {
                         "id": "1515",
                         "name": "陆擎",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/02c17fe3-643b-42be-945b-3a945bb3e31d",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/02c17fe3-643b-42be-945b-3a945bb3e31d",
                         "collegeName": "陆军勤务学院"
                       }
                     },
@@ -2887,7 +2887,7 @@
                       "team": {
                         "id": "2780",
                         "name": "起源",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
                         "collegeName": "华东理工大学"
                       }
                     },
@@ -2927,7 +2927,7 @@
                       "team": {
                         "id": "676",
                         "name": "Climber",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/f8173b3b-f146-4c9c-bd1e-cd62cff5777b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f8173b3b-f146-4c9c-bd1e-cd62cff5777b",
                         "collegeName": "常州大学"
                       }
                     },
@@ -2993,7 +2993,7 @@
                       "team": {
                         "id": "738",
                         "name": "HERO",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
                         "collegeName": "哈尔滨工业大学（威海）"
                       }
                     },
@@ -3019,7 +3019,7 @@
                       "team": {
                         "id": "666",
                         "name": "TARS_Go",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
                         "collegeName": "吉林大学"
                       }
                     },
@@ -3085,7 +3085,7 @@
                       "team": {
                         "id": "453",
                         "name": "DynamicX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
                         "collegeName": "广东工业大学"
                       }
                     },
@@ -3191,7 +3191,7 @@
                       "team": {
                         "id": "786",
                         "name": "PHOENIX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
                         "collegeName": "杭州电子科技大学"
                       }
                     },
@@ -3283,7 +3283,7 @@
                       "team": {
                         "id": "682",
                         "name": "RoboWalker",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
                         "collegeName": "中国科学技术大学"
                       }
                     },
@@ -3323,7 +3323,7 @@
                       "team": {
                         "id": "679",
                         "name": "606",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/545f6aae-fcc7-4094-85e0-ea6f30596d73",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/545f6aae-fcc7-4094-85e0-ea6f30596d73",
                         "collegeName": "中北大学"
                       }
                     },
@@ -3349,7 +3349,7 @@
                       "team": {
                         "id": "2780",
                         "name": "起源",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
                         "collegeName": "华东理工大学"
                       }
                     },
@@ -3393,8 +3393,8 @@
                       "team": {
                         "id": "2813",
                         "name": "GMaster",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
-                        "collegeName": "西交利物浦大学\u0026利物浦大学"
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
+                        "collegeName": "西交利物浦大学&利物浦大学"
                       }
                     },
                     "updatedAt": "2024-05-17T02:23:07Z"
@@ -3419,7 +3419,7 @@
                       "team": {
                         "id": "738",
                         "name": "HERO",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
                         "collegeName": "哈尔滨工业大学（威海）"
                       }
                     },
@@ -3459,7 +3459,7 @@
                       "team": {
                         "id": "453",
                         "name": "DynamicX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
                         "collegeName": "广东工业大学"
                       }
                     },
@@ -3485,7 +3485,7 @@
                       "team": {
                         "id": "755",
                         "name": "Adam",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
                         "collegeName": "齐鲁工业大学"
                       }
                     },
@@ -3551,7 +3551,7 @@
                       "team": {
                         "id": "183",
                         "name": "Born of Fire",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
                         "collegeName": "南京航空航天大学金城学院"
                       }
                     },
@@ -3591,7 +3591,7 @@
                       "team": {
                         "id": "672",
                         "name": "PIE",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
                         "collegeName": "首都师范大学"
                       }
                     },
@@ -3617,7 +3617,7 @@
                       "team": {
                         "id": "682",
                         "name": "RoboWalker",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
                         "collegeName": "中国科学技术大学"
                       }
                     },
@@ -3657,7 +3657,7 @@
                       "team": {
                         "id": "786",
                         "name": "PHOENIX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
                         "collegeName": "杭州电子科技大学"
                       }
                     },
@@ -3683,7 +3683,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -3723,7 +3723,7 @@
                       "team": {
                         "id": "782",
                         "name": "木鸢Birdiebot",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
                         "collegeName": "上海工程技术大学"
                       }
                     },
@@ -3749,7 +3749,7 @@
                       "team": {
                         "id": "666",
                         "name": "TARS_Go",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
                         "collegeName": "吉林大学"
                       }
                     },
@@ -3815,7 +3815,7 @@
                       "team": {
                         "id": "2780",
                         "name": "起源",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
                         "collegeName": "华东理工大学"
                       }
                     },
@@ -3921,7 +3921,7 @@
                       "team": {
                         "id": "738",
                         "name": "HERO",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/7f60c059-571e-4405-8e28-981326eb37c5",
                         "collegeName": "哈尔滨工业大学（威海）"
                       }
                     },
@@ -3987,7 +3987,7 @@
                       "team": {
                         "id": "672",
                         "name": "PIE",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/467de483-650d-4ff0-9b94-8780cbb34893",
                         "collegeName": "首都师范大学"
                       }
                     },
@@ -4013,7 +4013,7 @@
                       "team": {
                         "id": "453",
                         "name": "DynamicX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
                         "collegeName": "广东工业大学"
                       }
                     },
@@ -4053,7 +4053,7 @@
                       "team": {
                         "id": "183",
                         "name": "Born of Fire",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
                         "collegeName": "南京航空航天大学金城学院"
                       }
                     },
@@ -4079,8 +4079,8 @@
                       "team": {
                         "id": "2813",
                         "name": "GMaster",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
-                        "collegeName": "西交利物浦大学\u0026利物浦大学"
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
+                        "collegeName": "西交利物浦大学&利物浦大学"
                       }
                     },
                     "updatedAt": "2024-05-17T09:14:44Z"
@@ -4119,7 +4119,7 @@
                       "team": {
                         "id": "755",
                         "name": "Adam",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
                         "collegeName": "齐鲁工业大学"
                       }
                     },
@@ -4145,7 +4145,7 @@
                       "team": {
                         "id": "682",
                         "name": "RoboWalker",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f088711a-64c2-4b74-a143-2958869a135f",
                         "collegeName": "中国科学技术大学"
                       }
                     },
@@ -4185,7 +4185,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -4211,7 +4211,7 @@
                       "team": {
                         "id": "666",
                         "name": "TARS_Go",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/452bd6f0-b423-4fa0-8b90-f33b678aed75",
                         "collegeName": "吉林大学"
                       }
                     },
@@ -4317,7 +4317,7 @@
                       "team": {
                         "id": "782",
                         "name": "木鸢Birdiebot",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/42a2f807-035c-49bc-9e1d-782239209b82",
                         "collegeName": "上海工程技术大学"
                       }
                     },
@@ -4343,7 +4343,7 @@
                       "team": {
                         "id": "786",
                         "name": "PHOENIX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
                         "collegeName": "杭州电子科技大学"
                       }
                     },
@@ -4383,7 +4383,7 @@
                       "team": {
                         "id": "2780",
                         "name": "起源",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
                         "collegeName": "华东理工大学"
                       }
                     },
@@ -4449,7 +4449,7 @@
                       "team": {
                         "id": "786",
                         "name": "PHOENIX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3a98d85a-9753-48c3-b408-272e1ebf6046",
                         "collegeName": "杭州电子科技大学"
                       }
                     },
@@ -4475,8 +4475,8 @@
                       "team": {
                         "id": "2813",
                         "name": "GMaster",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
-                        "collegeName": "西交利物浦大学\u0026利物浦大学"
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
+                        "collegeName": "西交利物浦大学&利物浦大学"
                       }
                     },
                     "updatedAt": "2024-05-18T00:26:25Z"
@@ -4515,7 +4515,7 @@
                       "team": {
                         "id": "2780",
                         "name": "起源",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/aa7a605d-53e4-4b45-bc1f-999a6a19b91c",
                         "collegeName": "华东理工大学"
                       }
                     },
@@ -4541,7 +4541,7 @@
                       "team": {
                         "id": "755",
                         "name": "Adam",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
                         "collegeName": "齐鲁工业大学"
                       }
                     },
@@ -4581,7 +4581,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -4673,7 +4673,7 @@
                       "team": {
                         "id": "453",
                         "name": "DynamicX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
                         "collegeName": "广东工业大学"
                       }
                     },
@@ -4713,7 +4713,7 @@
                       "team": {
                         "id": "755",
                         "name": "Adam",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/01c74eed-fc6a-425d-80ef-15b9ef1ec1d4",
                         "collegeName": "齐鲁工业大学"
                       }
                     },
@@ -4739,8 +4739,8 @@
                       "team": {
                         "id": "2813",
                         "name": "GMaster",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
-                        "collegeName": "西交利物浦大学\u0026利物浦大学"
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/74abd7b1-ddfa-4939-a552-cdfff066afb8",
+                        "collegeName": "西交利物浦大学&利物浦大学"
                       }
                     },
                     "updatedAt": "2024-05-18T04:37:47Z"
@@ -4805,7 +4805,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -4845,7 +4845,7 @@
                       "team": {
                         "id": "453",
                         "name": "DynamicX",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/133f3f14-3af7-4bc5-8c88-4b72c7cfa42c",
                         "collegeName": "广东工业大学"
                       }
                     },
@@ -4902,129 +4902,209 @@
                         "id": "9268",
                         "name": "A1",
                         "rank": 1,
-                        "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "score": 1,
+                        "teamId": "159",
+                        "team": {
+                          "id": "159",
+                          "name": "ARTINX",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525665910623-logo_orange_800x800.png",
+                          "collegeName": "南方科技大学"
+                        }
                       },
                       {
                         "id": "9269",
                         "name": "A2",
-                        "rank": 2,
-                        "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "rank": 3,
+                        "score": 1,
+                        "teamId": "53",
+                        "team": {
+                          "id": "53",
+                          "name": "狼牙",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525675209294-logo_blue_800x800.png",
+                          "collegeName": "华中科技大学"
+                        }
                       },
                       {
                         "id": "9270",
                         "name": "A3",
-                        "rank": 3,
-                        "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "rank": 2,
+                        "score": 1,
+                        "teamId": "95",
+                        "team": {
+                          "id": "95",
+                          "name": "Passion",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525699199414-logo_blue_800x800.png",
+                          "collegeName": "南昌大学"
+                        }
                       },
                       {
                         "id": "9271",
                         "name": "A4",
-                        "rank": 4,
+                        "rank": 7,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "703",
+                        "team": {
+                          "id": "703",
+                          "name": "苍穹",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/ca008679-d51d-4c4c-8180-db5a4d87ca3e",
+                          "collegeName": "合肥工业大学"
+                        }
                       },
                       {
                         "id": "9272",
                         "name": "A5",
-                        "rank": 5,
+                        "rank": 8,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "8",
+                        "team": {
+                          "id": "8",
+                          "name": "创梦之翼",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525665837757-logo_blue_800x800.png",
+                          "collegeName": "哈尔滨工程大学"
+                        }
                       },
                       {
                         "id": "9273",
                         "name": "A6",
-                        "rank": 6,
+                        "rank": 9,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "2188",
+                        "team": {
+                          "id": "2188",
+                          "name": "GIRT",
+                          "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/d3dc9ad2-09a2-4a2a-b9cd-8ceee5baa400",
+                          "collegeName": "桂林信息科技学院"
+                        }
                       },
                       {
                         "id": "9274",
                         "name": "A7",
-                        "rank": 7,
+                        "rank": 10,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "663",
+                        "team": {
+                          "id": "663",
+                          "name": "Ares",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525678704382-logo_green_800x800.png",
+                          "collegeName": "东北林业大学"
+                        }
                       },
                       {
                         "id": "9275",
                         "name": "A8",
-                        "rank": 8,
+                        "rank": 11,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "689",
+                        "team": {
+                          "id": "689",
+                          "name": "TUP",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525668135842-logo_blue_800x800.png",
+                          "collegeName": "沈阳航空航天大学"
+                        }
                       },
                       {
                         "id": "9276",
                         "name": "A9",
-                        "rank": 9,
+                        "rank": 6,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "168",
+                        "team": {
+                          "id": "168",
+                          "name": "燕鹰",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525676163698-logo_blue_800x800.png",
+                          "collegeName": "燕山大学"
+                        }
                       },
                       {
                         "id": "9277",
                         "name": "A10",
-                        "rank": 10,
+                        "rank": 4,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "737",
+                        "team": {
+                          "id": "737",
+                          "name": "未来",
+                          "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/a5fece37-9a43-40a6-89a7-154a35a20ffb",
+                          "collegeName": "青岛大学"
+                        }
                       },
                       {
                         "id": "9278",
                         "name": "A11",
-                        "rank": 11,
+                        "rank": 5,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "160",
+                        "team": {
+                          "id": "160",
+                          "name": "Actor&Thinker",
+                          "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
+                          "collegeName": "河北科技大学"
+                        }
                       },
                       {
                         "id": "9279",
                         "name": "A12",
                         "rank": 12,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "29",
+                        "team": {
+                          "id": "29",
+                          "name": "火线",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525667915479-logo_blue_800x800.png",
+                          "collegeName": "太原工业学院"
+                        }
                       },
                       {
                         "id": "9280",
                         "name": "A13",
                         "rank": 13,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "132",
+                        "team": {
+                          "id": "132",
+                          "name": "追梦",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525667569344-logo_green_800x800.png",
+                          "collegeName": "北京理工大学"
+                        }
                       },
                       {
                         "id": "9281",
                         "name": "A14",
                         "rank": 14,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "182",
+                        "team": {
+                          "id": "182",
+                          "name": "NEXT E",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525666732892-logo_purple_800x800.png",
+                          "collegeName": "西安理工大学"
+                        }
                       },
                       {
                         "id": "9282",
                         "name": "A15",
                         "rank": 15,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "57",
+                        "team": {
+                          "id": "57",
+                          "name": "SmartRobot",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525675697079-logo_blue_800x800.png",
+                          "collegeName": "山东科技大学"
+                        }
                       },
                       {
                         "id": "9283",
                         "name": "A16",
                         "rank": 16,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "700",
+                        "team": {
+                          "id": "700",
+                          "name": "VGD",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f89ae9d1-9c67-4618-abb5-f390046479e4",
+                          "collegeName": "长安大学"
+                        }
                       }
                     ]
                   }
@@ -5039,128 +5119,208 @@
                         "name": "B1",
                         "rank": 1,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "65",
+                        "team": {
+                          "id": "65",
+                          "name": " I Hiter",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1527126977553-logo_black_800x800.png",
+                          "collegeName": "哈尔滨工业大学"
+                        }
                       },
                       {
                         "id": "9285",
                         "name": "B2",
                         "rank": 2,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "2774",
+                        "team": {
+                          "id": "2774",
+                          "name": "苍侠",
+                          "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/2e4a88a1-9d5b-4d21-bae7-1a528564acda",
+                          "collegeName": "福建理工大学"
+                        }
                       },
                       {
                         "id": "9286",
                         "name": "B3",
                         "rank": 3,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "179",
+                        "team": {
+                          "id": "179",
+                          "name": "华南虎",
+                          "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/b81c5a92-dc8f-479d-97b4-d531a39ce70b",
+                          "collegeName": "华南理工大学"
+                        }
                       },
                       {
                         "id": "9287",
                         "name": "B4",
                         "rank": 4,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "145",
+                        "team": {
+                          "id": "145",
+                          "name": "TCR",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f5086e77-4f45-4b57-838e-79afd502cc6b",
+                          "collegeName": "厦门大学嘉庚学院"
+                        }
                       },
                       {
                         "id": "9288",
                         "name": "B5",
                         "rank": 5,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "240",
+                        "team": {
+                          "id": "240",
+                          "name": "Nautilus",
+                          "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/a413c7fa-e03f-4b01-922a-fc05d46aba6f",
+                          "collegeName": "武汉工程大学"
+                        }
                       },
                       {
                         "id": "9289",
                         "name": "B6",
                         "rank": 6,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "164",
+                        "team": {
+                          "id": "164",
+                          "name": "风暴",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525674748988-logo_blue_800x800.png",
+                          "collegeName": "华北科技学院"
+                        }
                       },
                       {
                         "id": "9290",
                         "name": "B7",
                         "rank": 7,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "4",
+                        "team": {
+                          "id": "4",
+                          "name": "Alliance",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525665364632-logo_purple_800x800.png",
+                          "collegeName": "南京理工大学"
+                        }
                       },
                       {
                         "id": "9291",
                         "name": "B8",
                         "rank": 8,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "92",
+                        "team": {
+                          "id": "92",
+                          "name": "NewMaker",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525680043036-log_blue_800x800.png",
+                          "collegeName": "太原科技大学"
+                        }
                       },
                       {
                         "id": "9292",
                         "name": "B9",
                         "rank": 9,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "76",
+                        "team": {
+                          "id": "76",
+                          "name": "RPS",
+                          "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/ca37313c-d7ce-4887-a872-fe558d3e39bd",
+                          "collegeName": "中国石油大学（华东）"
+                        }
                       },
                       {
                         "id": "9293",
                         "name": "B10",
                         "rank": 10,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "47",
+                        "team": {
+                          "id": "47",
+                          "name": "ACE",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/d0b15714-cc54-40fb-aa33-7ce6bf12e4ac",
+                          "collegeName": "东莞理工学院"
+                        }
                       },
                       {
                         "id": "9294",
                         "name": "B11",
                         "rank": 11,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "1578",
+                        "team": {
+                          "id": "1578",
+                          "name": "火锅",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525667988074-logo_red_800x800.png",
+                          "collegeName": "四川大学"
+                        }
                       },
                       {
                         "id": "9295",
                         "name": "B12",
                         "rank": 12,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "848",
+                        "team": {
+                          "id": "848",
+                          "name": "LionHeart",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/866d186e-2c2c-440b-a549-1c9614fba738",
+                          "collegeName": "重庆三峡学院"
+                        }
                       },
                       {
                         "id": "9296",
                         "name": "B13",
                         "rank": 13,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "71",
+                        "team": {
+                          "id": "71",
+                          "name": "IRobot",
+                          "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525676832533-logo_red_800x800.png",
+                          "collegeName": "西安电子科技大学"
+                        }
                       },
                       {
                         "id": "9297",
                         "name": "B14",
                         "rank": 14,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "845",
+                        "team": {
+                          "id": "845",
+                          "name": "铁人",
+                          "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/b59137ee-2db2-40f7-9405-12ce815651fc",
+                          "collegeName": "西南石油大学"
+                        }
                       },
                       {
                         "id": "9298",
                         "name": "B15",
                         "rank": 15,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "60",
+                        "team": {
+                          "id": "60",
+                          "name": "雷霆",
+                          "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/4e59c288-b5e4-4ed5-a221-3be0377641e1",
+                          "collegeName": "内蒙古科技大学"
+                        }
                       },
                       {
                         "id": "9299",
                         "name": "B16",
                         "rank": 16,
                         "score": 0,
-                        "teamId": null,
-                        "team": null
+                        "teamId": "841",
+                        "team": {
+                          "id": "841",
+                          "name": "Ultra",
+                          "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/3b03a9b4-d828-472c-9fd1-69e7087800af",
+                          "collegeName": "成都大学"
+                        }
                       }
                     ]
                   }
@@ -5207,19 +5367,19 @@
                   "matchType": "GROUP",
                   "orderNumber": 1,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T01:30:00Z",
-                  "result": "EMPTY",
+                  "planStartedAt": "2024-05-22T01:10:00Z",
+                  "result": "RED",
                   "slug": null,
                   "slugName": "1",
-                  "status": "WAITING",
+                  "status": "DONE",
                   "winnerPlaceholdName": null,
                   "loserPlaceholdName": null,
                   "blueSideId": "38451",
                   "blueSideScore": 0,
-                  "blueSideWinGameCount": 0,
+                  "blueSideWinGameCount": 1,
                   "blueSide": {
                     "id": "38451",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "TO_GAME_FIELD",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5228,19 +5388,24 @@
                     "player": {
                       "id": "9276",
                       "name": "A9",
-                      "rank": 9,
+                      "rank": 6,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "168",
+                      "team": {
+                        "id": "168",
+                        "name": "燕鹰",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525676163698-logo_blue_800x800.png",
+                        "collegeName": "燕山大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:31Z"
+                    "updatedAt": "2024-05-22T00:34:31Z"
                   },
                   "redSideId": "38450",
-                  "redSideScore": 0,
-                  "redSideWinGameCount": 0,
+                  "redSideScore": 1,
+                  "redSideWinGameCount": 2,
                   "redSide": {
                     "id": "38450",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "TO_GAME_FIELD",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5250,11 +5415,16 @@
                       "id": "9268",
                       "name": "A1",
                       "rank": 1,
-                      "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "score": 1,
+                      "teamId": "159",
+                      "team": {
+                        "id": "159",
+                        "name": "ARTINX",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525665910623-logo_orange_800x800.png",
+                        "collegeName": "南方科技大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:31Z"
+                    "updatedAt": "2024-05-22T00:34:29Z"
                   }
                 },
                 {
@@ -5263,11 +5433,11 @@
                   "matchType": "GROUP",
                   "orderNumber": 2,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T02:00:00Z",
-                  "result": "EMPTY",
+                  "planStartedAt": "2024-05-22T01:40:00Z",
+                  "result": "RED",
                   "slug": null,
                   "slugName": "1",
-                  "status": "WAITING",
+                  "status": "DONE",
                   "winnerPlaceholdName": null,
                   "loserPlaceholdName": null,
                   "blueSideId": "38453",
@@ -5275,7 +5445,7 @@
                   "blueSideWinGameCount": 0,
                   "blueSide": {
                     "id": "38453",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "TO_GAME_FIELD",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5284,19 +5454,24 @@
                     "player": {
                       "id": "9277",
                       "name": "A10",
-                      "rank": 10,
+                      "rank": 4,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "737",
+                      "team": {
+                        "id": "737",
+                        "name": "未来",
+                        "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/a5fece37-9a43-40a6-89a7-154a35a20ffb",
+                        "collegeName": "青岛大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:33Z"
+                    "updatedAt": "2024-05-22T01:41:55Z"
                   },
                   "redSideId": "38452",
-                  "redSideScore": 0,
-                  "redSideWinGameCount": 0,
+                  "redSideScore": 1,
+                  "redSideWinGameCount": 2,
                   "redSide": {
                     "id": "38452",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "TO_GAME_FIELD",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5305,12 +5480,17 @@
                     "player": {
                       "id": "9269",
                       "name": "A2",
-                      "rank": 2,
-                      "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "rank": 3,
+                      "score": 1,
+                      "teamId": "53",
+                      "team": {
+                        "id": "53",
+                        "name": "狼牙",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525675209294-logo_blue_800x800.png",
+                        "collegeName": "华中科技大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:33Z"
+                    "updatedAt": "2024-05-22T01:39:42Z"
                   }
                 },
                 {
@@ -5319,11 +5499,11 @@
                   "matchType": "GROUP",
                   "orderNumber": 3,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T02:30:00Z",
-                  "result": "EMPTY",
+                  "planStartedAt": "2024-05-22T02:10:00Z",
+                  "result": "RED",
                   "slug": null,
                   "slugName": "1",
-                  "status": "WAITING",
+                  "status": "DONE",
                   "winnerPlaceholdName": null,
                   "loserPlaceholdName": null,
                   "blueSideId": "38455",
@@ -5331,7 +5511,7 @@
                   "blueSideWinGameCount": 0,
                   "blueSide": {
                     "id": "38455",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "TO_GAME_FIELD",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5340,19 +5520,24 @@
                     "player": {
                       "id": "9278",
                       "name": "A11",
-                      "rank": 11,
+                      "rank": 5,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "160",
+                      "team": {
+                        "id": "160",
+                        "name": "Actor&Thinker",
+                        "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
+                        "collegeName": "河北科技大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:35Z"
+                    "updatedAt": "2024-05-22T02:18:46Z"
                   },
                   "redSideId": "38454",
-                  "redSideScore": 0,
-                  "redSideWinGameCount": 0,
+                  "redSideScore": 1,
+                  "redSideWinGameCount": 2,
                   "redSide": {
                     "id": "38454",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "TO_GAME_FIELD",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5361,12 +5546,17 @@
                     "player": {
                       "id": "9270",
                       "name": "A3",
-                      "rank": 3,
-                      "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "rank": 2,
+                      "score": 1,
+                      "teamId": "95",
+                      "team": {
+                        "id": "95",
+                        "name": "Passion",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525699199414-logo_blue_800x800.png",
+                        "collegeName": "南昌大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:35Z"
+                    "updatedAt": "2024-05-22T02:19:36Z"
                   }
                 },
                 {
@@ -5375,11 +5565,11 @@
                   "matchType": "GROUP",
                   "orderNumber": 4,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T03:00:00Z",
+                  "planStartedAt": "2024-05-22T02:40:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
-                  "status": "WAITING",
+                  "status": "STARTED",
                   "winnerPlaceholdName": null,
                   "loserPlaceholdName": null,
                   "blueSideId": "38457",
@@ -5387,7 +5577,7 @@
                   "blueSideWinGameCount": 0,
                   "blueSide": {
                     "id": "38457",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "TO_GAME_FIELD",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5398,17 +5588,22 @@
                       "name": "A12",
                       "rank": 12,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "29",
+                      "team": {
+                        "id": "29",
+                        "name": "火线",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525667915479-logo_blue_800x800.png",
+                        "collegeName": "太原工业学院"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:37Z"
+                    "updatedAt": "2024-05-22T02:34:03Z"
                   },
                   "redSideId": "38456",
                   "redSideScore": 0,
                   "redSideWinGameCount": 0,
                   "redSide": {
                     "id": "38456",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "TO_GAME_FIELD",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5417,12 +5612,17 @@
                     "player": {
                       "id": "9271",
                       "name": "A4",
-                      "rank": 4,
+                      "rank": 7,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "703",
+                      "team": {
+                        "id": "703",
+                        "name": "苍穹",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/ca008679-d51d-4c4c-8180-db5a4d87ca3e",
+                        "collegeName": "合肥工业大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:37Z"
+                    "updatedAt": "2024-05-22T02:33:39Z"
                   }
                 },
                 {
@@ -5431,7 +5631,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 5,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T03:30:00Z",
+                  "planStartedAt": "2024-05-22T03:10:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -5443,7 +5643,7 @@
                   "blueSideWinGameCount": 0,
                   "blueSide": {
                     "id": "38459",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "WAITING_FIELD_ING",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5454,17 +5654,22 @@
                       "name": "A13",
                       "rank": 13,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "132",
+                      "team": {
+                        "id": "132",
+                        "name": "追梦",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525667569344-logo_green_800x800.png",
+                        "collegeName": "北京理工大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:39Z"
+                    "updatedAt": "2024-05-22T02:23:17Z"
                   },
                   "redSideId": "38458",
                   "redSideScore": 0,
                   "redSideWinGameCount": 0,
                   "redSide": {
                     "id": "38458",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "WAITING_FIELD_ING",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5473,12 +5678,17 @@
                     "player": {
                       "id": "9272",
                       "name": "A5",
-                      "rank": 5,
+                      "rank": 8,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "8",
+                      "team": {
+                        "id": "8",
+                        "name": "创梦之翼",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525665837757-logo_blue_800x800.png",
+                        "collegeName": "哈尔滨工程大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:39Z"
+                    "updatedAt": "2024-05-22T02:23:15Z"
                   }
                 },
                 {
@@ -5487,7 +5697,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 6,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T05:10:00Z",
+                  "planStartedAt": "2024-05-22T05:00:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -5499,7 +5709,7 @@
                   "blueSideWinGameCount": 0,
                   "blueSide": {
                     "id": "38461",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "REGISTERED",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5510,10 +5720,15 @@
                       "name": "A14",
                       "rank": 14,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "182",
+                      "team": {
+                        "id": "182",
+                        "name": "NEXT E",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525666732892-logo_purple_800x800.png",
+                        "collegeName": "西安理工大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:41Z"
+                    "updatedAt": "2024-05-22T02:51:30Z"
                   },
                   "redSideId": "38460",
                   "redSideScore": 0,
@@ -5529,10 +5744,15 @@
                     "player": {
                       "id": "9273",
                       "name": "A6",
-                      "rank": 6,
+                      "rank": 9,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "2188",
+                      "team": {
+                        "id": "2188",
+                        "name": "GIRT",
+                        "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/d3dc9ad2-09a2-4a2a-b9cd-8ceee5baa400",
+                        "collegeName": "桂林信息科技学院"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:41Z"
                   }
@@ -5543,7 +5763,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 7,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T05:40:00Z",
+                  "planStartedAt": "2024-05-22T05:30:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -5555,7 +5775,7 @@
                   "blueSideWinGameCount": 0,
                   "blueSide": {
                     "id": "38463",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "REGISTERED",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5566,17 +5786,22 @@
                       "name": "A15",
                       "rank": 15,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "57",
+                      "team": {
+                        "id": "57",
+                        "name": "SmartRobot",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525675697079-logo_blue_800x800.png",
+                        "collegeName": "山东科技大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:43Z"
+                    "updatedAt": "2024-05-22T00:13:18Z"
                   },
                   "redSideId": "38462",
                   "redSideScore": 0,
                   "redSideWinGameCount": 0,
                   "redSide": {
                     "id": "38462",
-                    "preparedStatus": "INITIAL",
+                    "preparedStatus": "REGISTERED",
                     "fillSourceId": null,
                     "fillSourceType": null,
                     "fillSourceNumber": null,
@@ -5585,12 +5810,17 @@
                     "player": {
                       "id": "9274",
                       "name": "A7",
-                      "rank": 7,
+                      "rank": 10,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "663",
+                      "team": {
+                        "id": "663",
+                        "name": "Ares",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525678704382-logo_green_800x800.png",
+                        "collegeName": "东北林业大学"
+                      }
                     },
-                    "updatedAt": "2024-05-07T15:10:43Z"
+                    "updatedAt": "2024-05-22T02:51:24Z"
                   }
                 },
                 {
@@ -5599,7 +5829,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 8,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T06:10:00Z",
+                  "planStartedAt": "2024-05-22T06:00:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -5622,8 +5852,13 @@
                       "name": "A16",
                       "rank": 16,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "700",
+                      "team": {
+                        "id": "700",
+                        "name": "VGD",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f89ae9d1-9c67-4618-abb5-f390046479e4",
+                        "collegeName": "长安大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:45Z"
                   },
@@ -5641,10 +5876,15 @@
                     "player": {
                       "id": "9275",
                       "name": "A8",
-                      "rank": 8,
+                      "rank": 11,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "689",
+                      "team": {
+                        "id": "689",
+                        "name": "TUP",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525668135842-logo_blue_800x800.png",
+                        "collegeName": "沈阳航空航天大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:44Z"
                   }
@@ -6243,7 +6483,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 9,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T06:40:00Z",
+                  "planStartedAt": "2024-05-22T06:30:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -6266,8 +6506,13 @@
                       "name": "B9",
                       "rank": 9,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "76",
+                      "team": {
+                        "id": "76",
+                        "name": "RPS",
+                        "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/ca37313c-d7ce-4887-a872-fe558d3e39bd",
+                        "collegeName": "中国石油大学（华东）"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:46Z"
                   },
@@ -6287,8 +6532,13 @@
                       "name": "B1",
                       "rank": 1,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "65",
+                      "team": {
+                        "id": "65",
+                        "name": " I Hiter",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1527126977553-logo_black_800x800.png",
+                        "collegeName": "哈尔滨工业大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:46Z"
                   }
@@ -6299,7 +6549,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 10,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T07:10:00Z",
+                  "planStartedAt": "2024-05-22T07:00:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -6322,8 +6572,13 @@
                       "name": "B10",
                       "rank": 10,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "47",
+                      "team": {
+                        "id": "47",
+                        "name": "ACE",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/d0b15714-cc54-40fb-aa33-7ce6bf12e4ac",
+                        "collegeName": "东莞理工学院"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:48Z"
                   },
@@ -6343,8 +6598,13 @@
                       "name": "B2",
                       "rank": 2,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "2774",
+                      "team": {
+                        "id": "2774",
+                        "name": "苍侠",
+                        "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/2e4a88a1-9d5b-4d21-bae7-1a528564acda",
+                        "collegeName": "福建理工大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:48Z"
                   }
@@ -6355,7 +6615,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 11,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T07:40:00Z",
+                  "planStartedAt": "2024-05-22T07:30:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -6378,8 +6638,13 @@
                       "name": "B11",
                       "rank": 11,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "1578",
+                      "team": {
+                        "id": "1578",
+                        "name": "火锅",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525667988074-logo_red_800x800.png",
+                        "collegeName": "四川大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:50Z"
                   },
@@ -6399,8 +6664,13 @@
                       "name": "B3",
                       "rank": 3,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "179",
+                      "team": {
+                        "id": "179",
+                        "name": "华南虎",
+                        "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/b81c5a92-dc8f-479d-97b4-d531a39ce70b",
+                        "collegeName": "华南理工大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:50Z"
                   }
@@ -6411,7 +6681,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 12,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T08:10:00Z",
+                  "planStartedAt": "2024-05-22T08:00:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -6434,8 +6704,13 @@
                       "name": "B12",
                       "rank": 12,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "848",
+                      "team": {
+                        "id": "848",
+                        "name": "LionHeart",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/866d186e-2c2c-440b-a549-1c9614fba738",
+                        "collegeName": "重庆三峡学院"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:52Z"
                   },
@@ -6455,8 +6730,13 @@
                       "name": "B4",
                       "rank": 4,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "145",
+                      "team": {
+                        "id": "145",
+                        "name": "TCR",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f5086e77-4f45-4b57-838e-79afd502cc6b",
+                        "collegeName": "厦门大学嘉庚学院"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:52Z"
                   }
@@ -6467,7 +6747,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 13,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T09:00:00Z",
+                  "planStartedAt": "2024-05-22T08:50:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -6490,8 +6770,13 @@
                       "name": "B13",
                       "rank": 13,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "71",
+                      "team": {
+                        "id": "71",
+                        "name": "IRobot",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525676832533-logo_red_800x800.png",
+                        "collegeName": "西安电子科技大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:54Z"
                   },
@@ -6511,8 +6796,13 @@
                       "name": "B5",
                       "rank": 5,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "240",
+                      "team": {
+                        "id": "240",
+                        "name": "Nautilus",
+                        "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/a413c7fa-e03f-4b01-922a-fc05d46aba6f",
+                        "collegeName": "武汉工程大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:54Z"
                   }
@@ -6523,7 +6813,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 14,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T09:30:00Z",
+                  "planStartedAt": "2024-05-22T09:20:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -6546,8 +6836,13 @@
                       "name": "B14",
                       "rank": 14,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "845",
+                      "team": {
+                        "id": "845",
+                        "name": "铁人",
+                        "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/b59137ee-2db2-40f7-9405-12ce815651fc",
+                        "collegeName": "西南石油大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:56Z"
                   },
@@ -6567,8 +6862,13 @@
                       "name": "B6",
                       "rank": 6,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "164",
+                      "team": {
+                        "id": "164",
+                        "name": "风暴",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525674748988-logo_blue_800x800.png",
+                        "collegeName": "华北科技学院"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:56Z"
                   }
@@ -6579,7 +6879,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 15,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T10:00:00Z",
+                  "planStartedAt": "2024-05-22T09:50:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -6602,8 +6902,13 @@
                       "name": "B15",
                       "rank": 15,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "60",
+                      "team": {
+                        "id": "60",
+                        "name": "雷霆",
+                        "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/4e59c288-b5e4-4ed5-a221-3be0377641e1",
+                        "collegeName": "内蒙古科技大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:58Z"
                   },
@@ -6623,8 +6928,13 @@
                       "name": "B7",
                       "rank": 7,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "4",
+                      "team": {
+                        "id": "4",
+                        "name": "Alliance",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525665364632-logo_purple_800x800.png",
+                        "collegeName": "南京理工大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:10:58Z"
                   }
@@ -6635,7 +6945,7 @@
                   "matchType": "GROUP",
                   "orderNumber": 16,
                   "planGameCount": 3,
-                  "planStartedAt": "2024-05-22T10:30:00Z",
+                  "planStartedAt": "2024-05-22T10:20:00Z",
                   "result": "EMPTY",
                   "slug": null,
                   "slugName": "1",
@@ -6658,8 +6968,13 @@
                       "name": "B16",
                       "rank": 16,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "841",
+                      "team": {
+                        "id": "841",
+                        "name": "Ultra",
+                        "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/3b03a9b4-d828-472c-9fd1-69e7087800af",
+                        "collegeName": "成都大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:11:00Z"
                   },
@@ -6679,8 +6994,13 @@
                       "name": "B8",
                       "rank": 8,
                       "score": 0,
-                      "teamId": null,
-                      "team": null
+                      "teamId": "92",
+                      "team": {
+                        "id": "92",
+                        "name": "NewMaker",
+                        "collegeLogo": "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/teams/1525680043036-log_blue_800x800.png",
+                        "collegeName": "太原科技大学"
+                      }
                     },
                     "updatedAt": "2024-05-07T15:11:00Z"
                   }
@@ -12408,7 +12728,7 @@
                           "id": "121",
                           "name": "Future",
                           "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1557386138454-13-logo_blue_800x800.png",
-                          "collegeName": "云大\u0026中科院（深圳）"
+                          "collegeName": "云大&中科院（深圳）"
                         }
                       },
                       {
@@ -12493,7 +12813,7 @@
                         "team": {
                           "id": "86",
                           "name": "RoboBraver",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/c6460689-79ff-4bd4-a24b-33503bfa0b10",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/c6460689-79ff-4bd4-a24b-33503bfa0b10",
                           "collegeName": "电子科大中山学院"
                         }
                       }
@@ -12574,7 +12894,7 @@
                         "team": {
                           "id": "154",
                           "name": "飞虎",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/5acee403-2ca4-460e-8f9d-089c94120518",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/5acee403-2ca4-460e-8f9d-089c94120518",
                           "collegeName": "北部湾大学"
                         }
                       },
@@ -12621,7 +12941,7 @@
                         "team": {
                           "id": "145",
                           "name": "TCR",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/f5086e77-4f45-4b57-838e-79afd502cc6b",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f5086e77-4f45-4b57-838e-79afd502cc6b",
                           "collegeName": "厦门大学嘉庚学院"
                         }
                       },
@@ -12668,7 +12988,7 @@
                         "team": {
                           "id": "47",
                           "name": "ACE",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/a2a6037b-94ae-4eb8-8930-adfd5fc3553e",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/d0b15714-cc54-40fb-aa33-7ce6bf12e4ac",
                           "collegeName": "东莞理工学院"
                         }
                       },
@@ -14100,7 +14420,7 @@
                         "id": "121",
                         "name": "Future",
                         "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1557386138454-13-logo_blue_800x800.png",
-                        "collegeName": "云大\u0026中科院（深圳）"
+                        "collegeName": "云大&中科院（深圳）"
                       }
                     },
                     "updatedAt": "2019-05-16T07:00:06Z"
@@ -14232,7 +14552,7 @@
                         "id": "121",
                         "name": "Future",
                         "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1557386138454-13-logo_blue_800x800.png",
-                        "collegeName": "云大\u0026中科院（深圳）"
+                        "collegeName": "云大&中科院（深圳）"
                       }
                     },
                     "updatedAt": "2019-05-17T01:28:43Z"
@@ -14272,7 +14592,7 @@
                         "id": "121",
                         "name": "Future",
                         "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1557386138454-13-logo_blue_800x800.png",
-                        "collegeName": "云大\u0026中科院（深圳）"
+                        "collegeName": "云大&中科院（深圳）"
                       }
                     },
                     "updatedAt": "2019-05-17T07:09:27Z"
@@ -14403,7 +14723,7 @@
                       "team": {
                         "id": "86",
                         "name": "RoboBraver",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/c6460689-79ff-4bd4-a24b-33503bfa0b10",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/c6460689-79ff-4bd4-a24b-33503bfa0b10",
                         "collegeName": "电子科大中山学院"
                       }
                     },
@@ -14601,7 +14921,7 @@
                       "team": {
                         "id": "86",
                         "name": "RoboBraver",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/c6460689-79ff-4bd4-a24b-33503bfa0b10",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/c6460689-79ff-4bd4-a24b-33503bfa0b10",
                         "collegeName": "电子科大中山学院"
                       }
                     },
@@ -14759,7 +15079,7 @@
                       "team": {
                         "id": "86",
                         "name": "RoboBraver",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/c6460689-79ff-4bd4-a24b-33503bfa0b10",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/c6460689-79ff-4bd4-a24b-33503bfa0b10",
                         "collegeName": "电子科大中山学院"
                       }
                     },
@@ -15089,7 +15409,7 @@
                       "team": {
                         "id": "154",
                         "name": "飞虎",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/5acee403-2ca4-460e-8f9d-089c94120518",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/5acee403-2ca4-460e-8f9d-089c94120518",
                         "collegeName": "北部湾大学"
                       }
                     },
@@ -15129,7 +15449,7 @@
                       "team": {
                         "id": "154",
                         "name": "飞虎",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/5acee403-2ca4-460e-8f9d-089c94120518",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/5acee403-2ca4-460e-8f9d-089c94120518",
                         "collegeName": "北部湾大学"
                       }
                     },
@@ -15287,7 +15607,7 @@
                       "team": {
                         "id": "145",
                         "name": "TCR",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/f5086e77-4f45-4b57-838e-79afd502cc6b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f5086e77-4f45-4b57-838e-79afd502cc6b",
                         "collegeName": "厦门大学嘉庚学院"
                       }
                     },
@@ -15327,7 +15647,7 @@
                       "team": {
                         "id": "145",
                         "name": "TCR",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/f5086e77-4f45-4b57-838e-79afd502cc6b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/f5086e77-4f45-4b57-838e-79afd502cc6b",
                         "collegeName": "厦门大学嘉庚学院"
                       }
                     },
@@ -15485,7 +15805,7 @@
                       "team": {
                         "id": "47",
                         "name": "ACE",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/a2a6037b-94ae-4eb8-8930-adfd5fc3553e",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/d0b15714-cc54-40fb-aa33-7ce6bf12e4ac",
                         "collegeName": "东莞理工学院"
                       }
                     },
@@ -15525,7 +15845,7 @@
                       "team": {
                         "id": "47",
                         "name": "ACE",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/a2a6037b-94ae-4eb8-8930-adfd5fc3553e",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/d0b15714-cc54-40fb-aa33-7ce6bf12e4ac",
                         "collegeName": "东莞理工学院"
                       }
                     },
@@ -16084,7 +16404,7 @@
                         "id": "121",
                         "name": "Future",
                         "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1557386138454-13-logo_blue_800x800.png",
-                        "collegeName": "云大\u0026中科院（深圳）"
+                        "collegeName": "云大&中科院（深圳）"
                       }
                     },
                     "updatedAt": "2019-05-17T11:50:15Z"
@@ -16784,7 +17104,7 @@
                         "id": "121",
                         "name": "Future",
                         "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1557386138454-13-logo_blue_800x800.png",
-                        "collegeName": "云大\u0026中科院（深圳）"
+                        "collegeName": "云大&中科院（深圳）"
                       }
                     },
                     "updatedAt": "2019-05-18T05:53:47Z"
@@ -18204,7 +18524,7 @@
                         "team": {
                           "id": "183",
                           "name": "Born of Fire",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
                           "collegeName": "南京航空航天大学金城学院"
                         }
                       }
@@ -18384,7 +18704,7 @@
                         "team": {
                           "id": "118",
                           "name": "VENI VIDI VICI",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/32cc8e60-a655-4a83-a955-b37c0e8f62b3",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/32cc8e60-a655-4a83-a955-b37c0e8f62b3",
                           "collegeName": "重庆理工大学"
                         }
                       }
@@ -18465,7 +18785,7 @@
                         "team": {
                           "id": "114",
                           "name": "TRoMaC",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                           "collegeName": "太原理工大学"
                         }
                       },
@@ -18826,7 +19146,7 @@
                       "team": {
                         "id": "183",
                         "name": "Born of Fire",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
                         "collegeName": "南京航空航天大学金城学院"
                       }
                     },
@@ -18958,7 +19278,7 @@
                       "team": {
                         "id": "183",
                         "name": "Born of Fire",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
                         "collegeName": "南京航空航天大学金城学院"
                       }
                     },
@@ -19050,7 +19370,7 @@
                       "team": {
                         "id": "183",
                         "name": "Born of Fire",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/2405986e-23a2-4c27-b8e5-04faf04bf2fa",
                         "collegeName": "南京航空航天大学金城学院"
                       }
                     },
@@ -20014,7 +20334,7 @@
                       "team": {
                         "id": "118",
                         "name": "VENI VIDI VICI",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/32cc8e60-a655-4a83-a955-b37c0e8f62b3",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/32cc8e60-a655-4a83-a955-b37c0e8f62b3",
                         "collegeName": "重庆理工大学"
                       }
                     },
@@ -20146,7 +20466,7 @@
                       "team": {
                         "id": "118",
                         "name": "VENI VIDI VICI",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/32cc8e60-a655-4a83-a955-b37c0e8f62b3",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/32cc8e60-a655-4a83-a955-b37c0e8f62b3",
                         "collegeName": "重庆理工大学"
                       }
                     },
@@ -20238,7 +20558,7 @@
                       "team": {
                         "id": "118",
                         "name": "VENI VIDI VICI",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/32cc8e60-a655-4a83-a955-b37c0e8f62b3",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/32cc8e60-a655-4a83-a955-b37c0e8f62b3",
                         "collegeName": "重庆理工大学"
                       }
                     },
@@ -20700,7 +21020,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -20740,7 +21060,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -20832,7 +21152,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -22526,7 +22846,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -23278,7 +23598,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -23542,7 +23862,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -24110,7 +24430,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -24646,7 +24966,7 @@
                         "teamId": "160",
                         "team": {
                           "id": "160",
-                          "name": "Actor\u0026Thinker",
+                          "name": "Actor&Thinker",
                           "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                           "collegeName": "河北科技大学"
                         }
@@ -24840,7 +25160,7 @@
                         "team": {
                           "id": "139",
                           "name": "Magician",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
                           "collegeName": "上海科技大学"
                         }
                       },
@@ -25080,7 +25400,7 @@
                         "team": {
                           "id": "50",
                           "name": "Ambition",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
                           "collegeName": "沈阳理工大学"
                         }
                       },
@@ -25136,7 +25456,7 @@
                       "teamId": "160",
                       "team": {
                         "id": "160",
-                        "name": "Actor\u0026Thinker",
+                        "name": "Actor&Thinker",
                         "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                         "collegeName": "河北科技大学"
                       }
@@ -25360,7 +25680,7 @@
                       "teamId": "160",
                       "team": {
                         "id": "160",
-                        "name": "Actor\u0026Thinker",
+                        "name": "Actor&Thinker",
                         "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                         "collegeName": "河北科技大学"
                       }
@@ -25426,7 +25746,7 @@
                       "teamId": "160",
                       "team": {
                         "id": "160",
-                        "name": "Actor\u0026Thinker",
+                        "name": "Actor&Thinker",
                         "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                         "collegeName": "河北科技大学"
                       }
@@ -26417,7 +26737,7 @@
                       "team": {
                         "id": "139",
                         "name": "Magician",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
                         "collegeName": "上海科技大学"
                       }
                     },
@@ -26523,7 +26843,7 @@
                       "team": {
                         "id": "139",
                         "name": "Magician",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
                         "collegeName": "上海科技大学"
                       }
                     },
@@ -26655,7 +26975,7 @@
                       "team": {
                         "id": "139",
                         "name": "Magician",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
                         "collegeName": "上海科技大学"
                       }
                     },
@@ -28001,7 +28321,7 @@
                       "team": {
                         "id": "50",
                         "name": "Ambition",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
                         "collegeName": "沈阳理工大学"
                       }
                     },
@@ -28107,7 +28427,7 @@
                       "team": {
                         "id": "50",
                         "name": "Ambition",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
                         "collegeName": "沈阳理工大学"
                       }
                     },
@@ -28239,7 +28559,7 @@
                       "team": {
                         "id": "50",
                         "name": "Ambition",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
                         "collegeName": "沈阳理工大学"
                       }
                     },
@@ -28401,7 +28721,7 @@
                       "team": {
                         "id": "139",
                         "name": "Magician",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
                         "collegeName": "上海科技大学"
                       }
                     },
@@ -28533,7 +28853,7 @@
                       "team": {
                         "id": "50",
                         "name": "Ambition",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
                         "collegeName": "沈阳理工大学"
                       }
                     },
@@ -28598,7 +28918,7 @@
                       "teamId": "160",
                       "team": {
                         "id": "160",
-                        "name": "Actor\u0026Thinker",
+                        "name": "Actor&Thinker",
                         "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                         "collegeName": "河北科技大学"
                       }
@@ -29101,7 +29421,7 @@
                       "team": {
                         "id": "139",
                         "name": "Magician",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
                         "collegeName": "上海科技大学"
                       }
                     },
@@ -29167,7 +29487,7 @@
                       "team": {
                         "id": "50",
                         "name": "Ambition",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
                         "collegeName": "沈阳理工大学"
                       }
                     },
@@ -29258,7 +29578,7 @@
                       "teamId": "160",
                       "team": {
                         "id": "160",
-                        "name": "Actor\u0026Thinker",
+                        "name": "Actor&Thinker",
                         "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                         "collegeName": "河北科技大学"
                       }
@@ -29496,7 +29816,7 @@
                       "teamId": "160",
                       "team": {
                         "id": "160",
-                        "name": "Actor\u0026Thinker",
+                        "name": "Actor&Thinker",
                         "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                         "collegeName": "河北科技大学"
                       }
@@ -29852,7 +30172,7 @@
                       "teamId": "160",
                       "team": {
                         "id": "160",
-                        "name": "Actor\u0026Thinker",
+                        "name": "Actor&Thinker",
                         "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                         "collegeName": "河北科技大学"
                       }
@@ -29893,7 +30213,7 @@
                       "team": {
                         "id": "50",
                         "name": "Ambition",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
                         "collegeName": "沈阳理工大学"
                       }
                     },
@@ -29919,7 +30239,7 @@
                       "team": {
                         "id": "139",
                         "name": "Magician",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4353eb91-b69b-4da2-ade6-33708a4cc0c5",
                         "collegeName": "上海科技大学"
                       }
                     },
@@ -30315,7 +30635,7 @@
                       "team": {
                         "id": "50",
                         "name": "Ambition",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ce0058a-1434-49ba-8855-d16e856f76d6",
                         "collegeName": "沈阳理工大学"
                       }
                     },
@@ -30740,7 +31060,7 @@
                         "team": {
                           "id": "114",
                           "name": "TRoMaC",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                           "collegeName": "太原理工大学"
                         }
                       },
@@ -32064,7 +32384,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -32196,7 +32516,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -32288,7 +32608,7 @@
                       "team": {
                         "id": "114",
                         "name": "TRoMaC",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/50e7d913-8e58-42d8-bf94-afc22a3055d1",
                         "collegeName": "太原理工大学"
                       }
                     },
@@ -33054,7 +33374,7 @@
                         "team": {
                           "id": "171",
                           "name": "RoboGrinder",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
                           "collegeName": "VT"
                         }
                       },
@@ -33093,7 +33413,7 @@
                         "team": {
                           "id": "112",
                           "name": "ARUW",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
                           "collegeName": "UW"
                         }
                       }
@@ -33153,7 +33473,7 @@
                         "team": {
                           "id": "129",
                           "name": "Texas Aimbots",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/d2a03f72-33e7-4139-9782-66731514af2b",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/d2a03f72-33e7-4139-9782-66731514af2b",
                           "collegeName": "TAMU"
                         }
                       }
@@ -33213,7 +33533,7 @@
                         "team": {
                           "id": "134",
                           "name": "Triton Robotics",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/b79ff3e7-8203-4e80-a017-ad6a77efea72",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/b79ff3e7-8203-4e80-a017-ad6a77efea72",
                           "collegeName": "UCSD"
                         }
                       }
@@ -33234,8 +33554,8 @@
                         "team": {
                           "id": "236",
                           "name": "Kinetic",
-                          "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                          "collegeName": "粤台\u0026中正"
+                          "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                          "collegeName": "粤台&中正"
                         }
                       },
                       {
@@ -33260,8 +33580,8 @@
                         "team": {
                           "id": "237",
                           "name": "GMaster",
-                          "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-26-西浦\u0026利大.png",
-                          "collegeName": "西浦\u0026利大"
+                          "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-26-西浦&利大.png",
+                          "collegeName": "西浦&利大"
                         }
                       },
                       {
@@ -33330,7 +33650,7 @@
                       "team": {
                         "id": "112",
                         "name": "ARUW",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
                         "collegeName": "UW"
                       }
                     },
@@ -33356,7 +33676,7 @@
                       "team": {
                         "id": "171",
                         "name": "RoboGrinder",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
                         "collegeName": "VT"
                       }
                     },
@@ -33462,7 +33782,7 @@
                       "team": {
                         "id": "171",
                         "name": "RoboGrinder",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
                         "collegeName": "VT"
                       }
                     },
@@ -33528,7 +33848,7 @@
                       "team": {
                         "id": "112",
                         "name": "ARUW",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
                         "collegeName": "UW"
                       }
                     },
@@ -33620,7 +33940,7 @@
                       "team": {
                         "id": "171",
                         "name": "RoboGrinder",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
                         "collegeName": "VT"
                       }
                     },
@@ -33686,7 +34006,7 @@
                       "team": {
                         "id": "112",
                         "name": "ARUW",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
                         "collegeName": "UW"
                       }
                     },
@@ -33726,7 +34046,7 @@
                       "team": {
                         "id": "129",
                         "name": "Texas Aimbots",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/d2a03f72-33e7-4139-9782-66731514af2b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/d2a03f72-33e7-4139-9782-66731514af2b",
                         "collegeName": "TAMU"
                       }
                     },
@@ -33924,7 +34244,7 @@
                       "team": {
                         "id": "129",
                         "name": "Texas Aimbots",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/d2a03f72-33e7-4139-9782-66731514af2b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/d2a03f72-33e7-4139-9782-66731514af2b",
                         "collegeName": "TAMU"
                       }
                     },
@@ -34082,7 +34402,7 @@
                       "team": {
                         "id": "129",
                         "name": "Texas Aimbots",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/d2a03f72-33e7-4139-9782-66731514af2b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/d2a03f72-33e7-4139-9782-66731514af2b",
                         "collegeName": "TAMU"
                       }
                     },
@@ -34148,7 +34468,7 @@
                       "team": {
                         "id": "134",
                         "name": "Triton Robotics",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/b79ff3e7-8203-4e80-a017-ad6a77efea72",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/b79ff3e7-8203-4e80-a017-ad6a77efea72",
                         "collegeName": "UCSD"
                       }
                     },
@@ -34346,7 +34666,7 @@
                       "team": {
                         "id": "134",
                         "name": "Triton Robotics",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/b79ff3e7-8203-4e80-a017-ad6a77efea72",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/b79ff3e7-8203-4e80-a017-ad6a77efea72",
                         "collegeName": "UCSD"
                       }
                     },
@@ -34452,7 +34772,7 @@
                       "team": {
                         "id": "134",
                         "name": "Triton Robotics",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/b79ff3e7-8203-4e80-a017-ad6a77efea72",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/b79ff3e7-8203-4e80-a017-ad6a77efea72",
                         "collegeName": "UCSD"
                       }
                     },
@@ -34518,8 +34838,8 @@
                       "team": {
                         "id": "236",
                         "name": "Kinetic",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                        "collegeName": "粤台\u0026中正"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                        "collegeName": "粤台&中正"
                       }
                     },
                     "updatedAt": "2019-08-02T12:53:40Z"
@@ -34610,8 +34930,8 @@
                       "team": {
                         "id": "237",
                         "name": "GMaster",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-26-西浦\u0026利大.png",
-                        "collegeName": "西浦\u0026利大"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-26-西浦&利大.png",
+                        "collegeName": "西浦&利大"
                       }
                     },
                     "updatedAt": "2019-08-02T13:17:36Z"
@@ -34676,8 +34996,8 @@
                       "team": {
                         "id": "237",
                         "name": "GMaster",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-26-西浦\u0026利大.png",
-                        "collegeName": "西浦\u0026利大"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-26-西浦&利大.png",
+                        "collegeName": "西浦&利大"
                       }
                     },
                     "updatedAt": "2019-08-03T02:22:54Z"
@@ -34716,8 +35036,8 @@
                       "team": {
                         "id": "236",
                         "name": "Kinetic",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                        "collegeName": "粤台\u0026中正"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                        "collegeName": "粤台&中正"
                       }
                     },
                     "updatedAt": "2019-08-03T02:52:26Z"
@@ -34782,8 +35102,8 @@
                       "team": {
                         "id": "237",
                         "name": "GMaster",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-26-西浦\u0026利大.png",
-                        "collegeName": "西浦\u0026利大"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-26-西浦&利大.png",
+                        "collegeName": "西浦&利大"
                       }
                     },
                     "updatedAt": "2019-08-03T05:49:26Z"
@@ -34808,8 +35128,8 @@
                       "team": {
                         "id": "236",
                         "name": "Kinetic",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                        "collegeName": "粤台\u0026中正"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                        "collegeName": "粤台&中正"
                       }
                     },
                     "updatedAt": "2019-08-03T05:49:24Z"
@@ -34914,8 +35234,8 @@
                       "team": {
                         "id": "236",
                         "name": "Kinetic",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                        "collegeName": "粤台\u0026中正"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                        "collegeName": "粤台&中正"
                       }
                     },
                     "updatedAt": "2019-08-03T11:03:13Z"
@@ -35072,8 +35392,8 @@
                       "team": {
                         "id": "237",
                         "name": "GMaster",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-26-西浦\u0026利大.png",
-                        "collegeName": "西浦\u0026利大"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-26-西浦&利大.png",
+                        "collegeName": "西浦&利大"
                       }
                     },
                     "updatedAt": "2019-08-04T01:15:59Z"
@@ -35208,7 +35528,7 @@
                       "team": {
                         "id": "171",
                         "name": "RoboGrinder",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
                         "collegeName": "VT"
                       }
                     },
@@ -35274,7 +35594,7 @@
                       "team": {
                         "id": "112",
                         "name": "ARUW",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
                         "collegeName": "UW"
                       }
                     },
@@ -35340,8 +35660,8 @@
                       "team": {
                         "id": "236",
                         "name": "Kinetic",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                        "collegeName": "粤台\u0026中正"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                        "collegeName": "粤台&中正"
                       }
                     },
                     "updatedAt": "2019-08-04T04:46:40Z"
@@ -35538,7 +35858,7 @@
                       "team": {
                         "id": "112",
                         "name": "ARUW",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/4ee57c23-b8db-4c5b-ae63-8c2f2528d8db",
                         "collegeName": "UW"
                       }
                     },
@@ -35578,8 +35898,8 @@
                       "team": {
                         "id": "236",
                         "name": "Kinetic",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                        "collegeName": "粤台\u0026中正"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                        "collegeName": "粤台&中正"
                       }
                     },
                     "updatedAt": "2019-08-04T08:59:59Z"
@@ -35604,7 +35924,7 @@
                       "team": {
                         "id": "171",
                         "name": "RoboGrinder",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
                         "collegeName": "VT"
                       }
                     },
@@ -35736,8 +36056,8 @@
                       "team": {
                         "id": "236",
                         "name": "Kinetic",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                        "collegeName": "粤台\u0026中正"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                        "collegeName": "粤台&中正"
                       }
                     },
                     "updatedAt": "2019-08-04T12:06:44Z"
@@ -35868,8 +36188,8 @@
                       "team": {
                         "id": "236",
                         "name": "Kinetic",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                        "collegeName": "粤台\u0026中正"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                        "collegeName": "粤台&中正"
                       }
                     },
                     "updatedAt": "2019-08-05T00:51:00Z"
@@ -35934,7 +36254,7 @@
                       "team": {
                         "id": "171",
                         "name": "RoboGrinder",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
                         "collegeName": "VT"
                       }
                     },
@@ -36057,7 +36377,7 @@
                         "teamId": "160",
                         "team": {
                           "id": "160",
-                          "name": "Actor\u0026Thinker",
+                          "name": "Actor&Thinker",
                           "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                           "collegeName": "河北科技大学"
                         }
@@ -36152,7 +36472,7 @@
                         "team": {
                           "id": "171",
                           "name": "RoboGrinder",
-                          "collegeLogo": "https://rm-static.djicdn.com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
+                          "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
                           "collegeName": "VT"
                         }
                       },
@@ -36285,8 +36605,8 @@
                         "team": {
                           "id": "236",
                           "name": "Kinetic",
-                          "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                          "collegeName": "粤台\u0026中正"
+                          "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                          "collegeName": "粤台&中正"
                         }
                       },
                       {
@@ -36936,7 +37256,7 @@
                       "teamId": "160",
                       "team": {
                         "id": "160",
-                        "name": "Actor\u0026Thinker",
+                        "name": "Actor&Thinker",
                         "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                         "collegeName": "河北科技大学"
                       }
@@ -37028,7 +37348,7 @@
                       "teamId": "160",
                       "team": {
                         "id": "160",
-                        "name": "Actor\u0026Thinker",
+                        "name": "Actor&Thinker",
                         "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                         "collegeName": "河北科技大学"
                       }
@@ -37200,7 +37520,7 @@
                       "teamId": "160",
                       "team": {
                         "id": "160",
-                        "name": "Actor\u0026Thinker",
+                        "name": "Actor&Thinker",
                         "collegeLogo": "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/8c2ba7b9-9cce-443d-82da-673b7baffd57",
                         "collegeName": "河北科技大学"
                       }
@@ -37663,7 +37983,7 @@
                       "team": {
                         "id": "171",
                         "name": "RoboGrinder",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
                         "collegeName": "VT"
                       }
                     },
@@ -37821,7 +38141,7 @@
                       "team": {
                         "id": "171",
                         "name": "RoboGrinder",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
                         "collegeName": "VT"
                       }
                     },
@@ -37927,7 +38247,7 @@
                       "team": {
                         "id": "171",
                         "name": "RoboGrinder",
-                        "collegeLogo": "https://rm-static.djicdn.com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
+                        "collegeLogo": "/api/static/rm-static_djicdn_com/games-backend/3336be0d-5bc4-4042-9f1f-ea3dca83577b",
                         "collegeName": "VT"
                       }
                     },
@@ -38547,8 +38867,8 @@
                       "team": {
                         "id": "236",
                         "name": "Kinetic",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                        "collegeName": "粤台\u0026中正"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                        "collegeName": "粤台&中正"
                       }
                     },
                     "updatedAt": "2019-08-06T11:12:31Z"
@@ -38679,8 +38999,8 @@
                       "team": {
                         "id": "236",
                         "name": "Kinetic",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                        "collegeName": "粤台\u0026中正"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                        "collegeName": "粤台&中正"
                       }
                     },
                     "updatedAt": "2019-08-07T10:06:25Z"
@@ -38719,8 +39039,8 @@
                       "team": {
                         "id": "236",
                         "name": "Kinetic",
-                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台\u0026中正.png",
-                        "collegeName": "粤台\u0026中正"
+                        "collegeLogo": "https://rm-static.djicdn.com/tem/rc-upload-1564040876984-18-粤台&中正.png",
+                        "collegeName": "粤台&中正"
                       }
                     },
                     "updatedAt": "2019-08-08T02:50:30Z"
