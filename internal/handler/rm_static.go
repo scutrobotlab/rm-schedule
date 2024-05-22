@@ -10,14 +10,15 @@ import (
 )
 
 func RMStaticHandler(c *gin.Context) {
-	cached, b := svc.Cache.Get("static")
+	uuid := c.Param("uuid")
+	cached, b := svc.Cache.Get("static/" + uuid)
 	if b {
 		c.Header("Cache-Control", "public, max-age=31536000")
 		c.Data(200, "image/png", cached.([]byte))
 		return
 	}
 
-	resp, err := http.Get("https://rm-static.djicdn.com/games-backend/" + c.Param("uuid"))
+	resp, err := http.Get("https://rm-static.djicdn.com/games-backend/" + uuid)
 	if err != nil {
 		log.Printf("Failed to get static file: %v\n", err)
 		c.JSON(500, gin.H{"code": -1, "msg": "Failed to get static file"})
@@ -31,7 +32,7 @@ func RMStaticHandler(c *gin.Context) {
 		c.JSON(500, gin.H{"code": -1, "msg": "Failed to read static file"})
 		return
 	}
-	svc.Cache.Set("static", bytes, cache.NoExpiration)
+	svc.Cache.Set("static/"+uuid, bytes, cache.DefaultExpiration)
 
 	c.Header("Cache-Control", "public, max-age=31536000")
 	c.Data(200, "image/png", bytes)

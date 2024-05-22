@@ -51,6 +51,6 @@ func ScheduleHandler(c *gin.Context) {
 
 func replaceRMStatic(data []byte) []byte {
 	str := string(data)
-	str = strings.ReplaceAll(str, "https://rm-static.djicdn.com/games-backend/", "/api/static/rm-static_djicdn_com/games-backend/")
+	str = strings.ReplaceAll(str, "https://rm-static.djicdn.com/games-backend/", "/api/static/rm-static_djicdn_com/games-backend/v2/")
 	return []byte(str)
 }
