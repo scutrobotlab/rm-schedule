@@ -124,6 +124,10 @@ func loadMpMatch(id int) (*MpMatchData, error) {
 		data.RedRate = float64(data.RedCount) / float64(data.TotalCount)
 		data.BlueRate = float64(data.BlueCount) / float64(data.TotalCount)
 		data.TieRate = float64(data.TieCount) / float64(data.TotalCount)
+	} else {
+		data.RedRate = -1.0
+		data.BlueRate = -1.0
+		data.TieRate = -1.0
 	}
 	svc.Cache.Set("mp_match:"+strconv.Itoa(id), data, MapMatchCacheExpiration)
 
