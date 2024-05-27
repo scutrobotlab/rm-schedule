@@ -10,7 +10,7 @@ import (
 	"log"
 )
 
-type RankListItem struct {
+type RankScoreItem struct {
 	Rank          int     `json:"Rank"`
 	SchoolChinese string  `json:"SchoolChinese"`
 	SchoolEnglish string  `json:"SchoolEnglish"`
@@ -24,33 +24,33 @@ func RankListHandler(c *gin.Context) {
 		return
 	}
 
-	_rankListMap, b := svc.Cache.Get("rank_list")
+	_rankScoreMap, b := svc.Cache.Get("rank_score")
 	if b {
-		rankListMap := _rankListMap.(map[string]RankListItem)
-		if _, ok := rankListMap[schoolName]; !ok {
+		rankScoreMap := _rankScoreMap.(map[string]RankScoreItem)
+		if _, ok := rankScoreMap[schoolName]; !ok {
 			c.JSON(404, gin.H{"code": -1, "msg": "School not found"})
 			return
 		}
 		c.Header("Cache-Control", "public, max-age=3600")
-		c.JSON(200, rankListMap[schoolName])
+		c.JSON(200, rankScoreMap[schoolName])
 		return
 	}
 
-	rankListJson := make([]RankListItem, 0)
-	err := json.Unmarshal(static.RankListBytes, &rankListJson)
+	rankScoreJson := make([]RankScoreItem, 0)
+	err := json.Unmarshal(static.RankScoreBytes, &rankScoreJson)
 	if err != nil {
 		log.Printf("Failed to parse rank list: %v\n", err)
 		c.JSON(500, gin.H{"code": -1, "msg": "Failed to parse rank list"})
 		return
 	}
 
-	rankListMap := lo.SliceToMap(rankListJson, func(item RankListItem) (string, RankListItem) { return item.SchoolChinese, item })
-	svc.Cache.Set("rank_list", rankListMap, cache.NoExpiration)
-	if _, ok := rankListMap[schoolName]; !ok {
+	rankScoreMap := lo.SliceToMap(rankScoreJson, func(item RankScoreItem) (string, RankScoreItem) { return item.SchoolChinese, item })
+	svc.Cache.Set("rank_list", rankScoreMap, cache.NoExpiration)
+	if _, ok := rankScoreMap[schoolName]; !ok {
 		c.JSON(404, gin.H{"code": -1, "msg": "School not found"})
 		return
 	}
 
 	c.Header("Cache-Control", "public, max-age=3600")
-	c.JSON(200, rankListMap[schoolName])
+	c.JSON(200, rankScoreMap[schoolName])
 }
