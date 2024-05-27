@@ -12,4 +12,5 @@ func Router(r *gin.Engine) {
 	api.GET("/group_rank_info", handler.GroupRankInfoHandler)
 	api.GET("/static/rm-static_djicdn_com/games-backend/v2/:uuid", handler.RMStaticHandler)
 	api.GET("/mp/match", handler.MpMatchHandler)
+	api.GET("/rank", handler.RankListHandler)
 }
