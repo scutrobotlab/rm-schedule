@@ -1,0 +1,770 @@
+[
+  {
+    "school": "中南大学",
+    "team": "FYT",
+    "score": 548,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 150,
+    "initialCoinTotal": 175
+  },
+  {
+    "school": "桂林信息科技学院",
+    "team": "GIRT",
+    "score": 525,
+    "initialCoinDocument": 50,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 50
+  },
+  {
+    "school": "哈尔滨工业大学",
+    "team": "I Hiter",
+    "score": 510,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 150,
+    "initialCoinTotal": 150
+  },
+  {
+    "school": "上海交通大学",
+    "team": "交龙",
+    "score": 505,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 75,
+    "initialCoinTotal": 100
+  },
+  {
+    "school": "西南交通大学",
+    "team": "Helios",
+    "score": 502,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 150,
+    "initialCoinTotal": 175
+  },
+  {
+    "school": "浙江大学",
+    "team": "Hello World",
+    "score": 493,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "深圳技术大学",
+    "team": "悍匠",
+    "score": 488,
+    "initialCoinDocument": 50,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 50
+  },
+  {
+    "school": "哈尔滨工程大学",
+    "team": "创梦之翼",
+    "score": 485,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "西安交通大学",
+    "team": "笃行",
+    "score": 483,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "齐鲁工业大学",
+    "team": "Adam",
+    "score": 483,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "首都师范大学",
+    "team": "PIE",
+    "score": 482,
+    "initialCoinDocument": 50,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 50
+  },
+  {
+    "school": "哈尔滨工业大学（深圳）",
+    "team": "南工骁鹰",
+    "score": 480,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "电子科技大学中山学院",
+    "team": "RoboBraver",
+    "score": 480,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "沈阳航空航天大学",
+    "team": "TUP",
+    "score": 480,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 75,
+    "initialCoinTotal": 75
+  },
+  {
+    "school": "南方科技大学",
+    "team": "ARTINX",
+    "score": 479,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 150,
+    "initialCoinTotal": 150
+  },
+  {
+    "school": "深圳大学",
+    "team": "RobotPilots",
+    "score": 475,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "中北大学",
+    "team": "606",
+    "score": 475,
+    "initialCoinDocument": 50,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 50
+  },
+  {
+    "school": "四川大学",
+    "team": "火锅",
+    "score": 475,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 150,
+    "initialCoinTotal": 175
+  },
+  {
+    "school": "东北大学",
+    "team": "TDT",
+    "score": 474,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "北京理工大学珠海学院",
+    "team": "毅恒",
+    "score": 473,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "北京理工大学",
+    "team": "追梦",
+    "score": 472,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "广东工业大学",
+    "team": "DynamicX",
+    "score": 472,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 75,
+    "initialCoinTotal": 100
+  },
+  {
+    "school": "东莞理工学院",
+    "team": "ACE",
+    "score": 469,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "华南师范大学",
+    "team": "PIONEER",
+    "score": 469,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "重庆大学",
+    "team": "千里",
+    "score": 468,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "西安电子科技大学",
+    "team": "IRobot",
+    "score": 467,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "中国科学技术大学",
+    "team": "RoboWalker",
+    "score": 464,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "湖南大学",
+    "team": "跃鹿",
+    "score": 464,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "吉林大学",
+    "team": "TARS_Go",
+    "score": 463,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "南京理工大学",
+    "team": "Alliance",
+    "score": 463,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "山东理工大学",
+    "team": "齐奇",
+    "score": 462,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "桂林电子科技大学",
+    "team": "Evolution",
+    "score": 461,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "中国石油大学（华东）",
+    "team": "RPS",
+    "score": 461,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "青岛大学",
+    "team": "未来",
+    "score": 460,
+    "initialCoinDocument": 50,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 50
+  },
+  {
+    "school": "天津大学",
+    "team": "北洋机甲",
+    "score": 459,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 75,
+    "initialCoinTotal": 75
+  },
+  {
+    "school": "深圳职业技术大学",
+    "team": "RCIA",
+    "score": 459,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "太原科技大学",
+    "team": "NewMaker",
+    "score": 459,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "广州城市理工学院",
+    "team": "野狼",
+    "score": 458,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 75,
+    "initialCoinTotal": 75
+  },
+  {
+    "school": "合肥工业大学(宣城校区)",
+    "team": "WDR",
+    "score": 457,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -50
+  },
+  {
+    "school": "太原理工大学",
+    "team": "TRoMaC",
+    "score": 457,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "西南石油大学",
+    "team": "铁人",
+    "score": 455,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "南昌大学",
+    "team": "Passion",
+    "score": 455,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 75,
+    "initialCoinTotal": 100
+  },
+  {
+    "school": "哈尔滨工业大学（威海）",
+    "team": "HERO",
+    "score": 454,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "福建理工大学",
+    "team": "苍侠",
+    "score": 453,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -50
+  },
+  {
+    "school": "华南农业大学",
+    "team": "Taurus",
+    "score": 453,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "西安理工大学",
+    "team": "NEXT E",
+    "score": 451,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "华南理工大学",
+    "team": "华南虎",
+    "score": 450,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "东北林业大学",
+    "team": "Ares",
+    "score": 449,
+    "initialCoinDocument": 50,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 50
+  },
+  {
+    "school": "成都大学",
+    "team": "Ultra",
+    "score": 448,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "西北工业大学",
+    "team": "WMJ",
+    "score": 447,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "福建师范大学",
+    "team": "Pikachu",
+    "score": 446,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "河北科技大学",
+    "team": "Actor&Thinker",
+    "score": 445,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "中国人民解放军国防科技大学",
+    "team": "军临",
+    "score": 444,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "沈阳理工大学",
+    "team": "Ambition",
+    "score": 443,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -50
+  },
+  {
+    "school": "五邑大学",
+    "team": "IMCA",
+    "score": 442,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "佛山科学技术学院",
+    "team": "醒狮",
+    "score": 442,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "上海科技大学",
+    "team": "Magician",
+    "score": 439,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "厦门大学",
+    "team": "RCS",
+    "score": 439,
+    "initialCoinDocument": 50,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 50
+  },
+  {
+    "school": "太原工业学院",
+    "team": "火线",
+    "score": 438,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "中国石油大学（北京）",
+    "team": "SPR",
+    "score": 437,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "大连理工大学",
+    "team": "凌BUG",
+    "score": 436,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 75,
+    "initialCoinTotal": 75
+  },
+  {
+    "school": "常州大学",
+    "team": "Climber",
+    "score": 432,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "武汉工程大学",
+    "team": "Nautilus",
+    "score": 431,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "杭州电子科技大学",
+    "team": "PHOENIX",
+    "score": 430,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "东华大学",
+    "team": "DIODE",
+    "score": 428,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "燕山大学",
+    "team": "燕鹰",
+    "score": 427,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "华中科技大学",
+    "team": "狼牙",
+    "score": 427,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "北京科技大学",
+    "team": "Reborn",
+    "score": 426,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "陆军勤务学院",
+    "team": "陆擎",
+    "score": 426,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "山东科技大学",
+    "team": "SmartRobot",
+    "score": 426,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "东南大学",
+    "team": "3SE",
+    "score": 425,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "北京信息科技大学",
+    "team": "星辰",
+    "score": 424,
+    "initialCoinDocument": -25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": -25
+  },
+  {
+    "school": "湘潭大学",
+    "team": "逐曦",
+    "score": 424,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "辽宁科技大学",
+    "team": "COD",
+    "score": 424,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -50
+  },
+  {
+    "school": "重庆三峡学院",
+    "team": "LionHeart",
+    "score": 423,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "南华大学",
+    "team": "MA",
+    "score": 421,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "同济大学",
+    "team": "SuperPower",
+    "score": 420,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "厦门大学嘉庚学院",
+    "team": "TCR",
+    "score": 418,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "桂林理工大学",
+    "team": "群星",
+    "score": 418,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "南京航空航天大学",
+    "team": "长空御风",
+    "score": 418,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 25
+  },
+  {
+    "school": "长安大学",
+    "team": "VGD",
+    "score": 417,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "内蒙古科技大学",
+    "team": "雷霆",
+    "score": 415,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "华北科技学院",
+    "team": "风暴",
+    "score": 411,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -50
+  },
+  {
+    "school": "华东理工大学",
+    "team": "起源",
+    "score": 410,
+    "initialCoinDocument": -25,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -100
+  },
+  {
+    "school": "厦门理工学院",
+    "team": "PFA",
+    "score": 410,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "安徽信息工程学院",
+    "team": "Artisans",
+    "score": 408,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -50
+  },
+  {
+    "school": "中国矿业大学",
+    "team": "CUBOT",
+    "score": 407,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "浙江纺织服装职业技术学院",
+    "team": "RoboFuture",
+    "score": 407,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "南京航空航天大学金城学院",
+    "team": "Born of Fire",
+    "score": 406,
+    "initialCoinDocument": -25,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -100
+  },
+  {
+    "school": "东北大学秦皇岛分校",
+    "team": "征龙凌沧",
+    "score": 405,
+    "initialCoinDocument": -25,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": -25
+  },
+  {
+    "school": "华北理工大学",
+    "team": "Horizon",
+    "score": 404,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  },
+  {
+    "school": "上海工程技术大学",
+    "team": "木鸢Birdiebot",
+    "score": 404,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "河北工业大学",
+    "team": "山海Mas",
+    "score": 403,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "桂林电子科技大学北海校区",
+    "team": "破浪笃行",
+    "score": 403,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -75
+  },
+  {
+    "school": "合肥工业大学",
+    "team": "苍穹",
+    "score": 402,
+    "initialCoinDocument": 25,
+    "initialCoinTechnology": -75,
+    "initialCoinTotal": -50
+  },
+  {
+    "school": "西交利物浦大学&利物浦大学",
+    "team": "Gmaster",
+    "score": 392,
+    "initialCoinDocument": 0,
+    "initialCoinTechnology": 0,
+    "initialCoinTotal": 0
+  }
+]
