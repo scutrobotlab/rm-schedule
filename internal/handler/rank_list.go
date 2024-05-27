@@ -7,6 +7,7 @@ import (
 	"github.com/samber/lo"
 	"github.com/scutrobotlab/RMSituationBackend/internal/svc"
 	"io"
+	"log"
 	"os"
 )
 
@@ -38,6 +39,7 @@ func RankListHandler(c *gin.Context) {
 
 	rankListFile, err := os.Open("static/rank_list.json")
 	if err != nil {
+		log.Printf("Failed to open rank list: %v\n", err)
 		c.JSON(500, gin.H{"code": -1, "msg": "Failed to open rank list"})
 		return
 	}
@@ -45,6 +47,7 @@ func RankListHandler(c *gin.Context) {
 
 	bytes, err := io.ReadAll(rankListFile)
 	if err != nil {
+		log.Printf("Failed to read rank list: %v\n", err)
 		c.JSON(500, gin.H{"code": -1, "msg": "Failed to read rank list"})
 		return
 	}
@@ -52,6 +55,7 @@ func RankListHandler(c *gin.Context) {
 	rankListJson := make([]RankListItem, 0)
 	err = json.Unmarshal(bytes, &rankListJson)
 	if err != nil {
+		log.Printf("Failed to parse rank list: %v\n", err)
 		c.JSON(500, gin.H{"code": -1, "msg": "Failed to parse rank list"})
 		return
 	}
