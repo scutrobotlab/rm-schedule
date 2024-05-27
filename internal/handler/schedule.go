@@ -2,11 +2,11 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/scutrobotlab/RMSituationBackend/internal/static"
 	"github.com/scutrobotlab/RMSituationBackend/internal/svc"
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 )
@@ -15,13 +15,9 @@ const scheduleDebug = false
 
 func ScheduleHandler(c *gin.Context) {
 	if scheduleDebug {
-		staticJson, err := os.Open("static/schedule.json")
-		if err == nil {
-			bytes, _ := io.ReadAll(staticJson)
-			c.Header("Cache-Control", "no-cache")
-			c.Data(200, "application/json", bytes)
-			return
-		}
+		c.Header("Cache-Control", "no-cache")
+		c.Data(200, "application/json", static.ScheduleBytes)
+		return
 	}
 
 	cached, b := svc.Cache.Get("schedule")

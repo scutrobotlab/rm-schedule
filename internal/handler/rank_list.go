@@ -5,10 +5,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/patrickmn/go-cache"
 	"github.com/samber/lo"
+	"github.com/scutrobotlab/RMSituationBackend/internal/static"
 	"github.com/scutrobotlab/RMSituationBackend/internal/svc"
-	"io"
 	"log"
-	"os"
 )
 
 type RankListItem struct {
@@ -37,23 +36,8 @@ func RankListHandler(c *gin.Context) {
 		return
 	}
 
-	rankListFile, err := os.Open("static/rank_list.json")
-	if err != nil {
-		log.Printf("Failed to open rank list: %v\n", err)
-		c.JSON(500, gin.H{"code": -1, "msg": "Failed to open rank list"})
-		return
-	}
-	defer rankListFile.Close()
-
-	bytes, err := io.ReadAll(rankListFile)
-	if err != nil {
-		log.Printf("Failed to read rank list: %v\n", err)
-		c.JSON(500, gin.H{"code": -1, "msg": "Failed to read rank list"})
-		return
-	}
-
 	rankListJson := make([]RankListItem, 0)
-	err = json.Unmarshal(bytes, &rankListJson)
+	err := json.Unmarshal(static.RankListBytes, &rankListJson)
 	if err != nil {
 		log.Printf("Failed to parse rank list: %v\n", err)
 		c.JSON(500, gin.H{"code": -1, "msg": "Failed to parse rank list"})
