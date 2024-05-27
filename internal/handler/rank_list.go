@@ -23,6 +23,7 @@ type RankScoreItem struct {
 }
 
 type CompleteForm struct {
+	Rank                  int    `json:"rank"`
 	School                string `json:"school"`
 	Team                  string `json:"team"`
 	Score                 int    `json:"score"`
@@ -48,6 +49,9 @@ func RankListHandler(c *gin.Context) {
 			return
 		}
 
+		for i := range completedFormJson {
+			completedFormJson[i].Rank = i + 1
+		}
 		completedFormMap = lo.SliceToMap(completedFormJson, func(item CompleteForm) (string, CompleteForm) { return item.School, item })
 		svc.Cache.Set("completed_form", completedFormMap, cache.NoExpiration)
 	}
