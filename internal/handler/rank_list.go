@@ -31,6 +31,7 @@ func RankListHandler(c *gin.Context) {
 			c.JSON(404, gin.H{"code": -1, "msg": "School not found"})
 			return
 		}
+		c.Header("Cache-Control", "public, max-age=3600")
 		c.JSON(200, rankListMap[schoolName])
 		return
 	}
@@ -62,5 +63,6 @@ func RankListHandler(c *gin.Context) {
 		return
 	}
 
+	c.Header("Cache-Control", "public, max-age=3600")
 	c.JSON(200, rankListMap[schoolName])
 }
