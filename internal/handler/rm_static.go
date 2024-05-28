@@ -7,18 +7,24 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strings"
 )
 
 func RMStaticHandler(c *gin.Context) {
-	uuid := c.Param("uuid")
-	cached, b := svc.Cache.Get("static/" + uuid)
+	path := c.Param("path")
+
+	cached, b := svc.Cache.Get("static" + path)
 	if b {
-		c.Header("Cache-Control", "public, max-age=31536000")
+		c.Header("Cache-Control", "public, max-age=3600")
 		c.Data(200, "image/png", cached.([]byte))
 		return
 	}
 
-	resp, err := http.Get("https://rm-static.djicdn.com/games-backend/" + uuid)
+	url := strings.ReplaceAll(path, "/rm-static_djicdn_com", "https://rm-static.djicdn.com")
+	url = strings.ReplaceAll(url, "/terra-cn-oss-cdn-public-pro_oss-cn-hangzhou_aliyuncs_com", "https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com")
+	url = strings.ReplaceAll(url, "/pro-robomasters-hz-n5i3_oss-cn-hangzhou_aliyuncs_com", "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com")
+
+	resp, err := http.Get(url)
 	if err != nil {
 		log.Printf("Failed to get static file: %v\n", err)
 		c.JSON(500, gin.H{"code": -1, "msg": "Failed to get static file"})
@@ -32,8 +38,8 @@ func RMStaticHandler(c *gin.Context) {
 		c.JSON(500, gin.H{"code": -1, "msg": "Failed to read static file"})
 		return
 	}
-	svc.Cache.Set("static/"+uuid, bytes, cache.DefaultExpiration)
+	svc.Cache.Set("static"+path, bytes, cache.DefaultExpiration)
 
-	c.Header("Cache-Control", "public, max-age=31536000")
+	c.Header("Cache-Control", "public, max-age=3600")
 	c.Data(200, "image/png", bytes)
 }

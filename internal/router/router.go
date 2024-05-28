@@ -10,7 +10,7 @@ func Router(r *gin.Engine) {
 	api := r.Group("/api")
 	api.GET("/schedule", handler.ScheduleHandler)
 	api.GET("/group_rank_info", handler.GroupRankInfoHandler)
-	api.GET("/static/rm-static_djicdn_com/games-backend/v2/:uuid", handler.RMStaticHandler)
+	api.GET("/static/*path", handler.RMStaticHandler)
 	api.GET("/mp/match", handler.MpMatchHandler)
 	api.GET("/rank", handler.RankListHandler)
 }
