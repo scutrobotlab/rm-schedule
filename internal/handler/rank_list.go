@@ -5,8 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/patrickmn/go-cache"
 	"github.com/samber/lo"
-	"github.com/scutrobotlab/RMSituationBackend/internal/static"
-	"github.com/scutrobotlab/RMSituationBackend/internal/svc"
+	"github.com/scutrobotlab/rm-schedule/internal/static"
+	"github.com/scutrobotlab/rm-schedule/internal/svc"
 	"log"
 )
 

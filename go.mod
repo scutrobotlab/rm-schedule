@@ -1,4 +1,4 @@
-module github.com/scutrobotlab/RMSituationBackend
+module github.com/scutrobotlab/rm-schedule
 
 go 1.22.1
 

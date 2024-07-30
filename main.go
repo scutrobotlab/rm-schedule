@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/scutrobotlab/RMSituationBackend/internal/router"
+	"github.com/scutrobotlab/rm-schedule/internal/router"
 )
 
 func main() {

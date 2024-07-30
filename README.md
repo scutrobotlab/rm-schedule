@@ -1,11 +1,11 @@
-# RMSituationBackend
+# RM Schedule
 
 ## Build
 
 ```bash
-docker build -t registry.cn-guangzhou.aliyuncs.com/scutrobot/rm-situation-backend:latest .
+docker build -t registry.cn-guangzhou.aliyuncs.com/scutrobot/rm-schedule:latest .
 ```
 
 ```bash
-docker push registry.cn-guangzhou.aliyuncs.com/scutrobot/rm-situation-backend:latest
+docker push registry.cn-guangzhou.aliyuncs.com/scutrobot/rm-schedule:latest
 ```

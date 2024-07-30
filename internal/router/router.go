@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/scutrobotlab/RMSituationBackend/internal/handler"
+	"github.com/scutrobotlab/rm-schedule/internal/handler"
 )
 
 // Router defines the router for this service

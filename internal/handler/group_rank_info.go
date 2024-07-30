@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/scutrobotlab/RMSituationBackend/internal/svc"
+	"github.com/scutrobotlab/rm-schedule/internal/svc"
 	"io"
 	"log"
 	"net/http"
