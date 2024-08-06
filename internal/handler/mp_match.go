@@ -108,6 +108,10 @@ func loadMpMatch(id int) (*MpMatchData, error) {
 		return nil, fmt.Errorf("failed to read mp match response: %v", err)
 	}
 
+	if response.StatusCode != 200 {
+		return nil, fmt.Errorf("failed to get mp match, http status code: %v, response: %v", response.StatusCode, string(bytes))
+	}
+
 	var _mpMatchResp MpMatchSrcResp
 	err = json.Unmarshal(bytes, &_mpMatchResp)
 	if err != nil {
