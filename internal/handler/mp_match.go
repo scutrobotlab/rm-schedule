@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/scutrobotlab/rm-schedule/internal/svc"
 	"io"
@@ -98,19 +99,20 @@ func loadMpMatch(id int) (*MpMatchData, error) {
 
 	response, err := http.DefaultClient.Do(&request)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get mp match: %v", err)
 	}
 	defer response.Body.Close()
 
 	bytes, err := io.ReadAll(response.Body)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to read mp match response: %v", err)
 	}
 
 	var _mpMatchResp MpMatchSrcResp
 	err = json.Unmarshal(bytes, &_mpMatchResp)
 	if err != nil {
-		return nil, err
+		log.Printf("failed to unmarshal bytes: %v\n", string(bytes))
+		return nil, fmt.Errorf("failed to unmarshal mp match response: %v", err)
 	}
 
 	data := MpMatchData{
