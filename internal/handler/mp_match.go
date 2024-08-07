@@ -16,7 +16,8 @@ import (
 
 const (
 	MpMatchCacheRefreshTime = 10 * time.Second // 缓存即将过期时，异步刷新
-	MapMatchCacheExpiration = 60 * time.Second // 缓存过期时间
+	MpMatchCacheExpiration  = 60 * time.Second // 缓存过期时间
+	MpMatchDisabled         = true             // 是否禁用
 )
 
 type MpMatchSrcResp struct {
@@ -45,6 +46,13 @@ type MpMatchData struct {
 }
 
 func MpMatchHandler(c *gin.Context) {
+	if MpMatchDisabled {
+		// 禁用时，返回空数据
+		c.Header("Cache-Control", "public, max-age=60")
+		c.JSON(200, MpMatchDstResp{List: make([]MpMatchData, 0)})
+		return
+	}
+
 	matchIds := c.Query("match_ids")
 	if matchIds == "" {
 		c.JSON(400, gin.H{"error": "match_ids is required"})
@@ -135,7 +143,7 @@ func loadMpMatch(id int) (*MpMatchData, error) {
 		data.BlueRate = -1.0
 		data.TieRate = -1.0
 	}
-	svc.Cache.Set("mp_match:"+strconv.Itoa(id), data, MapMatchCacheExpiration)
+	svc.Cache.Set("mp_match:"+strconv.Itoa(id), data, MpMatchCacheExpiration)
 
 	return &data, nil
 }
