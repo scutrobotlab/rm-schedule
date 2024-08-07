@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/scutrobotlab/rm-schedule/internal/job"
 	"github.com/scutrobotlab/rm-schedule/internal/static"
 	"github.com/scutrobotlab/rm-schedule/internal/svc"
 )
@@ -12,6 +13,13 @@ const (
 )
 
 func ScheduleHandler(c *gin.Context) {
+	// 是否存在 Tencent-Acceleration-Domain-Name
+	if c.GetHeader("Tencent-Acceleration-Domain-Name") != "" {
+		c.Header("Cache-Control", scheduleCacheControl)
+		c.Redirect(301, job.ScheduleUrl)
+		return
+	}
+
 	if scheduleDebug {
 		c.Header("Cache-Control", "no-cache")
 		c.Data(200, "application/json", static.ScheduleBytes)

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/scutrobotlab/rm-schedule/internal/job"
 	"github.com/scutrobotlab/rm-schedule/internal/svc"
 )
 
@@ -10,6 +11,12 @@ const (
 )
 
 func GroupRankInfoHandler(c *gin.Context) {
+	if c.GetHeader("Tencent-Acceleration-Domain-Name") != "" {
+		c.Header("Cache-Control", groupRankInfoCacheControl)
+		c.Redirect(301, job.GroupRankInfoUrl)
+		return
+	}
+
 	if cached, b := svc.Cache.Get("group_rank_info"); b {
 		c.Header("Cache-Control", groupRankInfoCacheControl)
 		c.Data(200, "application/json", cached.([]byte))
