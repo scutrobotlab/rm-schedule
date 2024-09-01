@@ -17,7 +17,7 @@ import (
 const (
 	MpMatchCacheRefreshTime = 10 * time.Second // 缓存即将过期时，异步刷新
 	MpMatchCacheExpiration  = 60 * time.Second // 缓存过期时间
-	MpMatchDisabled         = true             // 是否禁用
+	MpMatchDisabled         = false            // 是否禁用
 )
 
 type MpMatchSrcResp struct {
