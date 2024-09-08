@@ -1,8 +1,9 @@
 package svc
 
 import (
-	"github.com/patrickmn/go-cache"
 	"time"
+
+	"github.com/patrickmn/go-cache"
 )
 
 var Cache = cache.New(cache.NoExpiration, 1*time.Minute)

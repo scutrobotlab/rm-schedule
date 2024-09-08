@@ -1,8 +1,9 @@
 package job
 
 import (
-	"github.com/robfig/cron/v3"
 	"log"
+
+	"github.com/robfig/cron/v3"
 )
 
 func InitCronJob() *cron.Cron {

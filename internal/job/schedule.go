@@ -1,12 +1,13 @@
 package job
 
 import (
-	"github.com/patrickmn/go-cache"
-	"github.com/scutrobotlab/rm-schedule/internal/svc"
 	"io"
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/patrickmn/go-cache"
+	"github.com/scutrobotlab/rm-schedule/internal/svc"
 )
 
 const ScheduleUrl = "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/live_json/schedule.json"

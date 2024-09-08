@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/kataras/iris/v12"
 	"github.com/scutrobotlab/rm-schedule/internal/job"
 	"github.com/scutrobotlab/rm-schedule/internal/static"
 	"github.com/scutrobotlab/rm-schedule/internal/svc"
@@ -12,26 +12,29 @@ const (
 	scheduleCacheControl = "public, max-age=5"
 )
 
-func ScheduleHandler(c *gin.Context) {
+func ScheduleHandler(c iris.Context) {
 	// 是否存在 Tencent-Acceleration-Domain-Name
 	if c.GetHeader("Tencent-Acceleration-Domain-Name") != "" {
 		c.Header("Cache-Control", scheduleCacheControl)
-		c.Redirect(301, job.ScheduleUrl)
+		c.Redirect(job.ScheduleUrl, 301)
 		return
 	}
 
 	if scheduleDebug {
 		c.Header("Cache-Control", "no-cache")
-		c.Data(200, "application/json", static.ScheduleBytes)
+		c.ContentType("application/json")
+		c.Write(static.ScheduleBytes)
 		return
 	}
 
 	if cached, b := svc.Cache.Get("schedule"); b {
 		c.Header("Cache-Control", scheduleCacheControl)
-		c.Data(200, "application/json", cached.([]byte))
+		c.ContentType("application/json")
+		c.Write(cached.([]byte))
 		return
 	}
 
 	c.Header("Cache-Control", scheduleCacheControl)
-	c.JSON(500, gin.H{"code": -1, "msg": "Failed to get schedule"})
+	c.StatusCode(500)
+	c.JSON(iris.Map{"code": -1, "msg": "Failed to get schedule"})
 }

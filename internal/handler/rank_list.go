@@ -2,12 +2,13 @@ package handler
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
+	"log"
+
+	"github.com/kataras/iris/v12"
 	"github.com/patrickmn/go-cache"
 	"github.com/samber/lo"
 	"github.com/scutrobotlab/rm-schedule/internal/static"
 	"github.com/scutrobotlab/rm-schedule/internal/svc"
-	"log"
 )
 
 type RankListItem struct {
@@ -32,10 +33,11 @@ type CompleteForm struct {
 	InitialCoinTotal      int    `json:"initialCoinTotal"`
 }
 
-func RankListHandler(c *gin.Context) {
-	schoolName := c.Query("school_name")
+func RankListHandler(c iris.Context) {
+	schoolName := c.URLParam("school_name")
 	if schoolName == "" {
-		c.JSON(400, gin.H{"code": -1, "msg": "School name is empty"})
+		c.StatusCode(400)
+		c.JSON(iris.Map{"code": -1, "msg": "School name is empty"})
 		return
 	}
 
@@ -45,7 +47,8 @@ func RankListHandler(c *gin.Context) {
 		err := json.Unmarshal(static.CompleteFormBytes, &completedFormJson)
 		if err != nil {
 			log.Printf("Failed to parse completed form: %v\n", err)
-			c.JSON(500, gin.H{"code": -1, "msg": "Failed to parse completed form"})
+			c.StatusCode(500)
+			c.JSON(iris.Map{"code": -1, "msg": "Failed to parse completed form"})
 			return
 		}
 
@@ -58,7 +61,8 @@ func RankListHandler(c *gin.Context) {
 
 	completedForm, ok := completedFormMap.(map[string]CompleteForm)[schoolName]
 	if !ok {
-		c.JSON(404, gin.H{"code": -1, "msg": "School not found"})
+		c.StatusCode(404)
+		c.JSON(iris.Map{"code": -1, "msg": "School not found"})
 		return
 	}
 
@@ -68,7 +72,8 @@ func RankListHandler(c *gin.Context) {
 		err := json.Unmarshal(static.RankScoreBytes, &rankScoreJson)
 		if err != nil {
 			log.Printf("Failed to parse rank list: %v\n", err)
-			c.JSON(500, gin.H{"code": -1, "msg": "Failed to parse rank list"})
+			c.StatusCode(500)
+			c.JSON(iris.Map{"code": -1, "msg": "Failed to parse rank list"})
 			return
 		}
 
@@ -78,12 +83,13 @@ func RankListHandler(c *gin.Context) {
 
 	rankScore, ok := rankScoreMap.(map[string]RankScoreItem)[schoolName]
 	if !ok {
-		c.JSON(404, gin.H{"code": -1, "msg": "School not found"})
+		c.StatusCode(404)
+		c.JSON(iris.Map{"code": -1, "msg": "School not found"})
 		return
 	}
 
 	c.Header("Cache-Control", "public, max-age=3600")
-	c.JSON(200, RankListItem{
+	c.JSON(RankListItem{
 		RankScoreItem: rankScore,
 		CompleteForm:  completedForm,
 	})

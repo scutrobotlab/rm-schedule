@@ -1,35 +1,28 @@
-FROM golang:alpine AS gobuilder
-
-LABEL stage=gobuilder
-
-ENV CGO_ENABLED=0
-ENV GOPROXY=https://goproxy.cn,direct
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
-
-RUN apk update --no-cache && apk add --no-cache tzdata
+FROM node:20-slim as builder-frontend
 
 WORKDIR /build
+ADD ./frontend/package.json /build/package.json
 
-ADD go.mod .
-ADD go.sum .
+RUN yarn install
+
+COPY ./frontend /build
+
+RUN yarn build
+
+FROM golang:1.22.1-alpine as builder-backend
+
+WORKDIR /build
+ADD ./go.mod ./go.sum /build/
+
 RUN go mod download
+
 COPY . .
-COPY etc /app/etc
+COPY --from=builder-frontend /build/dist ./dist
 
-RUN go build -ldflags="-s -w" -o /app/main main.go
+RUN go build -trimpath -ldflags "-s -w" -o /build/bin/rm-schedule
 
+FROM alpine:3.14
 
-FROM alpine
+COPY --from=builder-backend /build/bin/rm-schedule /bin/rm-schedule
 
-COPY --from=gobuilder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=gobuilder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai
-ENV TZ=Asia/Shanghai
-
-WORKDIR /app
-COPY --from=gobuilder /app/main /app/main
-COPY --from=gobuilder /app/etc /app/etc
-
-ENV GIN_MODE=release
-EXPOSE 8080
-
-ENTRYPOINT ["/app/main"]
+ENTRYPOINT ["/bin/rm-schedule"]

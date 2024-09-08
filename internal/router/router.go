@@ -1,16 +1,29 @@
 package router
 
 import (
-	"github.com/gin-gonic/gin"
+	"embed"
+
+	"github.com/kataras/iris/v12"
 	"github.com/scutrobotlab/rm-schedule/internal/handler"
 )
 
 // Router defines the router for this service
-func Router(r *gin.Engine) {
-	api := r.Group("/api")
-	api.GET("/schedule", handler.ScheduleHandler)
-	api.GET("/group_rank_info", handler.GroupRankInfoHandler)
-	api.GET("/static/*path", handler.RMStaticHandler)
-	api.GET("/mp/match", handler.MpMatchHandler)
-	api.GET("/rank", handler.RankListHandler)
+func Router(r *iris.Application, frontend *embed.FS) {
+	api := r.Party("/api")
+	api.Get("/schedule", handler.ScheduleHandler)
+	api.Get("/group_rank_info", handler.GroupRankInfoHandler)
+	api.Get("/static/*path", handler.RMStaticHandler)
+	api.Get("/mp/match", handler.MpMatchHandler)
+	api.Get("/rank", handler.RankListHandler)
+
+	r.HandleDir("/", *frontend, iris.DirOptions{
+		IndexName: "index.html",
+		ShowList:  true,
+		Compress:  true,
+	})
+
+	// on 404, redirect to the index.html
+	r.OnErrorCode(iris.StatusNotFound, func(ctx iris.Context) {
+		ctx.Redirect("/", iris.StatusTemporaryRedirect)
+	})
 }

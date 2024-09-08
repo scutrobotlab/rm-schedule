@@ -3,8 +3,6 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/scutrobotlab/rm-schedule/internal/svc"
 	"io"
 	"log"
 	"net/http"
@@ -12,6 +10,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/kataras/iris/v12"
+	"github.com/scutrobotlab/rm-schedule/internal/svc"
 )
 
 const (
@@ -45,17 +46,19 @@ type MpMatchData struct {
 	TieRate    float64 `json:"tieRate"`
 }
 
-func MpMatchHandler(c *gin.Context) {
+func MpMatchHandler(c iris.Context) {
 	if MpMatchDisabled {
 		// 禁用时，返回空数据
 		c.Header("Cache-Control", "public, max-age=60")
-		c.JSON(200, MpMatchDstResp{List: make([]MpMatchData, 0)})
+		c.JSON(MpMatchDstResp{List: make([]MpMatchData, 0)})
 		return
 	}
 
-	matchIds := c.Query("match_ids")
+	// matchIds := c.Query("match_ids")
+	matchIds := c.URLParam("match_ids")
 	if matchIds == "" {
-		c.JSON(400, gin.H{"error": "match_ids is required"})
+		c.StatusCode(400)
+		c.JSON(iris.Map{"error": "match_ids is required"})
 		return
 	}
 
@@ -65,7 +68,8 @@ func MpMatchHandler(c *gin.Context) {
 		_id, err := strconv.Atoi(id)
 		if err != nil {
 			log.Printf("invalid match_id: %v", id)
-			c.JSON(400, gin.H{"error": "invalid match_id"})
+			c.StatusCode(400)
+			c.JSON(iris.Map{"error": "invalid match_id"})
 			return
 		}
 
@@ -74,7 +78,8 @@ func MpMatchHandler(c *gin.Context) {
 			data, err := loadMpMatch(_id)
 			if err != nil {
 				log.Printf("Failed to get mp match: %v\n", err)
-				c.JSON(500, gin.H{"code": -1, "msg": "Failed to get mp match"})
+				c.StatusCode(500)
+				c.JSON(iris.Map{"code": -1, "msg": "Failed to get mp match"})
 				return
 			}
 			mpMatchRespList = append(mpMatchRespList, *data)
@@ -94,7 +99,7 @@ func MpMatchHandler(c *gin.Context) {
 	}
 
 	c.Header("Cache-Control", "public, max-age=10")
-	c.JSON(200, MpMatchDstResp{List: mpMatchRespList})
+	c.JSON(MpMatchDstResp{List: mpMatchRespList})
 }
 
 func loadMpMatch(id int) (*MpMatchData, error) {

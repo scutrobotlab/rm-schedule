@@ -1,11 +1,12 @@
 package job
 
 import (
-	"github.com/patrickmn/go-cache"
-	"github.com/scutrobotlab/rm-schedule/internal/svc"
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/patrickmn/go-cache"
+	"github.com/scutrobotlab/rm-schedule/internal/svc"
 )
 
 const GroupRankInfoUrl = "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/live_json/group_rank_info.json"
