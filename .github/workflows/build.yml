@@ -13,8 +13,9 @@ jobs:
       - name: Checkout Frontend
         uses: actions/checkout@v4
         with:
-          submodules: 'recursive'
+          repository: scutrobotlab/rm-schedule-ui
           token: ${{ secrets.GH_PAT }}
+          path: frontend
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
