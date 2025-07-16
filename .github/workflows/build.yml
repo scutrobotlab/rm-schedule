@@ -16,6 +16,7 @@ jobs:
           repository: scutrobotlab/rm-schedule-ui
           token: ${{ secrets.GH_PAT }}
           path: frontend
+          ref: release
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
