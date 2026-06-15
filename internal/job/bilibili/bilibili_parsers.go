@@ -15,6 +15,44 @@ import (
 
 type Matches map[string]map[string][]types.MatchNode
 
+func intToChinese(num int) string {
+	if num == 0 {
+		return "零"
+	}
+
+	digits := []string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"}
+	units := []string{"", "十", "百", "千"}
+	parts := make([]string, 0, 8)
+	needZero := false
+
+	for unitPos := 0; num > 0; unitPos++ {
+		digit := num % 10
+		if digit == 0 {
+			if len(parts) > 0 {
+				needZero = true
+			}
+		} else {
+			part := digits[digit] + units[unitPos]
+			if needZero {
+				parts = append(parts, "零")
+				needZero = false
+			}
+			parts = append(parts, part)
+		}
+		num /= 10
+	}
+
+	for left, right := 0, len(parts)-1; left < right; left, right = left+1, right-1 {
+		parts[left], parts[right] = parts[right], parts[left]
+	}
+
+	result := strings.Join(parts, "")
+	if strings.HasPrefix(result, "一十") {
+		return strings.TrimPrefix(result, "一")
+	}
+	return result
+}
+
 func getMatches() Matches {
 	//返回赛季、赛区、比赛三级嵌套的map,列出从日程中获取的所有比赛信息
 	matches := Matches{}
@@ -108,7 +146,8 @@ func findMatchVideo(match *types.MatchNode, collection *types.BiliBiliCollection
 		}
 		videoTitle := video.Title
 		isCorrectOrderNum := strings.Contains(videoTitle, fmt.Sprintf("第%d场", match.OrderNumber)) ||
-			strings.Contains(videoTitle, fmt.Sprintf("第 %d 场", match.OrderNumber))
+			strings.Contains(videoTitle, fmt.Sprintf("第 %d 场", match.OrderNumber)) ||
+			strings.Contains(videoTitle, fmt.Sprintf("第%s场", intToChinese(match.OrderNumber)))
 		isCorrectBlueTeam := checkStringInclude(videoTitle, match.BlueSide.Player.Team.Name)
 		isCorrectBlueSchool := checkStringInclude(videoTitle, match.BlueSide.Player.Team.CollegeName)
 		isCorrectRedTeam := checkStringInclude(videoTitle, match.RedSide.Player.Team.Name)

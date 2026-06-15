@@ -47,7 +47,7 @@ func getCollectionList() ([]types.BiliBiliCollectionMetaData, error) {
 		if err != nil {
 			return []types.BiliBiliCollectionMetaData{}, fmt.Errorf("Failed to read collections page %d: %v\n", pageNum, err)
 		}
-		if data.Code != 0 || data.Message != "0" {
+		if data.Code != 0 || data.Message != "OK" {
 			return []types.BiliBiliCollectionMetaData{}, fmt.Errorf("Failed to read collections page %d: %s\n", pageNum, data.Message)
 		}
 
@@ -91,7 +91,7 @@ func getCollectionInfo(id int) (types.BiliBiliCollectionInfo, error) {
 	if err != nil {
 		return types.BiliBiliCollectionInfo{}, fmt.Errorf("Failed to get collection %d: %v\n", id, err)
 	}
-	if data.Code != 0 || data.Message != "0" {
+	if data.Code != 0 || data.Message != "OK" {
 		return types.BiliBiliCollectionInfo{}, fmt.Errorf("Failed to get collection %d: %v\n", id, data.Message)
 	}
 	return data, nil
