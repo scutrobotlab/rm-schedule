@@ -54,6 +54,17 @@ var RobotDataBytes2025 []byte
 //go:embed season_2025/bilibili_videos.json
 var BilibiliVideosBytes2025 []byte
 
+// 2026 赛季的静态文件
+
+//go:embed season_2026/schedule.json
+var ScheduleBytes2026 []byte
+
+//go:embed season_2026/group_rank_info.json
+var GroupRankInfoBytes2026 []byte
+
+//go:embed season_2026/robot_data.json
+var RobotDataBytes2026 []byte
+
 // 2024 赛季的静态文件
 
 //go:embed season_2024/complete_form.json
