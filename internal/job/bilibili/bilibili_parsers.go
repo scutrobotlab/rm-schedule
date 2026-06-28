@@ -3,14 +3,12 @@ package bilibili
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/scutrobotlab/rm-schedule/internal/common"
-	"github.com/scutrobotlab/rm-schedule/internal/router"
-	"github.com/scutrobotlab/rm-schedule/internal/static"
-	"github.com/scutrobotlab/rm-schedule/internal/svc"
-	"github.com/scutrobotlab/rm-schedule/internal/types"
-	"github.com/sirupsen/logrus"
 	"strconv"
 	"strings"
+
+	"github.com/scutrobotlab/rm-schedule/internal/static"
+	"github.com/scutrobotlab/rm-schedule/internal/types"
+	"github.com/sirupsen/logrus"
 )
 
 type Matches map[string]map[string][]types.MatchNode
@@ -60,13 +58,7 @@ func getMatches() Matches {
 	schedules := map[string][]byte{
 		"2024": static.ScheduleBytes2024,
 		"2025": static.ScheduleBytes2025,
-	}
-
-	if !router.RedirectParams[common.UpstreamNameSchedule].Static {
-		liveScheduleData, ok := svc.Cache.Get(router.RedirectParams[common.UpstreamNameSchedule].Name)
-		if ok {
-			schedules["2026"] = liveScheduleData.([]byte)
-		}
+		"2026": static.ScheduleBytes2026,
 	}
 
 	for season, scheduleBytes := range schedules {
