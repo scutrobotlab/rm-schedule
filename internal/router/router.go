@@ -20,6 +20,7 @@ func Router(r *iris.Application, frontend string) {
 	api.Get("/team_info", handler.TeamInfoHandler)
 	api.Get("/history_match", handler.HistoryMatchHandler)
 	api.Get("/live_json/*path", handler.ProxyLiveJsonHandler)
+	api.Get("/export_image", handler.ExportImageHandler)
 
 	r.HandleDir("/", iris.Dir(frontend), iris.DirOptions{
 		IndexName: "index.html",
