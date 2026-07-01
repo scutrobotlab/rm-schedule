@@ -9,7 +9,7 @@ COPY ./frontend /build
 
 RUN yarn build
 
-FROM golang:1.22.1-alpine as builder-backend
+FROM golang:1.26.4-alpine as builder-backend
 
 WORKDIR /build
 ADD ./go.mod ./go.sum /build/

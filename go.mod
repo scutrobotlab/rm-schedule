@@ -1,6 +1,6 @@
 module github.com/scutrobotlab/rm-schedule
 
-go 1.22.1
+go 1.26.4
 
 require (
 	github.com/kataras/iris/v12 v12.2.11

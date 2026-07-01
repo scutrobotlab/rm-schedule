@@ -14,7 +14,7 @@
 
 | 类别 | 技术 |
 |------|------|
-| 语言 | Go 1.22 |
+| 语言 | Go 1.26 |
 | Web 框架 | Iris v12（`github.com/kataras/iris/v12`） |
 | 内存缓存 | go-cache v2（`github.com/patrickmn/go-cache`） |
 | 定时任务 | robfig/cron v3 |
