@@ -1,6 +1,8 @@
 package router
 
 import (
+	"strings"
+
 	"github.com/kataras/iris/v12"
 	"github.com/scutrobotlab/rm-schedule/internal/common"
 	"github.com/scutrobotlab/rm-schedule/internal/handler"
@@ -28,8 +30,12 @@ func Router(r *iris.Application, frontend string) {
 		Compress:  true,
 	})
 
-	// on 404, redirect to the index.html
+	// 404 时回退到 index.html（而不是 Redirect 到 "/"），保留原始路径与 query，
+	// 交给前端 vue-router 处理 client-side 路由（如 /2026/616/export?group=0）。
 	r.OnErrorCode(iris.StatusNotFound, func(ctx iris.Context) {
-		ctx.Redirect("/", iris.StatusTemporaryRedirect)
+		if strings.HasPrefix(ctx.Path(), "/api/") {
+			return
+		}
+		ctx.ServeFile(frontend + "/index.html")
 	})
 }
