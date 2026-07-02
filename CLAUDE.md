@@ -21,7 +21,8 @@
 | 日志 | logrus |
 | 工具库 | samber/lo、golang.org/x/text |
 | 静态嵌入 | Go `embed` 指令（`//go:embed`） |
-| 容器 | Docker 多阶段构建（Go 编译 + alpine 运行） |
+| 容器 | Docker 多阶段构建（Go 编译 + alpine 运行，含 Chromium 与 CJK 字体） |
+| 无头浏览器 | chromedp（赛程图导出） |
 | CI/CD | GitHub Actions → 推送至 GHCR 与阿里云容器镜像服务 |
 
 ---
@@ -46,7 +47,10 @@ rm-schedule/
     │   ├── bilibili_replay.go     # /api/match_id_to_video、/api/match_order_to_video
     │   ├── team_info.go           # /api/team_info
     │   ├── history_match.go       # /api/history_match
-    │   └── live_json.go           # /api/live_json/*path 反向代理
+    │   ├── live_json.go           # /api/live_json/*path 反向代理
+    │   └── export_image.go        # /api/export_image 赛程图 PNG 导出
+    ├── render/
+    │   └── schedule_image.go      # chromedp 渲染导出页、singleflight + 15s 缓存
     ├── job/
     │   ├── init.go                # InitCronJob：注册所有 cron 任务
     │   ├── job_factory.go         # CronJobFactory：拉取 OSS JSON 并写入 svc.Cache
@@ -62,7 +66,7 @@ rm-schedule/
     │   ├── season_2024/           # 2024 赛季快照
     │   └── season_2025/           # 2025 赛季快照
     ├── svc/
-    │   └── service_context.go     # 全局 go-cache 单例（svc.Cache）
+    │   └── service_context.go     # 全局 go-cache 单例（svc.Cache）、chromedp allocator
     ├── types/
     │   ├── schedule.go            # 赛程域核心类型：Event/ZoneNode/MatchNode/Side 等
     │   └── bilibili.go            # B 站合集、稿件、回放映射类型
@@ -81,6 +85,7 @@ rm-schedule/
 - **CDN 回源**：请求头携带 `Tencent-Acceleration-Domain-Name` 时，直接 301 重定向到 OSS 原始 URL，减少本机流量
 - **小程序投票**：代理 `mp.robomaster.com` 接口，计算红蓝支持比例并短时缓存
 - **历史交手查询**：从内嵌 `history_match.json` 按学校/队名检索历史对阵记录
+- **赛程图导出**：`/api/export_image` 通过 chromedp 无头浏览器打开前端 `/:season/:zoneId/export` 页面，调用 `relation-graph` 的 `getImageBase64()` 生成 PNG；结果带 15s TTL 缓存与 singleflight 去重，并发渲染上限 3
 
 ---
 
@@ -101,6 +106,7 @@ rm-schedule/
 | GET | `/api/history_match` | 两队历史对阵（`?primary_college_name=&secondary_college_name=`） |
 | GET | `/api/static/*path` | 静态资源代理（可选 `?process=bg_white`） |
 | GET | `/api/live_json/*path` | 反向代理 `https://rm-static.djicdn.com/live_json/...` |
+| GET | `/api/export_image` | 赛程图 PNG 导出（`?season=&zone=` 必填，`group` 默认 0，`scale` 默认 2） |
 | GET | `/` | 托管前端 SPA（`./public`），404 → 302 到 `/` |
 
 ---
@@ -156,6 +162,24 @@ go mod tidy
 go build -o rm-schedule .
 ./rm-schedule        # 监听 :8080，./public 为前端目录
 ```
+
+**本地无 Docker 调试（赛程图导出）：**
+
+`/api/export_image` 需要 chromedp 打开前端导出页。本地 `frontend` 子模块通常为空，需并行启动 `rm-schedule-ui` 的 vite dev server，并把 `SCHEDULE_RENDER_BASE_URL` 指向它：
+
+```bash
+# 终端 A
+cd rm-schedule-ui && yarn dev    # :3000，/api 代理到 :8080
+
+# 终端 B
+cd rm-schedule
+SCHEDULE_RENDER_BASE_URL=http://localhost:3000 go run .
+
+# 验证
+curl "http://localhost:8080/api/export_image?season=2026&zone=616&group=0" -o out.png
+```
+
+本机需已安装 Chrome 或 Chromium（macOS 下 chromedp 自动探测，无需 `CHROME_PATH`）。Docker/生产环境默认 `SCHEDULE_RENDER_BASE_URL=http://127.0.0.1:8080`，容器内已安装 `chromium` 与 `font-noto-cjk` 字体。
 
 **构建 Docker 镜像**（Dockerfile 依赖 `./frontend` 子目录存放前端源码）：
 

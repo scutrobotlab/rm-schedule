@@ -3,11 +3,13 @@ module github.com/scutrobotlab/rm-schedule
 go 1.26.4
 
 require (
+	github.com/chromedp/chromedp v0.15.1
 	github.com/kataras/iris/v12 v12.2.11
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/robfig/cron/v3 v3.0.0
 	github.com/samber/lo v1.39.0
 	github.com/sirupsen/logrus v1.9.3
+	golang.org/x/sync v0.21.0
 	golang.org/x/text v0.18.0
 )
 
@@ -19,8 +21,14 @@ require (
 	github.com/Shopify/goreferrer v0.0.0-20240724165105-aceaa0259138 // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
+	github.com/chromedp/cdproto v0.0.0-20260321001828-e3e3800016bc // indirect
+	github.com/chromedp/sysutil v1.1.0 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/flosch/pongo2/v4 v4.0.2 // indirect
+	github.com/go-json-experiment/json v0.0.0-20260214004413-d219187c3433 // indirect
+	github.com/gobwas/httphead v0.1.0 // indirect
+	github.com/gobwas/pool v0.2.1 // indirect
+	github.com/gobwas/ws v1.4.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gomarkdown/markdown v0.0.0-20240730141124-034f12af3bf6 // indirect
 	github.com/google/uuid v1.6.0 // indirect
@@ -48,7 +56,7 @@ require (
 	golang.org/x/crypto v0.27.0 // indirect
 	golang.org/x/exp v0.0.0-20240904232852-e7e105dedf7e // indirect
 	golang.org/x/net v0.29.0 // indirect
-	golang.org/x/sys v0.25.0 // indirect
+	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/time v0.6.0 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect

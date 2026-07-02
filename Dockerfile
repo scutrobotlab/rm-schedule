@@ -20,7 +20,9 @@ COPY . .
 
 RUN go build -trimpath -ldflags "-s -w" -o /build/bin/rm-schedule
 
-FROM alpine:3.14
+FROM alpine:3.20
+
+RUN apk add --no-cache chromium ca-certificates font-noto-cjk ttf-freefont
 
 WORKDIR /app
 
