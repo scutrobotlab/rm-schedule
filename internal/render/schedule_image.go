@@ -18,6 +18,7 @@ const (
 	exportOutputID   = "schedule-export-output"
 	maxConcurrent    = 3
 	resultCacheTTL   = 15 * time.Second
+	errorCacheTTL    = 3 * time.Second
 	maxRenderTimeout = 90 * time.Second
 	pollInterval     = 100 * time.Millisecond
 	defaultViewportW = 1920
@@ -27,6 +28,7 @@ const (
 var (
 	sem         = make(chan struct{}, maxConcurrent)
 	resultCache = cache.New(resultCacheTTL, time.Minute)
+	errorCache  = cache.New(errorCacheTTL, time.Minute)
 	sfGroup     singleflight.Group
 )
 
@@ -54,23 +56,32 @@ func cacheKey(season, zoneID, group int, scale float64) string {
 
 func RenderScheduleImage(ctx context.Context, season, zoneID, group int, scale float64) ([]byte, bool, error) {
 	key := cacheKey(season, zoneID, group, scale)
-	if cached, found := resultCache.Get(key); found {
-		return cached.([]byte), true, nil
+	if img, ok := cachedImage(key); ok {
+		return img, true, nil
+	}
+	if err, ok := cachedError(key); ok {
+		return nil, false, err
 	}
 
-	renderCtx, cancel := context.WithTimeout(ctx, maxRenderTimeout)
-	defer cancel()
-
 	ch := sfGroup.DoChan(key, func() (interface{}, error) {
-		if cached, found := resultCache.Get(key); found {
-			return renderCacheResult{cached.([]byte), true}, nil
+		if img, ok := cachedImage(key); ok {
+			return renderCacheResult{img, true}, nil
 		}
+		if err, ok := cachedError(key); ok {
+			return nil, err
+		}
+
+		renderCtx, cancel := context.WithTimeout(context.Background(), maxRenderTimeout)
+		defer cancel()
 
 		img, err := renderScheduleImage(renderCtx, season, zoneID, group, scale)
 		if err == nil {
+			errorCache.Delete(key)
 			resultCache.Set(key, img, resultCacheTTL)
+			return renderCacheResult{img, false}, nil
 		}
-		return renderCacheResult{img, false}, err
+		errorCache.Set(key, err, errorCacheTTL)
+		return renderCacheResult{}, err
 	})
 
 	select {
@@ -91,6 +102,25 @@ func RenderScheduleImage(ctx context.Context, season, zoneID, group int, scale f
 type renderCacheResult struct {
 	img    []byte
 	cached bool
+}
+
+// cachedImage returns a cache hit. The slice is shared across callers; do not mutate it.
+func cachedImage(key string) ([]byte, bool) {
+	cached, found := resultCache.Get(key)
+	if !found {
+		return nil, false
+	}
+	img, ok := cached.([]byte)
+	return img, ok
+}
+
+func cachedError(key string) (error, bool) {
+	cached, found := errorCache.Get(key)
+	if !found {
+		return nil, false
+	}
+	err, ok := cached.(error)
+	return err, ok
 }
 
 func renderScheduleImage(ctx context.Context, season, zoneID, group int, scale float64) ([]byte, error) {
