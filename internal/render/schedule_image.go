@@ -52,44 +52,45 @@ func cacheKey(season, zoneID, group int, scale float64) string {
 	return fmt.Sprintf("%d:%d:%d:%g", season, zoneID, group, scale)
 }
 
-func RenderScheduleImage(ctx context.Context, season, zoneID, group int, scale float64) ([]byte, error) {
+func RenderScheduleImage(ctx context.Context, season, zoneID, group int, scale float64) ([]byte, bool, error) {
 	key := cacheKey(season, zoneID, group, scale)
 	if cached, found := resultCache.Get(key); found {
-		return cached.([]byte), nil
+		return cached.([]byte), true, nil
 	}
 
-	// singleflight 的 fn 由第一个到达的调用者触发执行，因此用它的 ctx 派生渲染
-	// ctx：该请求断开/超时会真正取消共享的 Chrome tab，而不仅仅是让当前
-	// select 提前返回（若改用 context.Background()，即便所有等待者都已
-	// 断开，后台渲染仍会跑满 maxRenderTimeout，白白占着信号量与 tab）。
 	renderCtx, cancel := context.WithTimeout(ctx, maxRenderTimeout)
 	defer cancel()
 
 	ch := sfGroup.DoChan(key, func() (interface{}, error) {
 		if cached, found := resultCache.Get(key); found {
-			return cached.([]byte), nil
+			return renderCacheResult{cached.([]byte), true}, nil
 		}
 
 		img, err := renderScheduleImage(renderCtx, season, zoneID, group, scale)
 		if err == nil {
 			resultCache.Set(key, img, resultCacheTTL)
 		}
-		return img, err
+		return renderCacheResult{img, false}, err
 	})
 
 	select {
 	case result := <-ch:
 		if result.Err != nil {
-			return nil, result.Err
+			return nil, false, result.Err
 		}
-		img, ok := result.Val.([]byte)
+		val, ok := result.Val.(renderCacheResult)
 		if !ok {
-			return nil, &RenderError{Msg: "empty render result"}
+			return nil, false, &RenderError{Msg: "empty render result"}
 		}
-		return img, nil
+		return val.img, val.cached, nil
 	case <-ctx.Done():
-		return nil, &TimeoutError{Msg: ctx.Err().Error()}
+		return nil, false, &TimeoutError{Msg: ctx.Err().Error()}
 	}
+}
+
+type renderCacheResult struct {
+	img    []byte
+	cached bool
 }
 
 func renderScheduleImage(ctx context.Context, season, zoneID, group int, scale float64) ([]byte, error) {

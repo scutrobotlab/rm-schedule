@@ -3,31 +3,50 @@ package handler
 import (
 	"errors"
 	"strconv"
+	"time"
 
 	"github.com/kataras/iris/v12"
 	"github.com/scutrobotlab/rm-schedule/internal/render"
+	"github.com/sirupsen/logrus"
 )
 
+func exportImageFields(season, zone, group int, scale float64) logrus.Fields {
+	return logrus.Fields{
+		"season": season,
+		"zone":   zone,
+		"group":  group,
+		"scale":  scale,
+	}
+}
+
 func ExportImageHandler(c iris.Context) {
+	start := time.Now()
+
+	writeBadRequest := func(msg string, fields logrus.Fields) {
+		logrus.WithFields(fields).WithField("reason", msg).Error("export_image failed")
+		c.StatusCode(400)
+		_, _ = c.WriteString(msg)
+	}
+
 	seasonStr := c.URLParam("season")
 	zoneStr := c.URLParam("zone")
 	if seasonStr == "" || zoneStr == "" {
-		c.StatusCode(400)
-		_, _ = c.WriteString("season and zone are required")
+		writeBadRequest("season and zone are required", logrus.Fields{
+			"season": seasonStr,
+			"zone":   zoneStr,
+		})
 		return
 	}
 
 	season, err := strconv.Atoi(seasonStr)
 	if err != nil {
-		c.StatusCode(400)
-		_, _ = c.WriteString("season must be an integer")
+		writeBadRequest("season must be an integer", logrus.Fields{"season": seasonStr})
 		return
 	}
 
 	zone, err := strconv.Atoi(zoneStr)
 	if err != nil {
-		c.StatusCode(400)
-		_, _ = c.WriteString("zone must be an integer")
+		writeBadRequest("zone must be an integer", logrus.Fields{"zone": zoneStr})
 		return
 	}
 
@@ -35,8 +54,7 @@ func ExportImageHandler(c iris.Context) {
 	if groupStr := c.URLParam("group"); groupStr != "" {
 		group, err = strconv.Atoi(groupStr)
 		if err != nil {
-			c.StatusCode(400)
-			_, _ = c.WriteString("group must be an integer")
+			writeBadRequest("group must be an integer", exportImageFields(season, zone, 0, 0))
 			return
 		}
 	}
@@ -45,30 +63,39 @@ func ExportImageHandler(c iris.Context) {
 	if scaleStr := c.URLParam("scale"); scaleStr != "" {
 		scale, err = strconv.ParseFloat(scaleStr, 64)
 		if err != nil || scale < 1 || scale > 8 {
-			c.StatusCode(400)
-			_, _ = c.WriteString("scale must be a number between 1 and 8")
+			writeBadRequest("scale must be a number between 1 and 8", exportImageFields(season, zone, group, 0))
 			return
 		}
 	}
 
-	img, err := render.RenderScheduleImage(c.Request().Context(), season, zone, group, scale)
+	fields := exportImageFields(season, zone, group, scale)
+	logrus.WithFields(fields).Info("export_image start")
+
+	img, cached, err := render.RenderScheduleImage(c.Request().Context(), season, zone, group, scale)
 	if err != nil {
+		statusCode := 502
 		var paramErr *render.ParamError
 		var timeoutErr *render.TimeoutError
 		switch {
 		case errors.As(err, &paramErr):
-			c.StatusCode(400)
-			_, _ = c.WriteString(paramErr.Error())
+			statusCode = 400
 		case errors.As(err, &timeoutErr):
-			c.StatusCode(504)
-			_, _ = c.WriteString(timeoutErr.Error())
-		default:
-			c.StatusCode(502)
-			_, _ = c.WriteString(err.Error())
+			statusCode = 504
 		}
+		logrus.WithFields(fields).WithFields(logrus.Fields{
+			"duration":    time.Since(start).Truncate(time.Millisecond),
+			"status_code": statusCode,
+		}).WithError(err).Error("export_image failed")
+		c.StatusCode(statusCode)
+		_, _ = c.WriteString(err.Error())
 		return
 	}
 
 	c.Header("Content-Type", "image/png")
 	_, _ = c.Write(img)
+	logrus.WithFields(fields).WithFields(logrus.Fields{
+		"duration": time.Since(start).Truncate(time.Millisecond),
+		"bytes":    len(img),
+		"cached":   cached,
+	}).Info("export_image success")
 }
