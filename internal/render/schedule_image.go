@@ -74,7 +74,7 @@ func RenderScheduleImage(ctx context.Context, season, zoneID, group int, scale f
 		renderCtx, cancel := context.WithTimeout(context.Background(), maxRenderTimeout)
 		defer cancel()
 
-		img, err := renderScheduleImage(renderCtx, season, zoneID, group, scale)
+		img, err := RenderOnce(renderCtx, season, zoneID, group, scale)
 		if err == nil {
 			errorCache.Delete(key)
 			resultCache.Set(key, img, resultCacheTTL)
@@ -123,7 +123,8 @@ func cachedError(key string) (error, bool) {
 	return err, ok
 }
 
-func renderScheduleImage(ctx context.Context, season, zoneID, group int, scale float64) ([]byte, error) {
+// RenderOnce 执行一次 chromedp 渲染，不含 TTL 缓存；供 HTTP 路径（经 singleflight）与后台任务直接调用。
+func RenderOnce(ctx context.Context, season, zoneID, group int, scale float64) ([]byte, error) {
 	select {
 	case sem <- struct{}{}:
 		defer func() { <-sem }()

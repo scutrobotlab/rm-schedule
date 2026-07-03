@@ -6,12 +6,6 @@ import (
 	"github.com/scutrobotlab/rm-schedule/internal/static"
 )
 
-var archived2026RegionalZoneIDs = map[string]struct{}{
-	"614": {},
-	"615": {},
-	"616": {},
-}
-
 // RedirectParams 定义重定向路由的参数
 var RedirectParams = map[string]handler.RedirectRouteHandlerParam{
 	common.UpstreamNameGroupRankInfo: {
@@ -27,7 +21,7 @@ var RedirectParams = map[string]handler.RedirectRouteHandlerParam{
 		StaticZoneSeasonMap: map[string]handler.StaticZoneSeason{
 			"2026": {
 				Data:        static.GroupRankInfoBytes2026,
-				ZoneIDs:     archived2026RegionalZoneIDs,
+				ZoneIDs:     static.ArchivedZoneIDs,
 				ZonePath:    []string{"zones"},
 				ZoneIDField: "zoneId",
 			},
@@ -45,7 +39,7 @@ var RedirectParams = map[string]handler.RedirectRouteHandlerParam{
 		StaticZoneSeasonMap: map[string]handler.StaticZoneSeason{
 			"2026": {
 				Data:        static.RobotDataBytes2026,
-				ZoneIDs:     archived2026RegionalZoneIDs,
+				ZoneIDs:     static.ArchivedZoneIDs,
 				ZonePath:    []string{"zones"},
 				ZoneIDField: "zoneId",
 			},
@@ -64,7 +58,7 @@ var RedirectParams = map[string]handler.RedirectRouteHandlerParam{
 		StaticZoneSeasonMap: map[string]handler.StaticZoneSeason{
 			"2026": {
 				Data:        static.ScheduleBytes2026,
-				ZoneIDs:     archived2026RegionalZoneIDs,
+				ZoneIDs:     static.ArchivedZoneIDs,
 				ZonePath:    []string{"data", "event", "zones", "nodes"},
 				ZoneIDField: "id",
 			},
