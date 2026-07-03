@@ -30,7 +30,10 @@ type exportManifestResponse struct {
 	Groups []exportManifestGroup `json:"groups"`
 }
 
+// ExportManifestHandler 返回当前赛季指定 zone 下各 part 的渲染状态与图片 URL。
+// status=pending 时 image_url 可能为空或指向上一版旧图。
 func ExportManifestHandler(c iris.Context) {
+	// 状态会被轮询，禁止缓存以免返回 stale 的 pending/ready。
 	c.Header("Cache-Control", "no-store")
 
 	seasonStr := c.URLParam("season")

@@ -26,6 +26,8 @@ func Bootstrap(store storage.Store) {
 	go renderMissingArchivedZones(store, cfg)
 }
 
+// renderMissingArchivedZones 对归档赛区（static.ArchivedZoneIDs）中磁盘尚无图片的 part
+// 各渲染一次并永久保留；不再监听后续 schedule 变化。
 func renderMissingArchivedZones(store storage.Store, cfg Config) {
 	ctx := context.Background()
 	for _, zone := range static.CurrentSeasonZones {

@@ -11,8 +11,9 @@ import (
 	"github.com/scutrobotlab/rm-schedule/internal/storage"
 )
 
-const staticScheduleHash = "static"
+const staticScheduleHash = "static" // 归档赛区占位 hash，不参与 watcher 变化检测
 
+// MetaFile 与图片同目录同名，后缀 .meta.json；存在即表示对应 png 已完整落盘。
 type MetaFile struct {
 	Season       int       `json:"season"`
 	ZoneID       int       `json:"zone_id"`
@@ -20,7 +21,7 @@ type MetaFile struct {
 	ScheduleHash string    `json:"schedule_hash"`
 	UpdatedAt    time.Time `json:"updated_at"`
 	Scale        float64   `json:"scale"`
-	Static       bool      `json:"static"`
+	Static       bool      `json:"static"` // true 表示归档赛区，渲染一次后不再监听变化
 }
 
 func imageKey(season, zoneID, partIndex int) string {
@@ -47,6 +48,7 @@ func readMetaFile(path string) (MetaFile, error) {
 	return meta, nil
 }
 
+// writeMeta 必须在图片 Save 成功之后调用；采用 tmp + rename 保证原子写入。
 func writeMeta(storageDir string, meta MetaFile) error {
 	key := imageKey(meta.Season, meta.ZoneID, meta.Group)
 	path, err := metaPath(storageDir, key)

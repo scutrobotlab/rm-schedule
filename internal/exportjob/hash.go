@@ -17,6 +17,7 @@ func zoneHashFromSchedule(scheduleData []byte, zoneID int) (string, error) {
 		return "", fmt.Errorf("zone %d not found in schedule", zoneID)
 	}
 
+	// 粒度为整个 zone 子树：任一 part 相关数据变化都会触发该 zone 下全部 part 重渲染。
 	payload := make(map[string]any, 3)
 	for _, key := range []string{"groups", "groupMatches", "knockoutMatches"} {
 		if v, ok := zoneNode[key]; ok {

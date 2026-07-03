@@ -27,6 +27,7 @@ func Router(r *iris.Application, frontend string) {
 	api.Get("/export_manifest", handler.ExportManifestHandler)
 
 	if storage.EnvStorageBackend() == "local" {
+		// cos 后端时图片 URL 由 CosStore 直接返回，不走本地静态托管。
 		r.HandleDir("/api/export_static", iris.Dir(storage.EnvStorageDir()), iris.DirOptions{
 			IndexName: "",
 			ShowList:  false,

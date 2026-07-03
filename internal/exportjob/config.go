@@ -1,3 +1,6 @@
+// Package exportjob 负责当前赛季赛程图的预渲染、持久化与状态查询。
+// watcher 周期性对比 schedule hash 触发渲染；Bootstrap 从本地 meta 恢复状态，
+// 并对归档赛区补做一次性渲染。
 package exportjob
 
 import (
@@ -19,11 +22,11 @@ const (
 )
 
 type Config struct {
-	Enabled        bool
-	StorageDir     string
-	PublicBaseURL  string
-	RenderCooldown time.Duration
-	Scale          float64
+	Enabled        bool          // SCHEDULE_EXPORT_ENABLED，默认 true
+	StorageDir     string        // 本地图片与 meta 目录
+	PublicBaseURL  string        // 图片 URL 域名前缀，空则返回相对路径
+	RenderCooldown time.Duration // 同一 zone 两次渲染的最小间隔
+	Scale          float64       // chromedp 渲染缩放倍数
 }
 
 func loadConfig() Config {

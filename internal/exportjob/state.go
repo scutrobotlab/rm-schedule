@@ -22,16 +22,17 @@ type PartState struct {
 	Type         string
 	Group        string
 	Status       Status
-	ImageURL     string
+	ImageURL     string    // pending/error 时可能仍指向上一版旧图
 	UpdatedAt    time.Time
 	ScheduleHash string
-	Error        string
+	Error        string // 仅内存态，不落盘；重启后随渲染重试自然消失
 }
 
+// zoneWatchState 记录单个 zone 的 hash 监听状态（粒度为整个 zone，非单个 part）。
 type zoneWatchState struct {
-	lastHash     string
-	lastRenderAt time.Time
-	pending      bool
+	lastHash     string    // 上次全部 part 渲染成功时对应的 schedule hash
+	lastRenderAt time.Time // 上次触发渲染的时间，用于冷却期计算
+	pending      bool      // 冷却期内检测到变化，或上次渲染未全部成功
 }
 
 type manager struct {
@@ -124,6 +125,7 @@ func (m *manager) setPartReady(season, zoneID int, part static.PartManifest, ima
 
 func (m *manager) setPartPending(season, zoneID int, part static.PartManifest) {
 	st := m.getOrCreatePart(season, zoneID, part)
+	// 仅将 ready 降为 pending；保留 ImageURL 以便 manifest 继续返回旧图。
 	if st.Status == StatusReady {
 		st.Status = StatusPending
 	}
@@ -133,7 +135,7 @@ func (m *manager) setPartPending(season, zoneID int, part static.PartManifest) {
 func (m *manager) setPartError(season, zoneID int, part static.PartManifest, errMsg string) {
 	st := m.getOrCreatePart(season, zoneID, part)
 	st.Status = StatusError
-	st.Error = errMsg
+	st.Error = errMsg // 不清理 ImageURL，调用方可继续展示上一版成功图片
 }
 
 func (m *manager) zoneWatch(season, zoneID int) *zoneWatchState {
@@ -172,6 +174,7 @@ func (m *manager) restoreFromMeta(meta MetaFile, imageURL string) {
 	st.Error = ""
 
 	if !meta.Static {
+		// 归档赛区不参与 watcher hash 对比，重启后也不会因 schedule 变化而重渲染。
 		zs := m.zoneWatch(meta.Season, meta.ZoneID)
 		if meta.ScheduleHash != "" && meta.ScheduleHash != staticScheduleHash {
 			zs.lastHash = meta.ScheduleHash

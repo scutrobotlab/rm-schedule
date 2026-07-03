@@ -26,7 +26,7 @@ func CheckAndRender(store storage.Store) {
 
 	for _, zone := range static.CurrentSeasonZones {
 		if isArchivedZone(zone.ID) {
-			continue
+			continue // 归档赛区由 Bootstrap 一次性渲染，不由 watcher 监听
 		}
 
 		hash, err := zoneHashFromSchedule(scheduleData, zone.ID)

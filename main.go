@@ -18,10 +18,11 @@ func main() {
 	if err != nil {
 		logrus.Fatalf("init export storage failed: %v", err)
 	}
-	exportjob.Bootstrap(exportStore)
+	exportjob.Bootstrap(exportStore) // 同步恢复 meta，归档区缺图渲染在后台进行
 
 	cron := job.InitCronJob()
 
+	// 与 OSS schedule 拉取同频（5s），对比 hash 后按需触发后台渲染。
 	checkAndRenderExport := func() { exportjob.CheckAndRender(exportStore) }
 	if _, err := cron.AddFunc("@every 5s", checkAndRenderExport); err != nil {
 		logrus.Fatalf("cron add func failed: %v", err)
