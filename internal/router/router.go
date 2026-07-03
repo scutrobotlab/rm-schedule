@@ -6,6 +6,7 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/scutrobotlab/rm-schedule/internal/common"
 	"github.com/scutrobotlab/rm-schedule/internal/handler"
+	"github.com/scutrobotlab/rm-schedule/internal/storage"
 )
 
 // Router defines the router for this service
@@ -23,6 +24,15 @@ func Router(r *iris.Application, frontend string) {
 	api.Get("/history_match", handler.HistoryMatchHandler)
 	api.Get("/live_json/*path", handler.ProxyLiveJsonHandler)
 	api.Get("/export_image", handler.ExportImageHandler)
+	api.Get("/export_manifest", handler.ExportManifestHandler)
+
+	if storage.EnvStorageBackend() == "local" {
+		r.HandleDir("/api/export_static", iris.Dir(storage.EnvStorageDir()), iris.DirOptions{
+			IndexName: "",
+			ShowList:  false,
+			Compress:  false,
+		})
+	}
 
 	r.HandleDir("/", iris.Dir(frontend), iris.DirOptions{
 		IndexName: "index.html",

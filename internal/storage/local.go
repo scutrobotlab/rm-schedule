@@ -99,3 +99,8 @@ func resolveDestPath(baseDir, key string) (string, error) {
 
 	return destPath, nil
 }
+
+// ResolveDestPath 将相对 storage key 解析为 baseDir 下的绝对路径，并校验不会逃逸出 baseDir。
+func ResolveDestPath(baseDir, key string) (string, error) {
+	return resolveDestPath(baseDir, key)
+}

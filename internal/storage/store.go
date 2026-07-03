@@ -23,9 +23,26 @@ const (
 	envCOSSecretKey     = "SCHEDULE_EXPORT_COS_SECRET_KEY"
 	envCOSDomain        = "SCHEDULE_EXPORT_COS_DOMAIN"
 
-	defaultStorageDir    = "./data/export_images"
+	defaultStorageDir     = "./data/export_images"
 	defaultStorageBackend = "local"
 )
+
+// EnvStorageDir 返回本地存储目录（SCHEDULE_EXPORT_STORAGE_DIR，默认 ./data/export_images）。
+func EnvStorageDir() string {
+	if dir := strings.TrimSpace(os.Getenv(envStorageDir)); dir != "" {
+		return dir
+	}
+	return defaultStorageDir
+}
+
+// EnvStorageBackend 返回存储后端名称（SCHEDULE_EXPORT_STORAGE_BACKEND，默认 local）。
+func EnvStorageBackend() string {
+	backend := strings.ToLower(strings.TrimSpace(os.Getenv(envStorageBackend)))
+	if backend == "" {
+		return defaultStorageBackend
+	}
+	return backend
+}
 
 // NewStoreFromEnv 按 SCHEDULE_EXPORT_STORAGE_BACKEND 选择存储实现（local | cos，默认 local）。
 func NewStoreFromEnv() (Store, error) {
