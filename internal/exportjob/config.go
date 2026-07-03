@@ -52,7 +52,7 @@ func loadConfig() Config {
 	return Config{
 		Enabled:        enabled,
 		StorageDir:     storage.EnvStorageDir(),
-		PublicBaseURL:  strings.TrimSpace(os.Getenv("SCHEDULE_EXPORT_PUBLIC_BASE_URL")),
+		PublicBaseURL:  storage.EnvPublicBaseURL(),
 		RenderCooldown: cooldown,
 		Scale:          scale,
 	}

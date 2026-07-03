@@ -11,7 +11,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Bootstrap 扫描本地 meta 文件恢复内存状态，并对归档赛区缺失的图片执行一次性渲染。
+// Bootstrap 扫描本地 meta 文件恢复内存状态（同步、快速），并在后台异步对归档赛区中
+// 缺失的图片执行一次性渲染（可能耗时较久，不阻塞进程启动/HTTP 监听）。
 func Bootstrap(store storage.Store) {
 	cfg := loadConfig()
 	if !cfg.Enabled {
@@ -22,6 +23,10 @@ func Bootstrap(store storage.Store) {
 	initManager(cfg)
 	restoreFromDisk(cfg)
 
+	go renderMissingArchivedZones(store, cfg)
+}
+
+func renderMissingArchivedZones(store storage.Store, cfg Config) {
 	ctx := context.Background()
 	for _, zone := range static.CurrentSeasonZones {
 		if !isArchivedZone(zone.ID) {
@@ -58,6 +63,14 @@ func restoreFromDisk(cfg Config) {
 		meta, err := readMetaFile(path)
 		if err != nil {
 			logrus.WithField("path", path).WithError(err).Warn("export bootstrap: skip invalid meta")
+			return nil
+		}
+		if meta.Season != static.CurrentSeason {
+			// 赛季切换后遗留的旧 meta 文件，跳过，不纳入当前状态表。
+			return nil
+		}
+		if _, ok := static.FindCurrentSeasonZone(meta.ZoneID); !ok {
+			logrus.WithField("path", path).Warn("export bootstrap: zone not in current manifest, skip")
 			return nil
 		}
 

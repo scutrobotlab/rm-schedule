@@ -3,7 +3,6 @@ package exportjob
 import (
 	"context"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/scutrobotlab/rm-schedule/internal/common"
@@ -14,13 +13,21 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func renderZoneParts(ctx context.Context, store storage.Store, cfg Config, zone static.ZoneManifest, scheduleHash string, isStatic bool) {
+// renderZoneParts 渲染 zone 下所有 part，返回是否全部成功。
+// 调用方（watcher）据此决定是否推进 zone 的 lastHash：只有全部成功才推进，
+// 否则保留旧 hash 以便下次 tick（冷却期结束后）自动重试失败的 part。
+func renderZoneParts(ctx context.Context, store storage.Store, cfg Config, zone static.ZoneManifest, scheduleHash string, isStatic bool) bool {
+	allSucceeded := true
 	for _, part := range zone.Parts {
-		renderPart(ctx, store, cfg, zone, part, scheduleHash, isStatic)
+		if !renderPart(ctx, store, cfg, zone, part, scheduleHash, isStatic) {
+			allSucceeded = false
+		}
 	}
+	return allSucceeded
 }
 
-func renderPart(ctx context.Context, store storage.Store, cfg Config, zone static.ZoneManifest, part static.PartManifest, scheduleHash string, isStatic bool) {
+// renderPart 渲染单个 part 并落盘，返回是否成功。
+func renderPart(ctx context.Context, store storage.Store, cfg Config, zone static.ZoneManifest, part static.PartManifest, scheduleHash string, isStatic bool) bool {
 	fields := logrus.Fields{
 		"season": static.CurrentSeason,
 		"zone":   zone.ID,
@@ -28,28 +35,29 @@ func renderPart(ctx context.Context, store storage.Store, cfg Config, zone stati
 		"static": isStatic,
 	}
 
+	fail := func(stage string, err error) bool {
+		logrus.WithFields(fields).WithError(err).Errorf("export %s failed", stage)
+		defaultManager.mu.Lock()
+		defaultManager.setPartError(static.CurrentSeason, zone.ID, part, err.Error())
+		defaultManager.mu.Unlock()
+		return false
+	}
+
 	renderCtx, cancel := context.WithTimeout(ctx, 90*time.Second)
 	defer cancel()
 
 	img, err := render.RenderOnce(renderCtx, static.CurrentSeason, zone.ID, part.Index, cfg.Scale)
 	if err != nil {
-		logrus.WithFields(fields).WithError(err).Error("export render failed")
-		defaultManager.mu.Lock()
-		defaultManager.setPartError(static.CurrentSeason, zone.ID, part, err.Error())
-		defaultManager.mu.Unlock()
-		return
+		return fail("render", err)
 	}
 
 	key := imageKey(static.CurrentSeason, zone.ID, part.Index)
-	imageURL, err := store.Save(ctx, key, img)
-	if err != nil {
-		logrus.WithFields(fields).WithError(err).Error("export save failed")
-		defaultManager.mu.Lock()
-		defaultManager.setPartError(static.CurrentSeason, zone.ID, part, err.Error())
-		defaultManager.mu.Unlock()
-		return
+	if _, err := store.Save(ctx, key, img); err != nil {
+		return fail("save", err)
 	}
 
+	// updatedAt 同时作为 meta 落盘时间与图片 URL 的 ?v= 版本号，二者必须一致，
+	// 因此不采用 store.Save 返回的 URL（其内部另行生成时间戳），而是统一由 imageURLFromMeta 构造。
 	now := time.Now()
 	meta := MetaFile{
 		Season:       static.CurrentSeason,
@@ -61,28 +69,24 @@ func renderPart(ctx context.Context, store storage.Store, cfg Config, zone stati
 		Static:       isStatic,
 	}
 	if err := writeMeta(cfg.StorageDir, meta); err != nil {
-		logrus.WithFields(fields).WithError(err).Error("export meta write failed")
-		defaultManager.mu.Lock()
-		defaultManager.setPartError(static.CurrentSeason, zone.ID, part, err.Error())
-		defaultManager.mu.Unlock()
-		return
+		return fail("meta write", err)
 	}
+
+	imageURL := imageURLFromMeta(cfg, meta)
 
 	defaultManager.mu.Lock()
 	defaultManager.setPartReady(static.CurrentSeason, zone.ID, part, imageURL, scheduleHash, now)
 	defaultManager.mu.Unlock()
 
 	logrus.WithFields(fields).WithField("bytes", len(img)).Info("export render success")
+	return true
 }
 
 func imageURLFromMeta(cfg Config, meta MetaFile) string {
 	key := imageKey(meta.Season, meta.ZoneID, meta.Group)
-	v := meta.UpdatedAt.Unix()
-	urlPath := "/api/export_static/" + key + fmt.Sprintf("?v=%d", v)
-
-	baseURL := strings.TrimRight(cfg.PublicBaseURL, "/")
-	if baseURL != "" {
-		return baseURL + urlPath
+	urlPath := "/api/export_static/" + key + fmt.Sprintf("?v=%d", meta.UpdatedAt.Unix())
+	if cfg.PublicBaseURL != "" {
+		return cfg.PublicBaseURL + urlPath
 	}
 	return urlPath
 }

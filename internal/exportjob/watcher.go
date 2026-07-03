@@ -43,6 +43,8 @@ func CheckAndRender(store storage.Store) {
 		hashChanged := hash != zs.lastHash
 
 		if inCooldown && hashChanged {
+			// 冷却期内又检测到变化：先合并标记为 pending，冷却结束后统一补渲染一次，
+			// 避免同一 zone 在短时间内被连续渲染多次。
 			zs.pending = true
 			for _, part := range zone.Parts {
 				defaultManager.setPartPending(static.CurrentSeason, zone.ID, part)
@@ -51,15 +53,11 @@ func CheckAndRender(store storage.Store) {
 			continue
 		}
 
-		shouldRender := (!inCooldown && hashChanged) || (!inCooldown && zs.pending)
+		shouldRender := !inCooldown && (hashChanged || zs.pending)
 		if !shouldRender {
 			defaultManager.mu.Unlock()
 			continue
 		}
-
-		zs.lastHash = hash
-		zs.lastRenderAt = now
-		zs.pending = false
 		defaultManager.mu.Unlock()
 
 		logrus.WithFields(logrus.Fields{
@@ -67,6 +65,19 @@ func CheckAndRender(store storage.Store) {
 			"zone":   zone.ID,
 			"hash":   hash,
 		}).Info("export watcher: render zone")
-		renderZoneParts(ctx, store, cfg, zone, hash, false)
+
+		allSucceeded := renderZoneParts(ctx, store, cfg, zone, hash, false)
+
+		defaultManager.mu.Lock()
+		// lastRenderAt 无论成败都推进，用于限制重试节奏（每个冷却期最多重试一次）；
+		// lastHash/pending 只有全部渲染成功后才更新，失败的 part 会在下一次冷却期结束后自动重试。
+		zs.lastRenderAt = now
+		if allSucceeded {
+			zs.lastHash = hash
+			zs.pending = false
+		} else {
+			zs.pending = true
+		}
+		defaultManager.mu.Unlock()
 	}
 }

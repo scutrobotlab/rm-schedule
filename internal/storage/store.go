@@ -44,6 +44,11 @@ func EnvStorageBackend() string {
 	return backend
 }
 
+// EnvPublicBaseURL 返回导出图片下载地址的域名前缀（SCHEDULE_EXPORT_PUBLIC_BASE_URL，默认空即相对路径）。
+func EnvPublicBaseURL() string {
+	return strings.TrimRight(strings.TrimSpace(os.Getenv(envPublicBaseURL)), "/")
+}
+
 // NewStoreFromEnv 按 SCHEDULE_EXPORT_STORAGE_BACKEND 选择存储实现（local | cos，默认 local）。
 func NewStoreFromEnv() (Store, error) {
 	backend := strings.ToLower(strings.TrimSpace(os.Getenv(envStorageBackend)))

@@ -31,6 +31,8 @@ type exportManifestResponse struct {
 }
 
 func ExportManifestHandler(c iris.Context) {
+	c.Header("Cache-Control", "no-store")
+
 	seasonStr := c.URLParam("season")
 	zoneStr := c.URLParam("zone")
 	if seasonStr == "" || zoneStr == "" {
