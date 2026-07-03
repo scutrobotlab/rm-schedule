@@ -22,6 +22,20 @@ type MetaFile struct {
 	UpdatedAt    time.Time `json:"updated_at"`
 	Scale        float64   `json:"scale"`
 	Static       bool      `json:"static"` // true 表示归档赛区，渲染一次后不再监听变化
+	ImageURL     string    `json:"image_url,omitempty"`
+}
+
+// imageURLFromMeta 从 meta 取 URL；新 meta 直接读 image_url，旧 meta 无该字段时回退到本地静态路由格式。
+func imageURLFromMeta(cfg Config, meta MetaFile) string {
+	if meta.ImageURL != "" {
+		return meta.ImageURL
+	}
+	key := imageKey(meta.Season, meta.ZoneID, meta.Group)
+	urlPath := "/api/export_static/" + key + fmt.Sprintf("?v=%d", meta.UpdatedAt.Unix())
+	if cfg.PublicBaseURL != "" {
+		return cfg.PublicBaseURL + urlPath
+	}
+	return urlPath
 }
 
 func imageKey(season, zoneID, partIndex int) string {

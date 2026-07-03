@@ -22,7 +22,7 @@ type PartState struct {
 	Type         string
 	Group        string
 	Status       Status
-	ImageURL     string    // pending/error 时可能仍指向上一版旧图
+	ImageURL     string // pending/error 时可能仍指向上一版旧图
 	UpdatedAt    time.Time
 	ScheduleHash string
 	Error        string // 仅内存态，不落盘；重启后随渲染重试自然消失

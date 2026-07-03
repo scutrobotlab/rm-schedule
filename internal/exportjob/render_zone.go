@@ -2,7 +2,6 @@ package exportjob
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/scutrobotlab/rm-schedule/internal/common"
@@ -51,14 +50,13 @@ func renderPart(ctx context.Context, store storage.Store, cfg Config, zone stati
 		return fail("render", err)
 	}
 
+	now := time.Now()
 	key := imageKey(static.CurrentSeason, zone.ID, part.Index)
-	if _, err := store.Save(ctx, key, img); err != nil {
+	imageURL, err := store.Save(ctx, key, img, now)
+	if err != nil {
 		return fail("save", err)
 	}
 
-	// updatedAt 同时作为 meta 落盘时间与图片 URL 的 ?v= 版本号，二者必须一致，
-	// 因此不采用 store.Save 返回的 URL（其内部另行生成时间戳），而是统一由 imageURLFromMeta 构造。
-	now := time.Now()
 	meta := MetaFile{
 		Season:       static.CurrentSeason,
 		ZoneID:       zone.ID,
@@ -67,12 +65,11 @@ func renderPart(ctx context.Context, store storage.Store, cfg Config, zone stati
 		UpdatedAt:    now,
 		Scale:        cfg.Scale,
 		Static:       isStatic,
+		ImageURL:     imageURL,
 	}
 	if err := writeMeta(cfg.StorageDir, meta); err != nil {
 		return fail("meta write", err)
 	}
-
-	imageURL := imageURLFromMeta(cfg, meta)
 
 	defaultManager.mu.Lock()
 	defaultManager.setPartReady(static.CurrentSeason, zone.ID, part, imageURL, scheduleHash, now)
@@ -80,15 +77,6 @@ func renderPart(ctx context.Context, store storage.Store, cfg Config, zone stati
 
 	logrus.WithFields(fields).WithField("bytes", len(img)).Info("export render success")
 	return true
-}
-
-func imageURLFromMeta(cfg Config, meta MetaFile) string {
-	key := imageKey(meta.Season, meta.ZoneID, meta.Group)
-	urlPath := "/api/export_static/" + key + fmt.Sprintf("?v=%d", meta.UpdatedAt.Unix())
-	if cfg.PublicBaseURL != "" {
-		return cfg.PublicBaseURL + urlPath
-	}
-	return urlPath
 }
 
 func scheduleBytesFromCache() ([]byte, bool) {

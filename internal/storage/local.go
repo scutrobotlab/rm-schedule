@@ -22,7 +22,7 @@ func NewLocalStore(dir, baseURL string) *LocalStore {
 	}
 }
 
-func (s *LocalStore) Save(_ context.Context, key string, data []byte) (string, error) {
+func (s *LocalStore) Save(_ context.Context, key string, data []byte, version time.Time) (string, error) {
 	destPath, err := resolveDestPath(s.dir, key)
 	if err != nil {
 		return "", err
@@ -41,9 +41,7 @@ func (s *LocalStore) Save(_ context.Context, key string, data []byte) (string, e
 		return "", fmt.Errorf("rename temp file: %w", err)
 	}
 
-	v := time.Now().Unix()
-	// ?v= 用于客户端 cache busting；exportjob 写 meta 时应使用同一时刻作为 updated_at。
-	urlPath := "/api/export_static/" + key + fmt.Sprintf("?v=%d", v)
+	urlPath := "/api/export_static/" + key + fmt.Sprintf("?v=%d", version.Unix())
 	if s.baseURL != "" {
 		return s.baseURL + urlPath, nil
 	}

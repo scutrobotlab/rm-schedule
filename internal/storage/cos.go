@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"errors"
+	"time"
 )
 
 var ErrCosNotImplemented = errors.New("cos storage backend is not implemented yet")
@@ -26,6 +27,6 @@ func NewCosStore(cfg CosConfig) *CosStore {
 }
 
 // Save 尚未实现；配置 cos 后端时进程可正常启动，首次写入会返回 ErrCosNotImplemented。
-func (s *CosStore) Save(_ context.Context, _ string, _ []byte) (string, error) {
+func (s *CosStore) Save(_ context.Context, _ string, _ []byte, _ time.Time) (string, error) {
 	return "", ErrCosNotImplemented
 }

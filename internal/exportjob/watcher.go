@@ -2,6 +2,7 @@ package exportjob
 
 import (
 	"context"
+	"sync/atomic"
 	"time"
 
 	"github.com/scutrobotlab/rm-schedule/internal/static"
@@ -9,8 +10,16 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+var checkAndRenderRunning atomic.Bool
+
 // CheckAndRender 由 cron 周期性调用：对比 schedule hash，在冷却期过后触发后台渲染。
+// 若上一轮尚未结束则直接跳过，避免 chromedp 渲染耗时超过 tick 间隔时并发重叠。
 func CheckAndRender(store storage.Store) {
+	if !checkAndRenderRunning.CompareAndSwap(false, true) {
+		return
+	}
+	defer checkAndRenderRunning.Store(false)
+
 	cfg := ensureConfig()
 	if !cfg.Enabled {
 		return
