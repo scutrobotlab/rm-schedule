@@ -2,6 +2,8 @@ package analyze
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 )
@@ -30,7 +32,11 @@ func TestGetSchedule(t *testing.T) {
 }
 
 func TestExportScheduleToFile(t *testing.T) {
-	filename := fmt.Sprintf("schedule_%s.csv", time.Now().Format("20060102_150405"))
+	const dir = "test_data"
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		t.Fatalf("Failed to create test_data dir: %v", err)
+	}
+	filename := filepath.Join(dir, fmt.Sprintf("schedule_%s.csv", time.Now().Format("20060102_150405")))
 	if err := ExportScheduleToFile(filename); err != nil {
 		t.Fatalf("Failed to export schedule to file: %v", err)
 	}
