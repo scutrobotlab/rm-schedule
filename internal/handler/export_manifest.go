@@ -22,6 +22,7 @@ type exportManifestGroup struct {
 	Status    string `json:"status"`
 	ImageURL  string `json:"image_url,omitempty"`
 	UpdatedAt string `json:"updated_at,omitempty"`
+	Error     string `json:"error,omitempty"`
 }
 
 type exportManifestResponse struct {
@@ -80,6 +81,7 @@ func ExportManifestHandler(c iris.Context) {
 			Group:    part.Group,
 			Status:   string(part.Status),
 			ImageURL: part.ImageURL,
+			Error:    part.Error,
 		}
 		if !part.UpdatedAt.IsZero() {
 			item.UpdatedAt = part.UpdatedAt.Format(time.RFC3339)

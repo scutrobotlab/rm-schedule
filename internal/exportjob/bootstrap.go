@@ -29,6 +29,13 @@ func Bootstrap(store storage.Store) {
 // renderMissingArchivedZones 对归档赛区（static.ArchivedZoneIDs）中磁盘尚无图片的 part
 // 各渲染一次并永久保留；不再监听后续 schedule 变化。
 func renderMissingArchivedZones(store storage.Store, cfg Config) {
+	// 与 CheckAndRender 共享渲染互斥，避免启动阶段与 cron 并发占用 chromedp。
+	if !checkAndRenderRunning.CompareAndSwap(false, true) {
+		logrus.Warn("export bootstrap: render skipped, another export job is running")
+		return
+	}
+	defer checkAndRenderRunning.Store(false)
+
 	ctx := context.Background()
 	for _, zone := range static.CurrentSeasonZones {
 		if !isArchivedZone(zone.ID) {

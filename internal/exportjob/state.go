@@ -174,7 +174,7 @@ func (m *manager) restoreFromMeta(meta MetaFile, imageURL string) {
 	st.Error = ""
 
 	if !meta.Static {
-		// 归档赛区不参与 watcher hash 对比，重启后也不会因 schedule 变化而重渲染。
+		// 非归档赛区才恢复 watcher hash 状态；归档赛区（static=true）渲染一次后不再监听变化。
 		zs := m.zoneWatch(meta.Season, meta.ZoneID)
 		if meta.ScheduleHash != "" && meta.ScheduleHash != staticScheduleHash {
 			zs.lastHash = meta.ScheduleHash

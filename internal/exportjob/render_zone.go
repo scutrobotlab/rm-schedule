@@ -67,7 +67,10 @@ func renderPart(ctx context.Context, store storage.Store, cfg Config, zone stati
 		Static:       isStatic,
 		ImageURL:     imageURL,
 	}
-	if err := writeMeta(cfg.StorageDir, meta); err != nil {
+	if err := writeMetaWithRetry(cfg.StorageDir, meta, metaWriteAttempts); err != nil {
+		if rmErr := removeSavedImage(cfg.StorageDir, meta); rmErr != nil {
+			logrus.WithFields(fields).WithError(rmErr).Warn("export rollback image failed")
+		}
 		return fail("meta write", err)
 	}
 

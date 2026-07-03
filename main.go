@@ -27,7 +27,6 @@ func main() {
 	if _, err := cron.AddFunc("@every 5s", checkAndRenderExport); err != nil {
 		logrus.Fatalf("cron add func failed: %v", err)
 	}
-	checkAndRenderExport()
 
 	cron.Start()
 	defer cron.Stop()

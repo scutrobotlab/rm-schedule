@@ -62,6 +62,8 @@ func readMetaFile(path string) (MetaFile, error) {
 	return meta, nil
 }
 
+const metaWriteAttempts = 3
+
 // writeMeta 必须在图片 Save 成功之后调用；采用 tmp + rename 保证原子写入。
 func writeMeta(storageDir string, meta MetaFile) error {
 	key := imageKey(meta.Season, meta.ZoneID, meta.Group)
@@ -85,6 +87,34 @@ func writeMeta(storageDir string, meta MetaFile) error {
 	if err := os.Rename(tmpPath, path); err != nil {
 		_ = os.Remove(tmpPath)
 		return fmt.Errorf("rename temp meta: %w", err)
+	}
+	return nil
+}
+
+func writeMetaWithRetry(storageDir string, meta MetaFile, attempts int) error {
+	if attempts < 1 {
+		attempts = 1
+	}
+	var lastErr error
+	for range attempts {
+		if err := writeMeta(storageDir, meta); err == nil {
+			return nil
+		} else {
+			lastErr = err
+		}
+	}
+	return lastErr
+}
+
+// removeSavedImage 在 meta 写入失败时回滚刚落盘的 png，避免「新图已写、meta 仍指向旧版」的不一致。
+func removeSavedImage(storageDir string, meta MetaFile) error {
+	key := imageKey(meta.Season, meta.ZoneID, meta.Group)
+	path, err := storage.ResolveDestPath(storageDir, key)
+	if err != nil {
+		return err
+	}
+	if err := os.Remove(path); err != nil && !os.IsNotExist(err) {
+		return fmt.Errorf("remove saved image: %w", err)
 	}
 	return nil
 }
