@@ -8,6 +8,7 @@ import (
 )
 
 // Store 持久化导出图片并返回可访问的下载 URL。
+// key 约定为相对路径，形如 2026/616/0.png（season/zoneID/partIndex.png）。
 type Store interface {
 	Save(ctx context.Context, key string, data []byte) (url string, err error)
 }

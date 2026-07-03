@@ -11,8 +11,8 @@ import (
 
 // LocalStore 将图片写入本地目录，URL 指向 /api/export_static/ 静态路由。
 type LocalStore struct {
-	dir     string
-	baseURL string
+	dir     string // SCHEDULE_EXPORT_STORAGE_DIR
+	baseURL string // SCHEDULE_EXPORT_PUBLIC_BASE_URL，为空时返回相对路径
 }
 
 func NewLocalStore(dir, baseURL string) *LocalStore {
@@ -31,6 +31,7 @@ func (s *LocalStore) Save(_ context.Context, key string, data []byte) (string, e
 		return "", fmt.Errorf("create storage dir: %w", err)
 	}
 
+	// 先写临时文件再 rename，保证任意时刻目标文件存在即内容完整（与 meta 写入顺序配合）。
 	tmpPath := destPath + ".tmp"
 	if err := os.WriteFile(tmpPath, data, 0o644); err != nil {
 		return "", fmt.Errorf("write temp file: %w", err)
@@ -41,6 +42,7 @@ func (s *LocalStore) Save(_ context.Context, key string, data []byte) (string, e
 	}
 
 	v := time.Now().Unix()
+	// ?v= 用于客户端 cache busting；exportjob 写 meta 时应使用同一时刻作为 updated_at。
 	urlPath := "/api/export_static/" + key + fmt.Sprintf("?v=%d", v)
 	if s.baseURL != "" {
 		return s.baseURL + urlPath, nil
@@ -48,6 +50,7 @@ func (s *LocalStore) Save(_ context.Context, key string, data []byte) (string, e
 	return urlPath, nil
 }
 
+// validateKey 校验 key 格式；仅允许正斜杠分隔的相对路径（如 2026/616/0.png）。
 func validateKey(key string) error {
 	if key == "" {
 		return fmt.Errorf("storage key is empty")
@@ -68,6 +71,7 @@ func validateKey(key string) error {
 	return nil
 }
 
+// resolveDestPath 将 key 解析为 baseDir 下的绝对路径，并确认结果不逃逸存储根目录。
 func resolveDestPath(baseDir, key string) (string, error) {
 	if err := validateKey(key); err != nil {
 		return "", err
@@ -75,6 +79,7 @@ func resolveDestPath(baseDir, key string) (string, error) {
 
 	destPath := filepath.Join(baseDir, filepath.FromSlash(key))
 
+	// filepath.Join 在部分平台上遇到绝对路径 key 会丢弃 baseDir，此处用 Rel 二次确认边界。
 	baseAbs, err := filepath.Abs(baseDir)
 	if err != nil {
 		return "", fmt.Errorf("resolve storage dir: %w", err)

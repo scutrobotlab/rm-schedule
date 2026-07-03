@@ -25,6 +25,7 @@ func NewCosStore(cfg CosConfig) *CosStore {
 	return &CosStore{cfg: cfg}
 }
 
+// Save 尚未实现；配置 cos 后端时进程可正常启动，首次写入会返回 ErrCosNotImplemented。
 func (s *CosStore) Save(_ context.Context, _ string, _ []byte) (string, error) {
 	return "", ErrCosNotImplemented
 }

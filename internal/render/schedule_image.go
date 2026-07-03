@@ -123,7 +123,9 @@ func cachedError(key string) (error, bool) {
 	return err, ok
 }
 
-// RenderOnce 执行一次 chromedp 渲染，不含 TTL 缓存；供 HTTP 路径（经 singleflight）与后台任务直接调用。
+// RenderOnce 执行一次 chromedp 渲染，共享全局 sem 并发限制，不含 TTL 缓存。
+// HTTP 路径经 RenderScheduleImage 的 singleflight 调用；后台落盘任务应直接调用本函数，
+// 避免走 15s 内存缓存（结果需长期保存而非短期复用）。
 func RenderOnce(ctx context.Context, season, zoneID, group int, scale float64) ([]byte, error) {
 	select {
 	case sem <- struct{}{}:

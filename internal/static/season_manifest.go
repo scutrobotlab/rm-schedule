@@ -4,26 +4,31 @@ package static
 
 const CurrentSeason = 2026
 
+// PartManifest 描述一个赛区下的单张导出图（对应前端 Zone.parts 的一项）。
 type PartManifest struct {
-	Index int
+	Index int    // 与前端 parts 数组下标一致，也是 export?group= 参数及存储 key 后缀（如 2026/616/0.png）
 	Name  string // "A组前段" 等，与前端 zone.ts 保持一致
 	Type  string // "group" | "knockout"
 	Group string // "A"/"B"/"Knockout" 等
 }
 
+// ZoneManifest 描述当前赛季的一个赛区及其全部导出 part。
 type ZoneManifest struct {
 	ID    int
 	Name  string
 	Parts []PartManifest
 }
 
-// ArchivedZoneIDs 2026 赛季已归档的 regional 赛区 ID，供静态快照合并与后台导出共用。
+// ArchivedZoneIDs 2026 赛季已归档的 regional 赛区 ID。
+// key 为 string 是为兼容 handler.StaticZoneSeason.ZoneIDs；这些赛区赛程已定格，
+// 后台导出对其「渲染一次、永久保留」，不再持续监听 hash 变化。
 var ArchivedZoneIDs = map[string]struct{}{
 	"614": {},
 	"615": {},
 	"616": {},
 }
 
+// CurrentSeasonZones 当前赛季需后台导出的赛区/part 清单，供 export_manifest 与 watcher 使用。
 var CurrentSeasonZones = []ZoneManifest{
 	{
 		ID: 614, Name: "南部赛区",
