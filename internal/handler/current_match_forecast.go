@@ -54,17 +54,17 @@ type ForecastSide struct {
 }
 
 // ForecastTeamInfo 参考 current_match_operator.json 的 team_info 命名。
+// zone_id / match_id 已在顶层给出，此处不再重复。
 type ForecastTeamInfo struct {
 	TeamID      string `json:"team_id"`
 	TeamName    string `json:"team_name"`
 	CollegeLogo string `json:"college_logo"`
 	CollegeName string `json:"college_name"`
-	ZoneID      int    `json:"zone_id"`
-	MatchID     int    `json:"match_id"`
 }
 
 // CurrentMatchForecastHandler 下发当前进行中比赛的竞猜预测。
-// 进行中比赛取自 svc.Cache 中的实时 schedule（status == STARTED），多场并行时取第一场。
+// 约定同一时刻只有一场比赛（不同赛区不并行开赛），取 svc.Cache 中实时 schedule
+// 里第一场 status == STARTED 的比赛即可。
 func CurrentMatchForecastHandler(c iris.Context) {
 	resp := CurrentMatchForecastResp{
 		PublishTime: time.Now().In(forecastLocation).Format(forecastTimeLayout),
@@ -101,8 +101,8 @@ func CurrentMatchForecastHandler(c iris.Context) {
 	if !mp.QueriedAt.IsZero() {
 		resp.SupportRateDeadline = mp.QueriedAt.In(forecastLocation).Format(forecastTimeLayout)
 	}
-	resp.RedSide = forecastSide(match.RedSide.Player, zoneID, matchID, mp.RedRate)
-	resp.BlueSide = forecastSide(match.BlueSide.Player, zoneID, matchID, mp.BlueRate)
+	resp.RedSide = forecastSide(match.RedSide.Player, mp.RedRate)
+	resp.BlueSide = forecastSide(match.BlueSide.Player, mp.BlueRate)
 
 	c.Header("Cache-Control", "public, max-age=5")
 	c.JSON(resp)
@@ -126,7 +126,8 @@ func loadCachedSchedule() (types.ScheduleResp, bool) {
 	return schedule, true
 }
 
-// findStartedMatch 遍历所有赛区，返回第一场 status == STARTED 的比赛及其所在赛区。
+// findStartedMatch 遍历所有赛区，返回 status == STARTED 的比赛及其所在赛区。
+// 按约定同一时刻只有一场进行中比赛，遇到第一场即返回。
 func findStartedMatch(schedule types.ScheduleResp) (types.ZoneNode, types.MatchNode, bool) {
 	for _, zone := range schedule.Data.Event.Zones.Nodes {
 		for _, m := range zone.GroupMatches.Nodes {
@@ -144,8 +145,8 @@ func findStartedMatch(schedule types.ScheduleResp) (types.ZoneNode, types.MatchN
 }
 
 // forecastSide 组装单侧队伍信息与支持率；player 或 team 缺失时字段留空。
-func forecastSide(player *types.Player, zoneID, matchID int, rate float64) ForecastSide {
-	info := ForecastTeamInfo{ZoneID: zoneID, MatchID: matchID}
+func forecastSide(player *types.Player, rate float64) ForecastSide {
+	var info ForecastTeamInfo
 	if player != nil && player.Team != nil {
 		info.TeamID = player.Team.ID
 		info.TeamName = player.Team.Name
