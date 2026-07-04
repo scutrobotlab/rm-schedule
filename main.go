@@ -5,6 +5,9 @@ import (
 	"strings"
 
 	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/middleware/cors"
+	"github.com/kataras/iris/v12/middleware/recover"
+	"github.com/kataras/iris/v12/middleware/requestid"
 	"github.com/scutrobotlab/rm-schedule/internal/exportjob"
 	"github.com/scutrobotlab/rm-schedule/internal/job"
 	"github.com/scutrobotlab/rm-schedule/internal/router"
@@ -43,8 +46,16 @@ func main() {
 	cron.Start()
 	defer cron.Stop()
 
-	r := iris.Default()
+	r := iris.New()
 	r.Logger().SetLevel(irisLogLevel())
+	// 复刻 iris.Default() 默认注册的中间件（requestid -> recover -> cors）。
+	r.UseRouter(requestid.New())
+	r.UseRouter(recover.New())
+	r.UseRouter(cors.New().
+		ExtractOriginFunc(cors.DefaultOriginExtractor).
+		ReferrerPolicy(cors.NoReferrerWhenDowngrade).
+		AllowOriginFunc(cors.AllowAnyOrigin).
+		Handler())
 	router.Router(r, "./public")
 
 	if err := r.Listen(":8080"); err != nil {
