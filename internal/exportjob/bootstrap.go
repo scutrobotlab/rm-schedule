@@ -65,9 +65,9 @@ func renderMissingArchivedZones(store storage.Store, cfg Config) {
 	}
 }
 
-// archivedZoneHash 计算归档赛区在内嵌 2026 快照中的子树 hash；解析失败时返回空串。
+// archivedZoneHash 计算归档赛区在当前赛季内嵌快照中的子树 hash；解析失败时返回空串。
 func archivedZoneHash(zoneID int) string {
-	hash, err := zoneHashFromSchedule(static.ScheduleBytes2026, zoneID)
+	hash, err := zoneHashFromSchedule(static.CurrentSeasonScheduleBytes, zoneID)
 	if err != nil {
 		logrus.WithField("zone", zoneID).WithError(err).Warn("export bootstrap: compute archived zone hash failed")
 		return ""

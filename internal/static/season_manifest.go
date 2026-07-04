@@ -1,8 +1,14 @@
 // 本文件需与 rm-schedule-ui/src/constant/zone.ts 中 ZoneMap[2026] 手工同步，
 // 赛季推进新增赛区/分组时需要同步更新。
+// 赛季切换（如 2027 开赛）时，除下方 CurrentSeason / CurrentSeasonZones / ArchivedZoneIDs 外，
+// 还需将 CurrentSeasonScheduleBytes 指向对应赛季的内嵌快照。
 package static
 
 const CurrentSeason = 2026
+
+// CurrentSeasonScheduleBytes 当前赛季内嵌赛程快照，随 CurrentSeason 同步。
+// 供后台导出计算归档赛区的赛程版本 hash 使用，避免在别处硬编码 ScheduleBytes20XX。
+var CurrentSeasonScheduleBytes = ScheduleBytes2026
 
 // PartManifest 描述一个赛区下的单张导出图（对应前端 Zone.parts 的一项）。
 type PartManifest struct {
