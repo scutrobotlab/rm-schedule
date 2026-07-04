@@ -41,6 +41,11 @@ func renderMissingArchivedZones(store storage.Store, cfg Config) {
 		if !isArchivedZone(zone.ID) {
 			continue
 		}
+
+		// 归档赛区赛程已定格在内嵌快照，用其子树 hash 记录图片对应的赛程版本（便于审计）。
+		// watcher 通过 isArchivedZone 跳过归档赛区，不依赖该值触发渲染，故 hash 仅作标识。
+		scheduleHash := archivedZoneHash(zone.ID)
+
 		for _, part := range zone.Parts {
 			key := partKey(static.CurrentSeason, zone.ID, part.Index)
 			defaultManager.mu.RLock()
@@ -55,9 +60,19 @@ func renderMissingArchivedZones(store storage.Store, cfg Config) {
 				"zone":   zone.ID,
 				"group":  part.Index,
 			}).Info("export bootstrap: render archived zone part")
-			renderPart(ctx, store, cfg, zone, part, staticScheduleHash, true)
+			renderPart(ctx, store, cfg, zone, part, scheduleHash, true)
 		}
 	}
+}
+
+// archivedZoneHash 计算归档赛区在内嵌 2026 快照中的子树 hash；解析失败时返回空串。
+func archivedZoneHash(zoneID int) string {
+	hash, err := zoneHashFromSchedule(static.ScheduleBytes2026, zoneID)
+	if err != nil {
+		logrus.WithField("zone", zoneID).WithError(err).Warn("export bootstrap: compute archived zone hash failed")
+		return ""
+	}
+	return hash
 }
 
 func restoreFromDisk(cfg Config) {

@@ -11,17 +11,15 @@ import (
 	"github.com/scutrobotlab/rm-schedule/internal/storage"
 )
 
-const staticScheduleHash = "static" // 归档赛区占位 hash，不参与 watcher 变化检测
-
 // MetaFile 与图片同目录同名，后缀 .meta.json；存在即表示对应 png 已完整落盘。
 type MetaFile struct {
 	Season       int       `json:"season"`
 	ZoneID       int       `json:"zone_id"`
 	Group        int       `json:"group"`
-	ScheduleHash string    `json:"schedule_hash"`
+	ScheduleHash string    `json:"schedule_hash"` // 生成本图时对应 zone 子树的真实 sha256；归档赛区取内嵌快照 hash
 	UpdatedAt    time.Time `json:"updated_at"`
 	Scale        float64   `json:"scale"`
-	Static       bool      `json:"static"` // true 表示归档赛区，渲染一次后不再监听变化
+	Static       bool      `json:"static"` // true 表示归档赛区，渲染一次后不再监听变化（是否监听仅由此字段决定）
 	ImageURL     string    `json:"image_url,omitempty"`
 }
 
