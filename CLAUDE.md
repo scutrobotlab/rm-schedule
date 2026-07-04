@@ -97,7 +97,8 @@ rm-schedule/
 - **B 站回放映射**：每 5 分钟抓取 B 站 UID 20554233 的合集列表，按赛季/赛区/场次号匹配 `MatchNode`，构建 `match_id` 与 `season/zone/order` 两套索引
 - **静态资源代理**：`/api/static/*path` 拉取 DJI CDN / 阿里云 / OSS 资源，支持 `?process=bg_white` 将 PNG 透明底转白底，结果写入内存缓存
 - **CDN 回源**：请求头携带 `Tencent-Acceleration-Domain-Name` 时，直接 301 重定向到 OSS 原始 URL，减少本机流量
-- **小程序投票**：代理 `mp.robomaster.com` 接口，计算红蓝支持比例并短时缓存
+- **小程序投票**：代理 `mp.robomaster.com` 接口，计算红蓝支持比例并短时缓存；`MpMatchData` 额外记录 `QueriedAt`（上游查询时刻，`json:"-"` 不对外序列化），供竞猜接口计算截止时间
+- **当前比赛竞猜预测**：`/api/current_match_forecast` 从实时 `schedule` 缓存里找 `status==STARTED` 的比赛（多赛区并行时取遍历到的第一场），下发赛区名/场次号/slug、红蓝双方校徽·校名·队名，并复用 `/mp/match` 支持率；`support_rate_deadline` 为该 match 支持率从 `mp.robomaster.com` 查询的时刻（精确到秒，东八区）；无进行中比赛时 `has_match=false`
 - **历史交手查询**：从内嵌 `history_match.json` 按学校/队名检索历史对阵记录
 - **赛程图导出（同步）**：`/api/export_image` 通过 chromedp 无头浏览器打开前端 `/:season/:zoneId/export` 页面，调用 `relation-graph` 的 `getImageBase64()` 生成 PNG；结果带 15s TTL 缓存与 singleflight 去重，并发渲染上限 3；适用于历史赛季、归档赛区或手动调试
 - **赛程图后台导出（当前赛季）**：`exportjob.Watcher` 每 5 秒读取 `svc.Cache["schedule"]`，按 zone 子树 hash 检测变化，冷却期（默认 20s）过后触发 chromedp 渲染并落盘至 `SCHEDULE_EXPORT_STORAGE_DIR`；`/api/export_manifest` 返回各 part 的 `status`/`image_url`；`/api/export_static/` 托管本地图片；归档赛区（614/615/616）渲染一次后永久保留、不监听变化，但仍未 ready 的 part（如 bootstrap 重试耗尽）由 cron 按冷却期节奏长期兜底补渲染，成功后不再重试
@@ -115,6 +116,7 @@ rm-schedule/
 | GET | `/api/robot_data` | 机器人统计数据（支持 `?season=`） |
 | GET | `/api/rank` | 积分榜与完整形态榜（`?season=`、`?school_name=`） |
 | GET | `/api/mp/match` | 小程序对局/预言家数据（`?match_ids=` 逗号分隔） |
+| GET | `/api/current_match_forecast` | 当前进行中比赛（`status==STARTED`）的竞猜预测，无参数；变量名/结构参考官方 `current_match_operator.json` |
 | GET | `/api/match_id_to_video` | 比赛 ID → B 站回放元数据（`?match_id=` 或 `all`） |
 | GET | `/api/match_order_to_video` | 场次号 → B 站回放元数据（`?season=&zone=&order_number=` 或 `all`） |
 | GET | `/api/team_info` | 队伍详情及 B 站官方账号 UID（`?college_name=`） |
@@ -147,6 +149,38 @@ rm-schedule/
 ```
 
 `status` 取值：`pending`（等待/冷却中）、`ready`（已有可用图片）、`error`（最近一次渲染失败，错误信息仅存内存）。`pending` 时 `image_url` 可能为空或指向上一版旧图。
+
+**`/api/current_match_forecast` 响应示例**（有进行中比赛时）：
+
+```json
+{
+  "publish_time": "2026-07-04 19:26:25",
+  "has_match": true,
+  "zone_name": "东部赛区",
+  "zone_id": 615,
+  "order_number": 12,
+  "slug": null,
+  "match_id": 31088,
+  "support_rate_deadline": "2026-07-04 19:20:05",
+  "red_side": {
+    "team_info": {
+      "team_id": "179",
+      "team_name": "华南虎",
+      "college_logo": "/api/static/...png",
+      "college_name": "华南理工大学",
+      "zone_id": 615,
+      "match_id": 31088
+    },
+    "support_rate": 0.62
+  },
+  "blue_side": {
+    "team_info": { "team_id": "1581", "team_name": "Taurus", "college_logo": "/api/static/...png", "college_name": "华南农业大学", "zone_id": 615, "match_id": 31088 },
+    "support_rate": 0.38
+  }
+}
+```
+
+无进行中比赛时 `has_match=false`，双方 `support_rate=-1`、字段留空；`support_rate=-1` 亦表示该场 `/mp/match` 支持率暂不可用。
 
 ---
 

@@ -53,6 +53,9 @@ type MpMatchData struct {
 	RedRate    float64 `json:"redRate"`
 	BlueRate   float64 `json:"blueRate"`
 	TieRate    float64 `json:"tieRate"`
+	// QueriedAt 记录本条支持率数据从 mp.robomaster.com 拉取的时刻。
+	// 不参与 /api/mp/match 序列化（json:"-"），仅供 current_match_forecast 计算「支持率查询截止时间」。
+	QueriedAt time.Time `json:"-"`
 }
 
 func MpMatchHandler(c iris.Context) {
@@ -82,40 +85,48 @@ func MpMatchHandler(c iris.Context) {
 			return
 		}
 
-		mpMatch, expiration, b := svc.Cache.GetWithExpiration("mp_match:" + id)
-		if !b {
-			data, err := loadMpMatchShared(_id)
-			if err != nil {
-				logrus.Errorf("Failed to get mp match %d: %v", _id, err)
-				data = unavailableMpMatchData(_id)
-				svc.Cache.Set("mp_match:"+id, *data, MpMatchFailureCacheExpiration)
-			}
-			mpMatchRespList = append(mpMatchRespList, *data)
-		} else {
-			// 如果缓存即将过期，异步刷新
-			if expiration.Sub(time.Now()) < MpMatchCacheRefreshTime {
-				go func(id int) {
-					_, err := loadMpMatchShared(id)
-					if err != nil {
-						logrus.Errorf("Failed to get mp match: %v", err)
-					}
-				}(_id)
-			}
-
-			mpMatchRespList = append(mpMatchRespList, mpMatch.(MpMatchData))
-		}
+		mpMatchRespList = append(mpMatchRespList, resolveMpMatch(id, _id))
 	}
 
 	c.Header("Cache-Control", "public, max-age=10")
 	c.JSON(MpMatchDstResp{List: mpMatchRespList})
 }
 
+// resolveMpMatch 按 match_id 取一条支持率数据：命中缓存直接返回（临近过期时异步刷新），
+// 未命中则同步拉取；拉取失败时写入短时占位缓存并返回不可用数据。
+// idStr 与 id 为同一 match_id 的字符串/整数形式，避免重复转换。
+func resolveMpMatch(idStr string, id int) MpMatchData {
+	mpMatch, expiration, b := svc.Cache.GetWithExpiration("mp_match:" + idStr)
+	if !b {
+		data, err := loadMpMatchShared(id)
+		if err != nil {
+			logrus.Errorf("Failed to get mp match %d: %v", id, err)
+			data = unavailableMpMatchData(id)
+			svc.Cache.Set("mp_match:"+idStr, *data, MpMatchFailureCacheExpiration)
+		}
+		return *data
+	}
+
+	// 如果缓存即将过期，异步刷新
+	if expiration.Sub(time.Now()) < MpMatchCacheRefreshTime {
+		go func(id int) {
+			_, err := loadMpMatchShared(id)
+			if err != nil {
+				logrus.Errorf("Failed to get mp match: %v", err)
+			}
+		}(id)
+	}
+
+	return mpMatch.(MpMatchData)
+}
+
 func unavailableMpMatchData(id int) *MpMatchData {
 	return &MpMatchData{
-		MatchId:  id,
-		RedRate:  -1.0,
-		BlueRate: -1.0,
-		TieRate:  -1.0,
+		MatchId:   id,
+		RedRate:   -1.0,
+		BlueRate:  -1.0,
+		TieRate:   -1.0,
+		QueriedAt: time.Now(),
 	}
 }
 
@@ -174,6 +185,7 @@ func loadMpMatch(id int) (*MpMatchData, error) {
 		RedCount:  _mpMatchResp.Data.RedCount,
 		BlueCount: _mpMatchResp.Data.BlueCount,
 		TieCount:  _mpMatchResp.Data.TieCount,
+		QueriedAt: time.Now(),
 	}
 	data.TotalCount = data.RedCount + data.BlueCount + data.TieCount
 	if data.TotalCount != 0 {
