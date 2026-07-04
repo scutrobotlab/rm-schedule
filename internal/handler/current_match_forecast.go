@@ -76,21 +76,22 @@ func CurrentMatchForecastHandler(c iris.Context) {
 
 	schedule, ok := loadCachedSchedule()
 	if !ok {
-		c.Header("Cache-Control", "public, max-age=5")
+		c.Header("Cache-Control", "public, max-age=1")
 		c.JSON(resp)
 		return
 	}
 
 	zone, match, found := findStartedMatch(schedule)
 	if !found {
-		c.Header("Cache-Control", "public, max-age=5")
+		c.Header("Cache-Control", "public, max-age=1")
 		c.JSON(resp)
 		return
 	}
 
 	matchID, _ := strconv.Atoi(match.ID)
 	zoneID, _ := strconv.Atoi(zone.ID)
-	mp := resolveMpMatch(match.ID, matchID)
+	// 走 1s 短缓存的实时取数，尽量降低当前进行中比赛的支持率延迟。
+	mp := resolveMpMatchRealtime(match.ID, matchID)
 
 	resp.HasMatch = true
 	resp.ZoneName = zone.Name
@@ -104,7 +105,7 @@ func CurrentMatchForecastHandler(c iris.Context) {
 	resp.RedSide = forecastSide(match.RedSide.Player, mp.RedRate)
 	resp.BlueSide = forecastSide(match.BlueSide.Player, mp.BlueRate)
 
-	c.Header("Cache-Control", "public, max-age=5")
+	c.Header("Cache-Control", "public, max-age=1")
 	c.JSON(resp)
 }
 
