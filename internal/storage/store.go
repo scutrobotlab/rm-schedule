@@ -20,11 +20,11 @@ const (
 	envStorageDir     = "SCHEDULE_EXPORT_STORAGE_DIR"
 	// envPublicBaseURL 为本服务公网域名前缀，导出图片 URL 与 college_logo 绝对化共用同一变量。
 	envPublicBaseURL = "SCHEDULE_PUBLIC_BASE_URL"
-	envCOSBucket      = "SCHEDULE_EXPORT_COS_BUCKET"
-	envCOSRegion      = "SCHEDULE_EXPORT_COS_REGION"
-	envCOSSecretID    = "SCHEDULE_EXPORT_COS_SECRET_ID"
-	envCOSSecretKey   = "SCHEDULE_EXPORT_COS_SECRET_KEY"
-	envCOSDomain      = "SCHEDULE_EXPORT_COS_DOMAIN"
+	envCOSBucket     = "SCHEDULE_EXPORT_COS_BUCKET"
+	envCOSRegion     = "SCHEDULE_EXPORT_COS_REGION"
+	envCOSSecretID   = "SCHEDULE_EXPORT_COS_SECRET_ID"
+	envCOSSecretKey  = "SCHEDULE_EXPORT_COS_SECRET_KEY"
+	envCOSDomain     = "SCHEDULE_EXPORT_COS_DOMAIN"
 
 	defaultStorageDir     = "./data/export_images"
 	defaultStorageBackend = "local"
