@@ -19,7 +19,7 @@ const (
 	envRenderMaxAttempts = "SCHEDULE_EXPORT_RENDER_MAX_ATTEMPTS"
 	envReadyTimeout      = "SCHEDULE_RENDER_READY_TIMEOUT"
 
-	defaultRenderCooldown    = 20 * time.Second
+	defaultRenderCooldown    = 10 * time.Second
 	defaultScale             = 2.0
 	defaultRenderMaxAttempts = 3
 	defaultReadyTimeout      = 60 * time.Second

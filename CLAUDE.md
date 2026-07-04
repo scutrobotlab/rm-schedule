@@ -275,7 +275,7 @@ docker push registry.cn-guangzhou.aliyuncs.com/scutrobot/rm-schedule:latest
 | `SCHEDULE_EXPORT_STORAGE_BACKEND` | `local` | `local` \| `cos`（后者当前为占位实现，调用会返回未实现错误） |
 | `SCHEDULE_EXPORT_STORAGE_DIR` | `./data/export_images` | 本地存储目录；容器内需挂载持久化卷 |
 | `SCHEDULE_EXPORT_PUBLIC_BASE_URL` | `""`（相对路径） | 拼接 `image_url` 的域名前缀，如 `https://schedule.scutbot.cn` |
-| `SCHEDULE_EXPORT_RENDER_COOLDOWN` | `20s` | 同一 zone 两次后台渲染之间的最小间隔 |
+| `SCHEDULE_EXPORT_RENDER_COOLDOWN` | `10s` | 同一 zone 两次后台渲染之间的最小间隔 |
 | `SCHEDULE_EXPORT_SCALE` | `2` | 后台渲染使用的 `scale` 参数（1–8） |
 | `SCHEDULE_EXPORT_RENDER_MAX_ATTEMPTS` | `3` | 归档赛区单个 part 渲染的最大尝试次数（含首次），瞬时错误退避重试 |
 | `SCHEDULE_RENDER_READY_TIMEOUT` | `60s` | Bootstrap 渲染前等待渲染目标就绪的最长时间；`0` 表示不等待 |
