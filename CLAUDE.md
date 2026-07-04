@@ -98,7 +98,7 @@ rm-schedule/
 - **静态资源代理**：`/api/static/*path` 拉取 DJI CDN / 阿里云 / OSS 资源，支持 `?process=bg_white` 将 PNG 透明底转白底，结果写入内存缓存
 - **CDN 回源**：请求头携带 `Tencent-Acceleration-Domain-Name` 时，直接 301 重定向到 OSS 原始 URL，减少本机流量
 - **小程序投票**：代理 `mp.robomaster.com` 接口，计算红蓝支持比例并短时缓存；`MpMatchData` 额外记录 `QueriedAt`（上游查询时刻，`json:"-"` 不对外序列化），供竞猜接口计算截止时间
-- **当前比赛竞猜预测**：`/api/current_match_forecast` 从实时 `schedule` 缓存里找 `status==STARTED` 的比赛（约定同一时刻只有一场，取第一场即可），下发赛区名/场次号/slug、红蓝双方校徽·校名·队名；支持率走 **1s 独立短缓存**（`mp_match_rt:` key，`resolveMpMatchRealtime`）而非 `/mp/match` 的 60s 缓存，配合 singleflight 合并并发拉取，把进行中比赛的支持率延迟控制在 ~1s（HTTP 响应亦为 `max-age=1`）；`support_rate_deadline` 为该 match 支持率从 `mp.robomaster.com` 查询的时刻（精确到秒，东八区）；无进行中比赛时 `has_match=false`
+- **当前比赛竞猜预测**：`/api/current_match_forecast` 从实时 `schedule` 缓存里找 `status==STARTED` 的比赛（约定同一时刻只有一场，取第一场即可），下发赛区名/场次号/slug、红蓝双方校徽·校名·队名；支持率走 **1s 独立短缓存**（`mp_match_rt:` key，`resolveMpMatchRealtime`）而非 `/mp/match` 的 60s 缓存，配合 singleflight 合并并发拉取，把进行中比赛的支持率延迟控制在 ~1s（HTTP 响应亦为 `max-age=1`）；`support_rate_deadline` 为该 match 支持率从 `mp.robomaster.com` 查询的时刻（精确到秒，东八区）；`college_logo` 为绝对 URL，原始相对路径会拼上 `SCHEDULE_EXPORT_PUBLIC_BASE_URL`（未配置则保持相对路径），不做上游 CDN 还原；无进行中比赛时 `has_match=false`
 - **历史交手查询**：从内嵌 `history_match.json` 按学校/队名检索历史对阵记录
 - **赛程图导出（同步）**：`/api/export_image` 通过 chromedp 无头浏览器打开前端 `/:season/:zoneId/export` 页面，调用 `relation-graph` 的 `getImageBase64()` 生成 PNG；结果带 15s TTL 缓存与 singleflight 去重，并发渲染上限 3；适用于历史赛季、归档赛区或手动调试
 - **赛程图后台导出（当前赛季）**：`exportjob.Watcher` 每 5 秒读取 `svc.Cache["schedule"]`，按 zone 子树 hash 检测变化，冷却期（默认 20s）过后触发 chromedp 渲染并落盘至 `SCHEDULE_EXPORT_STORAGE_DIR`；`/api/export_manifest` 返回各 part 的 `status`/`image_url`；`/api/export_static/` 托管本地图片；归档赛区（614/615/616）渲染一次后永久保留、不监听变化，但仍未 ready 的 part（如 bootstrap 重试耗尽）由 cron 按冷却期节奏长期兜底补渲染，成功后不再重试
@@ -166,14 +166,14 @@ rm-schedule/
     "team_info": {
       "team_id": "179",
       "team_name": "华南虎",
-      "college_logo": "/api/static/...png",
+      "college_logo": "https://schedule.scutbot.cn/api/static/...png",
       "college_name": "华南理工大学"
     },
     "support_rate": 0.623,
     "support_rate_percent": 62.3
   },
   "blue_side": {
-    "team_info": { "team_id": "1581", "team_name": "Taurus", "college_logo": "/api/static/...png", "college_name": "华南农业大学" },
+    "team_info": { "team_id": "1581", "team_name": "Taurus", "college_logo": "https://schedule.scutbot.cn/api/static/...png", "college_name": "华南农业大学" },
     "support_rate": 0.377,
     "support_rate_percent": 37.7
   }

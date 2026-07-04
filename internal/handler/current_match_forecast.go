@@ -10,6 +10,7 @@ import (
 
 	"github.com/kataras/iris/v12"
 	"github.com/scutrobotlab/rm-schedule/internal/common"
+	"github.com/scutrobotlab/rm-schedule/internal/storage"
 	"github.com/scutrobotlab/rm-schedule/internal/svc"
 	"github.com/scutrobotlab/rm-schedule/internal/types"
 	"github.com/sirupsen/logrus"
@@ -64,8 +65,10 @@ type ForecastSide struct {
 // ForecastTeamInfo 参考 current_match_operator.json 的 team_info 命名。
 // zone_id / match_id 已在顶层给出，此处不再重复。
 type ForecastTeamInfo struct {
-	TeamID      string `json:"team_id"`
-	TeamName    string `json:"team_name"`
+	TeamID   string `json:"team_id"`
+	TeamName string `json:"team_name"`
+	// CollegeLogo 为绝对 URL：已是绝对地址原样下发；原始相对路径会拼上
+	// SCHEDULE_EXPORT_PUBLIC_BASE_URL（未配置则保持相对路径），不做上游 CDN 还原。
 	CollegeLogo string `json:"college_logo"`
 	CollegeName string `json:"college_name"`
 }
@@ -80,8 +83,9 @@ func CurrentMatchForecastHandler(c iris.Context) {
 		Slug:        nil,
 		// 无进行中比赛时也走同一装配路径，保证 support_rate 与 support_rate_percent 均为 -1，
 		// 避免 support_rate_percent 默认成 0 被误读为真实的 0%。
-		RedSide:  forecastSide(nil, -1, -1),
-		BlueSide: forecastSide(nil, -1, -1),
+		// nil player 的 logo 恒为空，baseURL 不影响结果，故此处传 ""。
+		RedSide:  forecastSide(nil, -1, -1, ""),
+		BlueSide: forecastSide(nil, -1, -1, ""),
 	}
 
 	schedule, ok := loadCachedSchedule()
@@ -114,8 +118,9 @@ func CurrentMatchForecastHandler(c iris.Context) {
 	}
 	// 排除平局票后归一化，保证红蓝 support_rate 之和为 1.000、百分数之和为 100.0。
 	red, blue := forecastRates(mp)
-	resp.RedSide = forecastSide(match.RedSide.Player, red.rate, red.percent)
-	resp.BlueSide = forecastSide(match.BlueSide.Player, blue.rate, blue.percent)
+	baseURL := storage.EnvPublicBaseURL()
+	resp.RedSide = forecastSide(match.RedSide.Player, red.rate, red.percent, baseURL)
+	resp.BlueSide = forecastSide(match.BlueSide.Player, blue.rate, blue.percent, baseURL)
 
 	c.Header("Cache-Control", "public, max-age=1")
 	c.JSON(resp)
@@ -208,13 +213,28 @@ func forecastRates(mp MpMatchData) (red, blue sideRate) {
 	return sideRate{redRate, redPct}, sideRate{roundTo(1.0-redRate, 3), roundTo(100.0-redPct, 1)}
 }
 
+// resolveCollegeLogo 输出绝对 logo URL：已是绝对 URL 原样返回；
+// 相对路径拼上 baseURL（本服务公网域名）；baseURL 为空或 raw 为空时按原值返回。
+func resolveCollegeLogo(raw, baseURL string) string {
+	if raw == "" || strings.HasPrefix(raw, "http://") || strings.HasPrefix(raw, "https://") {
+		return raw
+	}
+	if baseURL == "" {
+		return raw
+	}
+	if !strings.HasPrefix(raw, "/") {
+		return baseURL + "/" + raw
+	}
+	return baseURL + raw
+}
+
 // forecastSide 组装单侧队伍信息与支持率；player 或 team 缺失时字段留空。
-func forecastSide(player *types.Player, rate, percent float64) ForecastSide {
+func forecastSide(player *types.Player, rate, percent float64, baseURL string) ForecastSide {
 	var info ForecastTeamInfo
 	if player != nil && player.Team != nil {
 		info.TeamID = player.Team.ID
 		info.TeamName = player.Team.Name
-		info.CollegeLogo = player.Team.CollegeLogo
+		info.CollegeLogo = resolveCollegeLogo(player.Team.CollegeLogo, baseURL)
 		info.CollegeName = player.Team.CollegeName
 	}
 	return ForecastSide{TeamInfo: info, SupportRate: rate, SupportRatePercent: percent}
