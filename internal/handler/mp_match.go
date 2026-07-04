@@ -1,12 +1,12 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"io"
 	"net/http"
-	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -20,11 +20,15 @@ const (
 	MpMatchCacheRefreshTime       = 10 * time.Second // 缓存即将过期时，异步刷新
 	MpMatchCacheExpiration        = 60 * time.Second // 缓存过期时间
 	MpMatchFailureCacheExpiration = 30 * time.Second // 单场拉取失败的占位缓存时间
+	MpMatchUpstreamTimeout        = 5 * time.Second  // 上游拉取超时，避免 singleflight leader 卡住拖垮所有 follower
 	MpMatchDisabled               = false            // 是否禁用
 )
 
 // mpMatchSFGroup 合并同一 match_id 的并发上游拉取，避免冷启动与刷新窗口内的惊群。
 var mpMatchSFGroup singleflight.Group
+
+// mpMatchHTTPClient 带超时，防止上游无响应时请求 goroutine 无限期挂起。
+var mpMatchHTTPClient = &http.Client{Timeout: MpMatchUpstreamTimeout}
 
 type MpMatchSrcResp struct {
 	Code int    `json:"code"`
@@ -133,14 +137,17 @@ func loadMpMatchShared(id int) (*MpMatchData, error) {
 }
 
 func loadMpMatch(id int) (*MpMatchData, error) {
-	_url, err := url.Parse("https://mp.robomaster.com/api/v1/match?matchID=" + strconv.Itoa(id))
-	request := http.Request{
-		Method: http.MethodGet,
-		URL:    _url,
-		Header: http.Header{"Referer": []string{"https://servicewechat.com/wx449772ad6960c39f/34/page-frame.html"}},
-	}
+	ctx, cancel := context.WithTimeout(context.Background(), MpMatchUpstreamTimeout)
+	defer cancel()
 
-	response, err := http.DefaultClient.Do(&request)
+	reqURL := "https://mp.robomaster.com/api/v1/match?matchID=" + strconv.Itoa(id)
+	request, err := http.NewRequestWithContext(ctx, http.MethodGet, reqURL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to build mp match request: %v", err)
+	}
+	request.Header.Set("Referer", "https://servicewechat.com/wx449772ad6960c39f/34/page-frame.html")
+
+	response, err := mpMatchHTTPClient.Do(request)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get mp match: %v", err)
 	}
