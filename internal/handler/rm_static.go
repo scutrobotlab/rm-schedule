@@ -31,6 +31,7 @@ func RMStaticHandler(c iris.Context) {
 	url = strings.Replace(url, "pro-robomasters-hz-n5i3_oss-cn-hangzhou_aliyuncs_com", "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com", 1)
 	url = strings.Replace(url, "hz-rm-bbs-web-prod_oss-cn-hangzhou_aliyuncs_com", "https://hz-rm-bbs-web-prod.oss-cn-hangzhou.aliyuncs.com", 1)
 	url = strings.Replace(url, "terra-us-pro-rm-prod-pub-us_s3_amazonaws_com", "https://terra-us-pro-rm-prod-pub-us.s3.amazonaws.com", 1)
+	url = strings.Replace(url, "sz-rm-rmua-dispatch-prod_oss-cn-shenzhen_aliyuncs_com", "https://sz-rm-rmua-dispatch-prod.oss-cn-shenzhen.aliyuncs.com", 1)
 	// auto add scheme
 	if !strings.HasPrefix(url, "http") {
 		url = "https://" + url

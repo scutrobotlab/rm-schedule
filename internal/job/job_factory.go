@@ -48,5 +48,6 @@ func replaceRMStatic(data []byte) []byte {
 	str = strings.ReplaceAll(str, "https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com", "/api/static/pro-robomasters-hz-n5i3_oss-cn-hangzhou_aliyuncs_com")
 	str = strings.ReplaceAll(str, "https://hz-rm-bbs-web-prod.oss-cn-hangzhou.aliyuncs.com", "/api/static/hz-rm-bbs-web-prod_oss-cn-hangzhou_aliyuncs_com")
 	str = strings.ReplaceAll(str, "https://terra-us-pro-rm-prod-pub-us.s3.amazonaws.com", "/api/static/terra-us-pro-rm-prod-pub-us_s3_amazonaws_com")
+	str = strings.ReplaceAll(str, "https://sz-rm-rmua-dispatch-prod.oss-cn-shenzhen.aliyuncs.com", "/api/static/sz-rm-rmua-dispatch-prod_oss-cn-shenzhen_aliyuncs_com")
 	return []byte(str)
 }
