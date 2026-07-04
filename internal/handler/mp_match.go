@@ -13,6 +13,7 @@ import (
 
 	"github.com/kataras/iris/v12"
 	"github.com/scutrobotlab/rm-schedule/internal/svc"
+	"golang.org/x/sync/singleflight"
 )
 
 const (
@@ -21,6 +22,9 @@ const (
 	MpMatchFailureCacheExpiration = 30 * time.Second // 单场拉取失败的占位缓存时间
 	MpMatchDisabled               = false            // 是否禁用
 )
+
+// mpMatchSFGroup 合并同一 match_id 的并发上游拉取，避免冷启动与刷新窗口内的惊群。
+var mpMatchSFGroup singleflight.Group
 
 type MpMatchSrcResp struct {
 	Code int    `json:"code"`
@@ -76,7 +80,7 @@ func MpMatchHandler(c iris.Context) {
 
 		mpMatch, expiration, b := svc.Cache.GetWithExpiration("mp_match:" + id)
 		if !b {
-			data, err := loadMpMatch(_id)
+			data, err := loadMpMatchShared(_id)
 			if err != nil {
 				logrus.Errorf("Failed to get mp match %d: %v", _id, err)
 				data = unavailableMpMatchData(_id)
@@ -87,7 +91,7 @@ func MpMatchHandler(c iris.Context) {
 			// 如果缓存即将过期，异步刷新
 			if expiration.Sub(time.Now()) < MpMatchCacheRefreshTime {
 				go func(id int) {
-					_, err := loadMpMatch(id)
+					_, err := loadMpMatchShared(id)
 					if err != nil {
 						logrus.Errorf("Failed to get mp match: %v", err)
 					}
@@ -109,6 +113,23 @@ func unavailableMpMatchData(id int) *MpMatchData {
 		BlueRate: -1.0,
 		TieRate:  -1.0,
 	}
+}
+
+// loadMpMatchShared 对 loadMpMatch 做 singleflight 去重：同一 match_id 的并发拉取
+// （冷启动同步加载 + 刷新窗口内的异步刷新）会合并为一次上游请求，共享同一结果。
+func loadMpMatchShared(id int) (*MpMatchData, error) {
+	key := "mp_match:" + strconv.Itoa(id)
+	v, err, _ := mpMatchSFGroup.Do(key, func() (interface{}, error) {
+		return loadMpMatch(id)
+	})
+	if err != nil {
+		return nil, err
+	}
+	data, ok := v.(*MpMatchData)
+	if !ok || data == nil {
+		return nil, fmt.Errorf("unexpected mp match result for id %d", id)
+	}
+	return data, nil
 }
 
 func loadMpMatch(id int) (*MpMatchData, error) {
