@@ -169,16 +169,18 @@ rm-schedule/
       "college_logo": "/api/static/...png",
       "college_name": "华南理工大学"
     },
-    "support_rate": 0.62
+    "support_rate": 0.623,
+    "support_rate_percent": 62.3
   },
   "blue_side": {
     "team_info": { "team_id": "1581", "team_name": "Taurus", "college_logo": "/api/static/...png", "college_name": "华南农业大学" },
-    "support_rate": 0.38
+    "support_rate": 0.377,
+    "support_rate_percent": 37.7
   }
 }
 ```
 
-无进行中比赛时 `has_match=false`，双方 `support_rate=-1`、字段留空；`support_rate=-1` 亦表示该场 `/mp/match` 支持率暂不可用。
+`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后保留 1 位小数。支持率不可用（含无进行中比赛，`has_match=false`）时，双方 `support_rate` 与 `support_rate_percent` 均为 `-1`、team_info 字段留空。
 
 ---
 
