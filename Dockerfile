@@ -26,6 +26,7 @@ RUN apk add --no-cache chromium ca-certificates font-noto-cjk ttf-freefont
 
 # 关闭 Iris 的 debug 日志（iris.Default() 默认 debug 级别）
 ENV SCHEDULE_LOG_LEVEL=info
+ENV SCHEDULE_RENDER_BASE_URL=http://localhost:8080
 
 WORKDIR /app
 

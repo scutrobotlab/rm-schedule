@@ -25,7 +25,7 @@ var (
 func InitChrome() {
 	RenderBaseURL = os.Getenv("SCHEDULE_RENDER_BASE_URL")
 	if RenderBaseURL == "" {
-		RenderBaseURL = "http://127.0.0.1:8080"
+		RenderBaseURL = "http://localhost:3000"
 	}
 
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
