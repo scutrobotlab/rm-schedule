@@ -271,6 +271,8 @@ docker push registry.cn-guangzhou.aliyuncs.com/scutrobot/rm-schedule:latest
 | `SCHEDULE_EXPORT_PUBLIC_BASE_URL` | `""`（相对路径） | 拼接 `image_url` 的域名前缀，如 `https://schedule.scutbot.cn` |
 | `SCHEDULE_EXPORT_RENDER_COOLDOWN` | `20s` | 同一 zone 两次后台渲染之间的最小间隔 |
 | `SCHEDULE_EXPORT_SCALE` | `2` | 后台渲染使用的 `scale` 参数（1–8） |
+| `SCHEDULE_EXPORT_RENDER_MAX_ATTEMPTS` | `3` | 归档赛区单个 part 渲染的最大尝试次数（含首次），瞬时错误退避重试 |
+| `SCHEDULE_RENDER_READY_TIMEOUT` | `60s` | Bootstrap 渲染前等待渲染目标就绪的最长时间；`0` 表示不等待 |
 | `SCHEDULE_EXPORT_COS_BUCKET` | 空 | 预留腾讯云 COS 配置 |
 | `SCHEDULE_EXPORT_COS_REGION` | 空 | 预留 |
 | `SCHEDULE_EXPORT_COS_SECRET_ID` | 空 | 预留 |
@@ -294,6 +296,7 @@ curl "http://localhost:8080/api/export_static/2026/616/0.png" -o out.png
 - **嵌入赛季快照管理**：新增赛季时需在 `internal/static/season_XXXX/` 放置 JSON 文件，并在 `load_embed.go` 中补充 `//go:embed` 声明，在 `router/redirect.go` 中更新 `SeasonMap`。
 - **当前赛季导出清单维护**：`internal/static/season_manifest.go` 中的 `CurrentSeasonZones`、`ArchivedZoneIDs` 与 `CurrentSeason` 需与前端 `rm-schedule-ui/src/constant/zone.ts` 中 `ZoneMap[2026]` **手工同步**；赛季推进（新增赛区/分组）或赛季切换（如 2027 开赛）时需同步更新该文件，并调整 `export_manifest` 的赛季校验逻辑。
 - **后台导出持久化**：`SCHEDULE_EXPORT_STORAGE_DIR` 下每张 PNG 对应同名 `.meta.json`；容器部署时需挂载该目录，否则重启后需重新渲染。
+- **归档赛区渲染重试**：归档赛区（614/615/616）由 `Bootstrap` 一次性渲染、不被 watcher 监听，故渲染前会先探测 `SCHEDULE_RENDER_BASE_URL` 就绪（避免默认目标即本进程 `:8080` 在 `main.go` 末尾才 `Listen` 引发的启动竞态 `ERR_CONNECTION_REFUSED`），并对瞬时错误（页面加载失败/超时）按 `SCHEDULE_EXPORT_RENDER_MAX_ATTEMPTS` 退避重试；`ParamError`（参数错误）与存储/meta 错误不重试。非归档赛区仍由 cron 每 5s + 冷却期自愈。
 - **B 站解析特殊规则**：
   - 合集标题匹配依赖关键词"RMUC/超级对抗赛 + 回放 + 赛季 + 赛区名"；
   - 港澳台等长赛区名与 B 站标题用前 3 个 rune 做模糊匹配；
