@@ -255,6 +255,12 @@ docker push registry.cn-guangzhou.aliyuncs.com/scutrobot/rm-schedule:latest
 
 ## 环境变量
 
+### 通用
+
+| 变量 | 默认值 | 说明 |
+|------|--------|------|
+| `SCHEDULE_LOG_LEVEL` | `debug` | Iris 日志级别（`disable`/`fatal`/`error`/`warn`/`info`/`debug`）；`iris.Default()` 默认 debug，Docker 镜像内已设为 `info` 关闭 debug 输出 |
+
 ### 赛程图同步导出（`/api/export_image`）
 
 | 变量 | 默认值 | 说明 |

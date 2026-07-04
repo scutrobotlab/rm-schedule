@@ -1,6 +1,9 @@
 package main
 
 import (
+	"os"
+	"strings"
+
 	"github.com/kataras/iris/v12"
 	"github.com/scutrobotlab/rm-schedule/internal/exportjob"
 	"github.com/scutrobotlab/rm-schedule/internal/job"
@@ -9,6 +12,15 @@ import (
 	"github.com/scutrobotlab/rm-schedule/internal/svc"
 	"github.com/sirupsen/logrus"
 )
+
+// irisLogLevel 返回 Iris 日志级别（SCHEDULE_LOG_LEVEL，默认 debug）。
+// iris.Default() 会强制设为 debug，生产镜像通过将其设为 info 关闭 Iris 的 debug 输出。
+func irisLogLevel() string {
+	if lvl := strings.TrimSpace(os.Getenv("SCHEDULE_LOG_LEVEL")); lvl != "" {
+		return lvl
+	}
+	return "debug"
+}
 
 func main() {
 	svc.InitChrome()
@@ -32,6 +44,7 @@ func main() {
 	defer cron.Stop()
 
 	r := iris.Default()
+	r.Logger().SetLevel(irisLogLevel())
 	router.Router(r, "./public")
 
 	if err := r.Listen(":8080"); err != nil {
