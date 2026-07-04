@@ -68,7 +68,7 @@ type ForecastTeamInfo struct {
 	TeamID   string `json:"team_id"`
 	TeamName string `json:"team_name"`
 	// CollegeLogo 为绝对 URL：已是绝对地址原样下发；原始相对路径会拼上
-	// SCHEDULE_EXPORT_PUBLIC_BASE_URL（未配置则保持相对路径），不做上游 CDN 还原。
+	// SCHEDULE_PUBLIC_BASE_URL（未配置则保持相对路径），不做上游 CDN 还原。
 	CollegeLogo string `json:"college_logo"`
 	CollegeName string `json:"college_name"`
 }

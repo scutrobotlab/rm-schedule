@@ -18,7 +18,8 @@ type Store interface {
 const (
 	envStorageBackend = "SCHEDULE_EXPORT_STORAGE_BACKEND"
 	envStorageDir     = "SCHEDULE_EXPORT_STORAGE_DIR"
-	envPublicBaseURL  = "SCHEDULE_EXPORT_PUBLIC_BASE_URL"
+	// envPublicBaseURL 为本服务公网域名前缀，导出图片 URL 与 college_logo 绝对化共用同一变量。
+	envPublicBaseURL = "SCHEDULE_PUBLIC_BASE_URL"
 	envCOSBucket      = "SCHEDULE_EXPORT_COS_BUCKET"
 	envCOSRegion      = "SCHEDULE_EXPORT_COS_REGION"
 	envCOSSecretID    = "SCHEDULE_EXPORT_COS_SECRET_ID"
@@ -46,7 +47,7 @@ func EnvStorageBackend() string {
 	return backend
 }
 
-// EnvPublicBaseURL 返回导出图片下载地址的域名前缀（SCHEDULE_EXPORT_PUBLIC_BASE_URL，默认空即相对路径）。
+// EnvPublicBaseURL 返回本服务公网域名前缀（SCHEDULE_PUBLIC_BASE_URL，默认空即相对路径）。
 func EnvPublicBaseURL() string {
 	return strings.TrimRight(strings.TrimSpace(os.Getenv(envPublicBaseURL)), "/")
 }

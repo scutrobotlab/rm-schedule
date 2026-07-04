@@ -12,7 +12,7 @@ import (
 // LocalStore 将图片写入本地目录，URL 指向 /api/export_static/ 静态路由。
 type LocalStore struct {
 	dir     string // SCHEDULE_EXPORT_STORAGE_DIR
-	baseURL string // SCHEDULE_EXPORT_PUBLIC_BASE_URL，为空时返回相对路径
+	baseURL string // SCHEDULE_PUBLIC_BASE_URL，为空时返回相对路径
 }
 
 func NewLocalStore(dir, baseURL string) *LocalStore {
