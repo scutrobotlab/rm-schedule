@@ -55,9 +55,9 @@ type CurrentMatchForecastResp struct {
 // ForecastSide 单侧（红/蓝）的队伍信息与支持率。
 type ForecastSide struct {
 	TeamInfo ForecastTeamInfo `json:"team_info"`
-	// SupportRate 该侧支持率（0~1），保留 3 位小数；不可用时为 -1。
+	// SupportRate 该侧支持率（0~1，已排除平局票、红蓝之和恒为 1.000），保留 3 位小数；不可用时为 -1。
 	SupportRate float64 `json:"support_rate"`
-	// SupportRatePercent 支持率百分数（support_rate * 100），保留 1 位小数；不可用时为 -1。
+	// SupportRatePercent 支持率百分数（support_rate * 100，红蓝之和恒为 100.0），保留 1 位小数；不可用时为 -1。
 	SupportRatePercent float64 `json:"support_rate_percent"`
 }
 
@@ -80,8 +80,8 @@ func CurrentMatchForecastHandler(c iris.Context) {
 		Slug:        nil,
 		// 无进行中比赛时也走同一装配路径，保证 support_rate 与 support_rate_percent 均为 -1，
 		// 避免 support_rate_percent 默认成 0 被误读为真实的 0%。
-		RedSide:  forecastSide(nil, -1.0),
-		BlueSide: forecastSide(nil, -1.0),
+		RedSide:  forecastSide(nil, -1, -1),
+		BlueSide: forecastSide(nil, -1, -1),
 	}
 
 	schedule, ok := loadCachedSchedule()
@@ -112,8 +112,10 @@ func CurrentMatchForecastHandler(c iris.Context) {
 	if !mp.QueriedAt.IsZero() {
 		resp.SupportRateDeadline = mp.QueriedAt.In(forecastLocation).Format(forecastTimeLayout)
 	}
-	resp.RedSide = forecastSide(match.RedSide.Player, mp.RedRate)
-	resp.BlueSide = forecastSide(match.BlueSide.Player, mp.BlueRate)
+	// 排除平局票后归一化，保证红蓝 support_rate 之和为 1.000、百分数之和为 100.0。
+	red, blue := forecastRates(mp)
+	resp.RedSide = forecastSide(match.RedSide.Player, red.rate, red.percent)
+	resp.BlueSide = forecastSide(match.BlueSide.Player, blue.rate, blue.percent)
 
 	c.Header("Cache-Control", "public, max-age=1")
 	c.JSON(resp)
@@ -186,10 +188,28 @@ func findStartedMatch(schedule types.ScheduleResp) (types.ZoneNode, types.MatchN
 	return types.ZoneNode{}, types.MatchNode{}, false
 }
 
+// sideRate 保存单侧最终的支持率与百分数。
+type sideRate struct {
+	rate    float64
+	percent float64
+}
+
+// forecastRates 由 mp 支持率数据计算红蓝双方的支持率与百分数：
+// 排除平局票、按红蓝票数归一化，并让一侧四舍五入、另一侧取补，
+// 从而保证 red.rate + blue.rate == 1.000、red.percent + blue.percent == 100.0。
+// 无有效红蓝票（redCount+blueCount<=0，含拉取失败或零票）时两侧均为 -1。
+func forecastRates(mp MpMatchData) (red, blue sideRate) {
+	denom := mp.RedCount + mp.BlueCount
+	if denom <= 0 {
+		return sideRate{-1, -1}, sideRate{-1, -1}
+	}
+	redRate := roundTo(float64(mp.RedCount)/float64(denom), 3)
+	redPct := roundTo(redRate*100, 1)
+	return sideRate{redRate, redPct}, sideRate{roundTo(1.0-redRate, 3), roundTo(100.0-redPct, 1)}
+}
+
 // forecastSide 组装单侧队伍信息与支持率；player 或 team 缺失时字段留空。
-// support_rate 保留 3 位小数，support_rate_percent 为其 ×100 后保留 1 位小数。
-// 支持率不可用（rate<0，含无进行中比赛）时，两者统一返回 -1。
-func forecastSide(player *types.Player, rate float64) ForecastSide {
+func forecastSide(player *types.Player, rate, percent float64) ForecastSide {
 	var info ForecastTeamInfo
 	if player != nil && player.Team != nil {
 		info.TeamID = player.Team.ID
@@ -197,14 +217,7 @@ func forecastSide(player *types.Player, rate float64) ForecastSide {
 		info.CollegeLogo = player.Team.CollegeLogo
 		info.CollegeName = player.Team.CollegeName
 	}
-	if rate < 0 {
-		return ForecastSide{TeamInfo: info, SupportRate: -1, SupportRatePercent: -1}
-	}
-	return ForecastSide{
-		TeamInfo:           info,
-		SupportRate:        roundTo(rate, 3),
-		SupportRatePercent: roundTo(rate*100, 1),
-	}
+	return ForecastSide{TeamInfo: info, SupportRate: rate, SupportRatePercent: percent}
 }
 
 // roundTo 将 v 四舍五入到 decimals 位小数。

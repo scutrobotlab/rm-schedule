@@ -180,7 +180,7 @@ rm-schedule/
 }
 ```
 
-`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后保留 1 位小数。支持率不可用（含无进行中比赛，`has_match=false`）时，双方 `support_rate` 与 `support_rate_percent` 均为 `-1`、team_info 字段留空。调试时可用环境变量 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` 指定某个 `match_id` 强制作为「进行中」比赛（不限 status），无需真的有 `STARTED` 比赛。
+`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后保留 1 位小数；两者均**排除平局票**、按红蓝票数（`redCount/(redCount+blueCount)`）归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100.0`。支持率不可用（红蓝票数为 0，或拉取失败，或无进行中比赛 `has_match=false`）时，双方 `support_rate` 与 `support_rate_percent` 均为 `-1`、team_info 字段留空。调试时可用环境变量 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` 指定某个 `match_id` 强制作为「进行中」比赛（不限 status），无需真的有 `STARTED` 比赛。
 
 ---
 
