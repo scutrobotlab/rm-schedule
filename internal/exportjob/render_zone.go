@@ -98,10 +98,12 @@ func renderPartOnce(ctx context.Context, store storage.Store, cfg Config, zone s
 	renderCtx, cancel := context.WithTimeout(ctx, 90*time.Second)
 	defer cancel()
 
+	renderStart := time.Now()
 	img, err := render.RenderOnce(renderCtx, static.CurrentSeason, zone.ID, part.Index, cfg.Scale)
 	if err != nil {
 		return fmt.Errorf("render: %w", err)
 	}
+	renderDuration := time.Since(renderStart).Truncate(time.Millisecond)
 
 	now := time.Now()
 	key := imageKey(static.CurrentSeason, zone.ID, part.Index)
@@ -131,7 +133,10 @@ func renderPartOnce(ctx context.Context, store storage.Store, cfg Config, zone s
 	defaultManager.setPartReady(static.CurrentSeason, zone.ID, part, imageURL, scheduleHash, now)
 	defaultManager.mu.Unlock()
 
-	logrus.WithFields(fields).WithField("bytes", len(img)).Info("export render success")
+	logrus.WithFields(fields).WithFields(logrus.Fields{
+		"bytes":    len(img),
+		"duration": renderDuration,
+	}).Info("export render success")
 	return nil
 }
 
