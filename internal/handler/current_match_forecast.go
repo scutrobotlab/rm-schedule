@@ -3,7 +3,9 @@ package handler
 import (
 	"encoding/json"
 	"math"
+	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/kataras/iris/v12"
@@ -18,6 +20,9 @@ const (
 	forecastTimeLayout = "2006-01-02 15:04:05"
 	// matchStatusStarted 表示比赛「直播中 / 进行中」，与前端 MatchGraph 判定一致。
 	matchStatusStarted = "STARTED"
+	// envForecastDebugMatchID 调试用：手动指定「进行中」的 match_id（按 schedule 中 MatchNode.id
+	// 匹配，不限 status）。设置后覆盖 STARTED 自动探测，便于无正式进行中比赛时联调。
+	envForecastDebugMatchID = "SCHEDULE_FORECAST_DEBUG_MATCH_ID"
 )
 
 // forecastLocation 为东八区（CST），与 current_match_operator.json 中的时间保持一致。
@@ -86,7 +91,7 @@ func CurrentMatchForecastHandler(c iris.Context) {
 		return
 	}
 
-	zone, match, found := findStartedMatch(schedule)
+	zone, match, found := selectForecastMatch(schedule)
 	if !found {
 		c.Header("Cache-Control", "public, max-age=1")
 		c.JSON(resp)
@@ -130,6 +135,37 @@ func loadCachedSchedule() (types.ScheduleResp, bool) {
 		return types.ScheduleResp{}, false
 	}
 	return schedule, true
+}
+
+// selectForecastMatch 选出用于竞猜下发的「当前比赛」：
+// 若设置了 SCHEDULE_FORECAST_DEBUG_MATCH_ID，则按该 match_id 定位（不限 status，供调试）；
+// 否则按约定取第一场 status == STARTED 的比赛。
+func selectForecastMatch(schedule types.ScheduleResp) (types.ZoneNode, types.MatchNode, bool) {
+	if debugID := strings.TrimSpace(os.Getenv(envForecastDebugMatchID)); debugID != "" {
+		zone, match, found := findMatchByID(schedule, debugID)
+		if !found {
+			logrus.Warnf("current_match_forecast: debug match_id %q not found in schedule", debugID)
+		}
+		return zone, match, found
+	}
+	return findStartedMatch(schedule)
+}
+
+// findMatchByID 遍历所有赛区，按 MatchNode.id 精确匹配（不限 status）。
+func findMatchByID(schedule types.ScheduleResp, id string) (types.ZoneNode, types.MatchNode, bool) {
+	for _, zone := range schedule.Data.Event.Zones.Nodes {
+		for _, m := range zone.GroupMatches.Nodes {
+			if m.ID == id {
+				return zone, m, true
+			}
+		}
+		for _, m := range zone.KnockoutMatches.Nodes {
+			if m.ID == id {
+				return zone, m, true
+			}
+		}
+	}
+	return types.ZoneNode{}, types.MatchNode{}, false
 }
 
 // findStartedMatch 遍历所有赛区，返回 status == STARTED 的比赛及其所在赛区。

@@ -180,7 +180,7 @@ rm-schedule/
 }
 ```
 
-`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后保留 1 位小数。支持率不可用（含无进行中比赛，`has_match=false`）时，双方 `support_rate` 与 `support_rate_percent` 均为 `-1`、team_info 字段留空。
+`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后保留 1 位小数。支持率不可用（含无进行中比赛，`has_match=false`）时，双方 `support_rate` 与 `support_rate_percent` 均为 `-1`、team_info 字段留空。调试时可用环境变量 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` 指定某个 `match_id` 强制作为「进行中」比赛（不限 status），无需真的有 `STARTED` 比赛。
 
 ---
 
@@ -294,6 +294,7 @@ docker push registry.cn-guangzhou.aliyuncs.com/scutrobot/rm-schedule:latest
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
 | `SCHEDULE_LOG_LEVEL` | `debug` | Iris 日志级别（`disable`/`fatal`/`error`/`warn`/`info`/`debug`）；`iris.Default()` 默认 debug，Docker 镜像内已设为 `info` 关闭 debug 输出 |
+| `SCHEDULE_FORECAST_DEBUG_MATCH_ID` | 空 | 调试用：手动指定 `/api/current_match_forecast` 的「进行中」比赛 `match_id`（按 schedule 中 `MatchNode.id` 匹配，不限 status）。设置后覆盖 `STARTED` 自动探测；空则按正式逻辑取第一场 `STARTED` |
 
 ### 赛程图同步导出（`/api/export_image`）
 
