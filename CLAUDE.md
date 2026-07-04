@@ -100,7 +100,7 @@ rm-schedule/
 - **小程序投票**：代理 `mp.robomaster.com` 接口，计算红蓝支持比例并短时缓存
 - **历史交手查询**：从内嵌 `history_match.json` 按学校/队名检索历史对阵记录
 - **赛程图导出（同步）**：`/api/export_image` 通过 chromedp 无头浏览器打开前端 `/:season/:zoneId/export` 页面，调用 `relation-graph` 的 `getImageBase64()` 生成 PNG；结果带 15s TTL 缓存与 singleflight 去重，并发渲染上限 3；适用于历史赛季、归档赛区或手动调试
-- **赛程图后台导出（当前赛季）**：`exportjob.Watcher` 每 5 秒读取 `svc.Cache["schedule"]`，按 zone 子树 hash 检测变化，冷却期（默认 20s）过后触发 chromedp 渲染并落盘至 `SCHEDULE_EXPORT_STORAGE_DIR`；`/api/export_manifest` 返回各 part 的 `status`/`image_url`；`/api/export_static/` 托管本地图片；归档赛区（614/615/616）渲染一次后永久保留，不再监听变化
+- **赛程图后台导出（当前赛季）**：`exportjob.Watcher` 每 5 秒读取 `svc.Cache["schedule"]`，按 zone 子树 hash 检测变化，冷却期（默认 20s）过后触发 chromedp 渲染并落盘至 `SCHEDULE_EXPORT_STORAGE_DIR`；`/api/export_manifest` 返回各 part 的 `status`/`image_url`；`/api/export_static/` 托管本地图片；归档赛区（614/615/616）渲染一次后永久保留、不监听变化，但仍未 ready 的 part（如 bootstrap 重试耗尽）由 cron 按冷却期节奏长期兜底补渲染，成功后不再重试
 
 ---
 
@@ -296,7 +296,7 @@ curl "http://localhost:8080/api/export_static/2026/616/0.png" -o out.png
 - **嵌入赛季快照管理**：新增赛季时需在 `internal/static/season_XXXX/` 放置 JSON 文件，并在 `load_embed.go` 中补充 `//go:embed` 声明，在 `router/redirect.go` 中更新 `SeasonMap`。
 - **当前赛季导出清单维护**：`internal/static/season_manifest.go` 中的 `CurrentSeasonZones`、`ArchivedZoneIDs` 与 `CurrentSeason` 需与前端 `rm-schedule-ui/src/constant/zone.ts` 中 `ZoneMap[2026]` **手工同步**；赛季推进（新增赛区/分组）或赛季切换（如 2027 开赛）时需同步更新该文件，并调整 `export_manifest` 的赛季校验逻辑。
 - **后台导出持久化**：`SCHEDULE_EXPORT_STORAGE_DIR` 下每张 PNG 对应同名 `.meta.json`；容器部署时需挂载该目录，否则重启后需重新渲染。
-- **归档赛区渲染重试**：归档赛区（614/615/616）由 `Bootstrap` 一次性渲染、不被 watcher 监听，故渲染前会先探测 `SCHEDULE_RENDER_BASE_URL` 就绪（避免默认目标即本进程 `:8080` 在 `main.go` 末尾才 `Listen` 引发的启动竞态 `ERR_CONNECTION_REFUSED`），并对瞬时错误（页面加载失败/超时）按 `SCHEDULE_EXPORT_RENDER_MAX_ATTEMPTS` 退避重试；`ParamError`（参数错误）与存储/meta 错误不重试。非归档赛区仍由 cron 每 5s + 冷却期自愈。
+- **归档赛区渲染重试**：归档赛区（614/615/616）由 `Bootstrap` 一次性渲染，故渲染前会先探测 `SCHEDULE_RENDER_BASE_URL` 就绪（避免默认目标即本进程 `:8080` 在 `main.go` 末尾才 `Listen` 引发的启动竞态 `ERR_CONNECTION_REFUSED`），并对瞬时错误（页面加载失败/超时）按 `SCHEDULE_EXPORT_RENDER_MAX_ATTEMPTS` 退避重试；`ParamError`（参数错误）与存储/meta 错误不重试。若 bootstrap 的有界重试仍全部耗尽（如目标长期不可达），`CheckAndRender` 会作为长期兜底，按 `SCHEDULE_EXPORT_RENDER_COOLDOWN` 节奏对未 ready 的归档 part 单次补渲染，成功后永久保留、不再重试。非归档赛区仍由 cron 每 5s + 冷却期自愈。
 - **B 站解析特殊规则**：
   - 合集标题匹配依赖关键词"RMUC/超级对抗赛 + 回放 + 赛季 + 赛区名"；
   - 港澳台等长赛区名与 B 站标题用前 3 个 rune 做模糊匹配；

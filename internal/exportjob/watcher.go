@@ -25,17 +25,27 @@ func CheckAndRender(store storage.Store) {
 		return
 	}
 
+	ctx := context.Background()
+	now := time.Now()
+
+	// 归档赛区长期兜底：用内嵌快照渲染、走前端导出页取数，均不依赖 live schedule 缓存，
+	// 故放在缓存检查之前——即使 OSS 拉取尚未就绪/持续失败，也不影响归档缺图的补渲染。
+	// 正常情况下归档图由 Bootstrap 一次性渲染；此处覆盖「bootstrap 有界重试耗尽仍缺图」的长期场景，
+	// 按冷却期节奏补渲染仍未 ready 的 part，成功后永久保留、不再重试。
+	for _, zone := range static.CurrentSeasonZones {
+		if isArchivedZone(zone.ID) {
+			backfillArchivedZone(ctx, store, cfg, now, zone)
+		}
+	}
+
 	scheduleData, ok := scheduleBytesFromCache()
 	if !ok || len(scheduleData) == 0 {
 		return
 	}
 
-	ctx := context.Background()
-	now := time.Now()
-
 	for _, zone := range static.CurrentSeasonZones {
 		if isArchivedZone(zone.ID) {
-			continue // 归档赛区由 Bootstrap 一次性渲染，不由 watcher 监听
+			continue // 归档赛区已在上方独立兜底处理
 		}
 
 		hash, err := zoneHashFromSchedule(scheduleData, zone.ID)
@@ -88,5 +98,42 @@ func CheckAndRender(store storage.Store) {
 			zs.pending = true
 		}
 		defaultManager.mu.Unlock()
+	}
+}
+
+// backfillArchivedZone 对归档赛区中仍未 ready 的 part 做长期兜底补渲染。
+// 与非归档赛区自愈一致：每冷却期最多尝试一次、单次尝试快速失败（不长时间占用渲染槽），
+// 由 cron 的周期性调用充当重试节奏；全部 part ready 后走快速返回、不再产生渲染。
+func backfillArchivedZone(ctx context.Context, store storage.Store, cfg Config, now time.Time, zone static.ZoneManifest) {
+	defaultManager.mu.Lock()
+	missing := make([]static.PartManifest, 0, len(zone.Parts))
+	for _, part := range zone.Parts {
+		st, ok := defaultManager.parts[partKey(static.CurrentSeason, zone.ID, part.Index)]
+		if !ok || st.Status != StatusReady || st.ImageURL == "" {
+			missing = append(missing, part)
+		}
+	}
+	if len(missing) == 0 {
+		defaultManager.mu.Unlock()
+		return
+	}
+	// 复用 zoneWatch.lastRenderAt 作为归档补渲染的冷却计时（归档赛区不参与 hash 比较，仅借用节流）。
+	zs := defaultManager.zoneWatch(static.CurrentSeason, zone.ID)
+	if !zs.lastRenderAt.IsZero() && now.Sub(zs.lastRenderAt) < cfg.RenderCooldown {
+		defaultManager.mu.Unlock()
+		return
+	}
+	zs.lastRenderAt = now
+	defaultManager.mu.Unlock()
+
+	scheduleHash := archivedZoneHash(zone.ID)
+	logrus.WithFields(logrus.Fields{
+		"season":  static.CurrentSeason,
+		"zone":    zone.ID,
+		"missing": len(missing),
+	}).Warn("export watcher: backfill archived zone parts")
+
+	for _, part := range missing {
+		renderPart(ctx, store, cfg, zone, part, scheduleHash, true)
 	}
 }
