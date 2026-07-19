@@ -1,0 +1,47 @@
+package handler
+
+import (
+	"errors"
+	"time"
+
+	"github.com/kataras/iris/v12"
+	"github.com/scutrobotlab/rm-schedule/internal/render"
+	"github.com/sirupsen/logrus"
+)
+
+// CurrentMatchForecastImageHandler 导出「王牌预言家」海报 PNG。
+// 无查询参数，固定输出 3840×2160；无进行中比赛时仍返回海报「暂无进行中比赛」状态图（非 HTTP 错误）。
+func CurrentMatchForecastImageHandler(c iris.Context) {
+	start := time.Now()
+	logrus.Info("current_match_forecast_image start")
+
+	img, cached, err := render.RenderForecastImage(c.Request().Context())
+	if err != nil {
+		statusCode := 502
+		var paramErr *render.ParamError
+		var timeoutErr *render.TimeoutError
+		switch {
+		case errors.As(err, &paramErr):
+			statusCode = 400
+		case errors.As(err, &timeoutErr):
+			statusCode = 504
+		}
+		logrus.WithFields(logrus.Fields{
+			"duration":    time.Since(start).Truncate(time.Millisecond),
+			"status_code": statusCode,
+		}).WithError(err).Error("current_match_forecast_image failed")
+		c.StatusCode(statusCode)
+		_, _ = c.WriteString(err.Error())
+		return
+	}
+
+	c.Header("Content-Type", "image/png")
+	c.Header("Content-Disposition", `attachment; filename="current-match-forecast.png"`)
+	c.Header("Cache-Control", "public, max-age=1")
+	_, _ = c.Write(img)
+	logrus.WithFields(logrus.Fields{
+		"duration": time.Since(start).Truncate(time.Millisecond),
+		"bytes":    len(img),
+		"cached":   cached,
+	}).Info("current_match_forecast_image success")
+}

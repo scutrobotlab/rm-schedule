@@ -15,6 +15,7 @@ func Router(r *iris.Application, frontend string) {
 	api.Get("/static/*path", handler.RMStaticHandler)
 	api.Get("/mp/match", handler.MpMatchHandler)
 	api.Get("/current_match_forecast", handler.CurrentMatchForecastHandler)
+	api.Get("/current_match_forecast_image", handler.CurrentMatchForecastImageHandler)
 	api.Get("/rank", handler.RankListHandler)
 	api.Get("/group_rank_info", handler.RedirectRouteHandlerFactory(RedirectParams[common.UpstreamNameGroupRankInfo]))
 	api.Get("/robot_data", handler.RedirectRouteHandlerFactory(RedirectParams[common.UpstreamNameRobotData]))
