@@ -16,7 +16,7 @@ import (
 const (
 	forecastPosterID       = "forecast-poster"
 	forecastDeviceScale    = 2.0
-	forecastResultCacheTTL = 1 * time.Second
+	forecastResultCacheTTL = 5 * time.Second
 	forecastErrorCacheTTL  = 3 * time.Second
 	// 与 handler.CurrentMatchForecast 共用：截图页请求同源 /api/current_match_forecast，
 	// 故 Mock 场次只需设置此环境变量，无需额外查询参数。
@@ -34,7 +34,7 @@ func forecastDebugMatchID() string {
 }
 
 func forecastCacheKey(scale float64) string {
-	// 纳入 DEBUG match_id，避免「无比赛空海报」与 Mock 场次在 1s 缓存内互相污染。
+	// 纳入 DEBUG match_id，避免「无比赛空海报」与 Mock 场次在 5s 缓存内互相污染。
 	if debugID := forecastDebugMatchID(); debugID != "" {
 		return fmt.Sprintf("forecast:%g:debug:%s", scale, debugID)
 	}
@@ -44,7 +44,7 @@ func forecastCacheKey(scale float64) string {
 // RenderForecastImage 打开前端 /forecast?render=1，等待 #forecast-poster 就绪后截取元素 PNG。
 // 固定 deviceScaleFactor=2，CSS 画幅 1920×1080，成品为 3840×2160。
 // Mock 场次复用 SCHEDULE_FORECAST_DEBUG_MATCH_ID（由 /api/current_match_forecast 生效）。
-// 结果带 1s 内存缓存；并发渲染复用全局 sem（上限 3）。
+// 结果带 5s 内存缓存；并发渲染复用全局 sem（上限 3）。
 func RenderForecastImage(ctx context.Context) ([]byte, bool, error) {
 	scale := forecastDeviceScale
 	key := forecastCacheKey(scale)
