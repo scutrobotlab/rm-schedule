@@ -2,6 +2,8 @@ package handler
 
 import (
 	"errors"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/kataras/iris/v12"
@@ -11,9 +13,15 @@ import (
 
 // CurrentMatchForecastImageHandler 导出「王牌预言家」海报 PNG。
 // 无查询参数，固定输出 3840×2160；无进行中比赛时仍返回海报「暂无进行中比赛」状态图（非 HTTP 错误）。
+// Mock 场次复用 SCHEDULE_FORECAST_DEBUG_MATCH_ID（与 /api/current_match_forecast 相同）。
 func CurrentMatchForecastImageHandler(c iris.Context) {
 	start := time.Now()
-	logrus.Info("current_match_forecast_image start")
+	debugMatchID := strings.TrimSpace(os.Getenv(envForecastDebugMatchID))
+	fields := logrus.Fields{}
+	if debugMatchID != "" {
+		fields["debug_match_id"] = debugMatchID
+	}
+	logrus.WithFields(fields).Info("current_match_forecast_image start")
 
 	img, cached, err := render.RenderForecastImage(c.Request().Context())
 	if err != nil {
@@ -26,7 +34,7 @@ func CurrentMatchForecastImageHandler(c iris.Context) {
 		case errors.As(err, &timeoutErr):
 			statusCode = 504
 		}
-		logrus.WithFields(logrus.Fields{
+		logrus.WithFields(fields).WithFields(logrus.Fields{
 			"duration":    time.Since(start).Truncate(time.Millisecond),
 			"status_code": statusCode,
 		}).WithError(err).Error("current_match_forecast_image failed")
@@ -39,7 +47,7 @@ func CurrentMatchForecastImageHandler(c iris.Context) {
 	c.Header("Content-Disposition", `attachment; filename="current-match-forecast.png"`)
 	c.Header("Cache-Control", "public, max-age=1")
 	_, _ = c.Write(img)
-	logrus.WithFields(logrus.Fields{
+	logrus.WithFields(fields).WithFields(logrus.Fields{
 		"duration": time.Since(start).Truncate(time.Millisecond),
 		"bytes":    len(img),
 		"cached":   cached,
