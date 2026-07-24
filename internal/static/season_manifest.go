@@ -69,6 +69,25 @@ var CurrentSeasonZones = []ZoneManifest{
 			{Index: 5, Name: "淘汰赛", Type: "knockout", Group: "Knockout"},
 		},
 	},
+	{
+		ID: 617, Name: "复活赛",
+		Parts: []PartManifest{
+			{Index: 0, Name: "A组", Type: "group", Group: "A"},
+			{Index: 1, Name: "B组", Type: "group", Group: "B"},
+			{Index: 2, Name: "淘汰赛", Type: "knockout", Group: "Knockout"},
+		},
+	},
+	{
+		ID: 618, Name: "全国赛",
+		Parts: []PartManifest{
+			{Index: 0, Name: "A组前段", Type: "group", Group: "A"},
+			{Index: 1, Name: "B组前段", Type: "group", Group: "B"},
+			{Index: 2, Name: "A组后段", Type: "group", Group: "A"},
+			{Index: 3, Name: "B组后段", Type: "group", Group: "B"},
+			{Index: 4, Name: "淘汰赛败者组", Type: "knockout", Group: "Knockout"},
+			{Index: 5, Name: "淘汰赛胜者组", Type: "knockout", Group: "Knockout"},
+		},
+	},
 }
 
 // FindCurrentSeasonZone 按 ID 查找当前赛季赛区，找不到时 ok 为 false。
