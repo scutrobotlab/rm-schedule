@@ -94,8 +94,8 @@ func MatchForecastHandler(c iris.Context) {
 	baseURL := storage.EnvPublicBaseURL()
 	resp := MatchForecastResp{
 		PublishTime: time.Now().In(forecastLocation).Format(forecastTimeLayout),
-		Current:     emptyMatchForecast(baseURL, requestedMatchID, explicit),
-		Next:        emptyMatchForecast(baseURL, "", false),
+		Current:     emptyMatchForecast(),
+		Next:        emptyMatchForecast(),
 	}
 
 	schedule, ok := loadCachedSchedule()
@@ -118,7 +118,7 @@ func MatchForecastHandler(c iris.Context) {
 		if nextZone, nextMatch, nextFound := findFirstUpcomingMatch(schedule); nextFound {
 			resp.ZoneName = nextZone.Name
 			resp.ZoneID, _ = strconv.Atoi(nextZone.ID)
-			resp.Next, _ = buildMatchForecast(nextMatch, baseURL, true)
+			resp.Next, _ = buildMatchForecast(nextMatch, baseURL)
 		}
 		c.Header("Cache-Control", "public, max-age=1")
 		c.JSON(resp)
@@ -128,9 +128,9 @@ func MatchForecastHandler(c iris.Context) {
 	resp.ZoneName = zone.Name
 	resp.ZoneID, _ = strconv.Atoi(zone.ID)
 	var currentQueriedAt, nextQueriedAt time.Time
-	resp.Current, currentQueriedAt = buildMatchForecast(match, baseURL, explicit)
+	resp.Current, currentQueriedAt = buildMatchForecast(match, baseURL)
 	if nextMatch, nextFound := findNextMatch(zone, match); nextFound {
-		resp.Next, nextQueriedAt = buildMatchForecast(nextMatch, baseURL, true)
+		resp.Next, nextQueriedAt = buildMatchForecast(nextMatch, baseURL)
 	}
 	deadline := currentQueriedAt
 	if nextQueriedAt.After(deadline) {
@@ -144,11 +144,11 @@ func MatchForecastHandler(c iris.Context) {
 	c.JSON(resp)
 }
 
-func emptyMatchForecast(baseURL, requestedMatchID string, explicit bool) MatchForecast {
+func emptyMatchForecast() MatchForecast {
 	return MatchForecast{
 		HasMatch: false,
 		Slug:     nil,
-		ImageURL: forecastImageURL(baseURL, requestedMatchID, explicit, time.Time{}),
+		ImageURL: "",
 		// 无进行中比赛时也走同一装配路径，保证 support_rate 与 support_rate_percent 均为 -1，
 		// 避免 support_rate_percent 默认成 0 被误读为真实的 0%。
 		// nil player 的 logo 恒为空，baseURL 不影响结果，故此处传 ""。
@@ -157,17 +157,17 @@ func emptyMatchForecast(baseURL, requestedMatchID string, explicit bool) MatchFo
 	}
 }
 
-func buildMatchForecast(match types.MatchNode, baseURL string, explicit bool) (MatchForecast, time.Time) {
+func buildMatchForecast(match types.MatchNode, baseURL string) (MatchForecast, time.Time) {
 	matchID, _ := strconv.Atoi(match.ID)
 	// 走 1s 短缓存的实时取数，尽量降低当前进行中比赛的支持率延迟。
 	mp := resolveMpMatchRealtime(match.ID, matchID)
 
-	resp := emptyMatchForecast(baseURL, match.ID, explicit)
+	resp := emptyMatchForecast()
 	resp.HasMatch = true
 	resp.OrderNumber = match.OrderNumber
 	resp.Slug = match.Slug
 	resp.MatchID = matchID
-	resp.ImageURL = forecastImageURL(baseURL, match.ID, explicit, mp.QueriedAt)
+	resp.ImageURL = forecastImageURL(baseURL, match.ID, mp.QueriedAt)
 	// 排除平局票后归一化，保证红蓝 support_rate 之和为 1.000、百分数之和为 100。
 	red, blue := forecastRates(mp)
 	resp.RedSide = forecastSide(match.RedSide.Player, red.rate, red.percent, baseURL)
@@ -201,19 +201,14 @@ func writeForecastError(c iris.Context, status int, message string) {
 	c.JSON(iris.Map{"error": message})
 }
 
-// forecastImageURL 根据公网域名前缀生成预测图下载地址；显式场次保留 match_id。
+// forecastImageURL 根据公网域名前缀生成预测图下载地址；match_id 必定写入地址。
 // 支持率查询时间按分钟截断后作为内容版本，便于 CDN 长时间缓存同一版图片。
-func forecastImageURL(baseURL, matchID string, explicit bool, queriedAt time.Time) string {
+func forecastImageURL(baseURL, matchID string, queriedAt time.Time) string {
 	imageURL := strings.TrimRight(baseURL, "/") + forecastImagePath
 	query := url.Values{}
-	if explicit {
-		query.Set("match_id", matchID)
-	}
+	query.Set("match_id", matchID)
 	if !queriedAt.IsZero() {
 		query.Set("v", strconv.FormatInt(queriedAt.Truncate(time.Minute).Unix(), 10))
-	}
-	if len(query) == 0 {
-		return imageURL
 	}
 	return imageURL + "?" + query.Encode()
 }

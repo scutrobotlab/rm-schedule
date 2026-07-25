@@ -51,9 +51,6 @@ func TestMatchForecastImageFilenameIncludesMatchID(t *testing.T) {
 	if got := matchForecastImageFilename("30988", true); got != "match-forecast-30988.png" {
 		t.Fatalf("explicit filename = %q, want %q", got, "match-forecast-30988.png")
 	}
-	if got := matchForecastImageFilename("", false); got != "match-forecast-31056.png" {
-		t.Fatalf("current filename = %q, want %q", got, "match-forecast-31056.png")
-	}
 }
 
 func TestSelectForecastMatch(t *testing.T) {
@@ -123,6 +120,7 @@ func TestMatchForecastImageHandlerValidatesExplicitMatchID(t *testing.T) {
 		query      string
 		wantStatus int
 	}{
+		{query: "", wantStatus: http.StatusBadRequest},
 		{query: "?match_id=abc", wantStatus: http.StatusBadRequest},
 		{query: "?match_id=99999", wantStatus: http.StatusNotFound},
 	} {
@@ -194,35 +192,32 @@ func TestForecastImageURL(t *testing.T) {
 		name      string
 		baseURL   string
 		matchID   string
-		explicit  bool
 		queriedAt time.Time
 		want      string
 	}{
-		{name: "relative current", want: "/api/match_forecast_image"},
 		{
-			name:      "relative current versioned by minute",
+			name:      "relative versioned by minute",
+			matchID:   "30988",
 			queriedAt: queriedAt,
-			want:      "/api/match_forecast_image?v=" + version,
+			want:      "/api/match_forecast_image?match_id=30988&v=" + version,
 		},
 		{
-			name:     "absolute explicit",
-			baseURL:  "https://schedule.scutbot.cn/",
-			matchID:  "30988",
-			explicit: true,
-			want:     "https://schedule.scutbot.cn/api/match_forecast_image?match_id=30988",
+			name:    "absolute",
+			baseURL: "https://schedule.scutbot.cn/",
+			matchID: "30988",
+			want:    "https://schedule.scutbot.cn/api/match_forecast_image?match_id=30988",
 		},
 		{
-			name:      "absolute explicit versioned by minute",
+			name:      "absolute versioned by minute",
 			baseURL:   "https://schedule.scutbot.cn/",
 			matchID:   "30988",
-			explicit:  true,
 			queriedAt: queriedAt.Add(3 * time.Second),
 			want:      "https://schedule.scutbot.cn/api/match_forecast_image?match_id=30988&v=" + version,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := forecastImageURL(tt.baseURL, tt.matchID, tt.explicit, tt.queriedAt); got != tt.want {
+			if got := forecastImageURL(tt.baseURL, tt.matchID, tt.queriedAt); got != tt.want {
 				t.Fatalf("forecastImageURL() = %q, want %q", got, tt.want)
 			}
 		})

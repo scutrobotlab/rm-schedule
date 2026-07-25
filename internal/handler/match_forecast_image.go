@@ -16,7 +16,7 @@ import (
 var renderForecastImage = render.RenderForecastImage
 
 // MatchForecastImageHandler 导出「王牌预言家」海报 PNG。
-// 可选 match_id 指定当前赛季任意场次；未传时沿用当前进行中比赛选择逻辑。
+// match_id 必填，用于指定当前赛季任意场次。
 func MatchForecastImageHandler(c iris.Context) {
 	start := time.Now()
 	requestedMatchID, explicit, err := parseForecastMatchID(c)
@@ -24,16 +24,18 @@ func MatchForecastImageHandler(c iris.Context) {
 		writeForecastError(c, iris.StatusBadRequest, err.Error())
 		return
 	}
-	if explicit {
-		schedule, ok := loadCachedSchedule()
-		if !ok {
-			writeForecastError(c, iris.StatusServiceUnavailable, "schedule unavailable")
-			return
-		}
-		if _, _, found := selectForecastMatch(schedule, requestedMatchID, true); !found {
-			writeForecastError(c, iris.StatusNotFound, "match_id not found")
-			return
-		}
+	if !explicit {
+		writeForecastError(c, iris.StatusBadRequest, "match_id is required")
+		return
+	}
+	schedule, ok := loadCachedSchedule()
+	if !ok {
+		writeForecastError(c, iris.StatusServiceUnavailable, "schedule unavailable")
+		return
+	}
+	if _, _, found := selectForecastMatch(schedule, requestedMatchID, true); !found {
+		writeForecastError(c, iris.StatusNotFound, "match_id not found")
+		return
 	}
 
 	debugMatchID := strings.TrimSpace(os.Getenv(envForecastDebugMatchID))

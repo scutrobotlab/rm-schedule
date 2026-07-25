@@ -117,7 +117,7 @@ rm-schedule/
 | GET | `/api/rank` | 积分榜与完整形态榜（`?season=`、`?school_name=`） |
 | GET | `/api/mp/match` | 小程序对局/预言家数据（`?match_ids=` 逗号分隔） |
 | GET | `/api/match_forecast` | 比赛竞猜预测；可选 `?match_id=` 指定当前赛季任意场次，未传时选择当前 `STARTED` 比赛 |
-| GET | `/api/match_forecast_image` | 「王牌预言家」海报 PNG（固定 3840×2160，成功结果缓存到下一个整分钟）；可选 `?match_id=`，文件名如 `match-forecast-31056.png` |
+| GET | `/api/match_forecast_image` | 「王牌预言家」海报 PNG（固定 3840×2160，成功结果缓存到下一个整分钟）；必须传 `?match_id=`，缺失返回 400，文件名如 `match-forecast-31056.png` |
 | GET | `/api/match_id_to_video` | 比赛 ID → B 站回放元数据（`?match_id=` 或 `all`） |
 | GET | `/api/match_order_to_video` | 场次号 → B 站回放元数据（`?season=&zone=&order_number=` 或 `all`） |
 | GET | `/api/team_info` | 队伍详情及 B 站官方账号 UID（`?college_name=`） |
@@ -193,7 +193,7 @@ rm-schedule/
 }
 ```
 
-`publish_time`、`support_rate_deadline`、`zone_name`、`zone_id` 是两场共用的顶层字段；`current` 为当前/显式指定场次，`next` 为同一赛区中场次号紧随其后的比赛。没有进行中比赛时 `current.has_match=false`，`next` 返回当前赛季最早的未结束比赛。`image_url` 为预测图下载接口；配置 `SCHEDULE_PUBLIC_BASE_URL` 时返回绝对地址。显式查询 `match_id` 时，图片地址携带相同参数；有支持率查询时间时还会携带按分钟截断的 `v=<Unix 时间戳>`，参考导出图清单实现 CDN 内容版本化。`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后四舍五入到整数（精度 1%）；两者均**排除平局票**、按红蓝票数归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100`。支持率不可用时双方字段均为 `-1`。
+`publish_time`、`support_rate_deadline`、`zone_name`、`zone_id` 是两场共用的顶层字段；`current` 为当前/显式指定场次，`next` 为同一赛区中场次号紧随其后的比赛。没有进行中比赛时 `current.has_match=false`，`next` 返回当前赛季最早的未结束比赛。有效场次的 `image_url` 必定携带 `match_id`；无有效场次时为空字符串。配置 `SCHEDULE_PUBLIC_BASE_URL` 时返回绝对地址；有支持率查询时间时还会携带按分钟截断的 `v=<Unix 时间戳>`，参考导出图清单实现 CDN 内容版本化。`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后四舍五入到整数（精度 1%）；两者均**排除平局票**、按红蓝票数归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100`。支持率不可用时双方字段均为 `-1`。
 
 ---
 
