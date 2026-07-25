@@ -20,6 +20,8 @@ import (
 const (
 	// forecastTimeLayout 与 current_match_operator.json 的 publish_time 一致，精确到秒。
 	forecastTimeLayout = "2006-01-02 15:04:05"
+	// forecastDeadlineLayout 为支持率截止时间格式。预测数据按分钟更新，不下发无意义的秒。
+	forecastDeadlineLayout = "2006-01-02 15:04"
 	// matchStatusStarted 表示比赛「直播中 / 进行中」，与前端 MatchGraph 判定一致。
 	matchStatusStarted = "STARTED"
 	// envForecastDebugMatchID 调试用：手动指定「进行中」的 match_id（按 schedule 中 MatchNode.id
@@ -49,7 +51,7 @@ type MatchForecastResp struct {
 	Slug interface{} `json:"slug"`
 	// MatchID 比赛 ID，即 /mp/match 使用的 matchID。
 	MatchID int `json:"match_id"`
-	// SupportRateDeadline 支持率查询的截止时间（该 match 从 mp.robomaster.com 查询的时刻），精确到秒。
+	// SupportRateDeadline 支持率查询的截止时间（该 match 从 mp.robomaster.com 查询的时刻），精确到分钟。
 	SupportRateDeadline string `json:"support_rate_deadline"`
 	// ImageURL 比赛预测图的下载地址。
 	ImageURL string `json:"image_url"`
@@ -92,7 +94,7 @@ func MatchForecastHandler(c iris.Context) {
 		PublishTime: time.Now().In(forecastLocation).Format(forecastTimeLayout),
 		HasMatch:    false,
 		Slug:        nil,
-		ImageURL:    forecastImageURL(baseURL, requestedMatchID, explicit),
+		ImageURL:    forecastImageURL(baseURL, requestedMatchID, explicit, time.Time{}),
 		// 无进行中比赛时也走同一装配路径，保证 support_rate 与 support_rate_percent 均为 -1，
 		// 避免 support_rate_percent 默认成 0 被误读为真实的 0%。
 		// nil player 的 logo 恒为空，baseURL 不影响结果，故此处传 ""。
@@ -134,8 +136,9 @@ func MatchForecastHandler(c iris.Context) {
 	resp.Slug = match.Slug
 	resp.MatchID = matchID
 	if !mp.QueriedAt.IsZero() {
-		resp.SupportRateDeadline = mp.QueriedAt.In(forecastLocation).Format(forecastTimeLayout)
+		resp.SupportRateDeadline = mp.QueriedAt.In(forecastLocation).Format(forecastDeadlineLayout)
 	}
+	resp.ImageURL = forecastImageURL(baseURL, requestedMatchID, explicit, mp.QueriedAt)
 	// 排除平局票后归一化，保证红蓝 support_rate 之和为 1.000、百分数之和为 100。
 	red, blue := forecastRates(mp)
 	resp.RedSide = forecastSide(match.RedSide.Player, red.rate, red.percent, baseURL)
@@ -172,12 +175,20 @@ func writeForecastError(c iris.Context, status int, message string) {
 }
 
 // forecastImageURL 根据公网域名前缀生成预测图下载地址；显式场次保留 match_id。
-func forecastImageURL(baseURL, matchID string, explicit bool) string {
+// 支持率查询时间按分钟截断后作为内容版本，便于 CDN 长时间缓存同一版图片。
+func forecastImageURL(baseURL, matchID string, explicit bool, queriedAt time.Time) string {
 	imageURL := strings.TrimRight(baseURL, "/") + forecastImagePath
-	if !explicit {
+	query := url.Values{}
+	if explicit {
+		query.Set("match_id", matchID)
+	}
+	if !queriedAt.IsZero() {
+		query.Set("v", strconv.FormatInt(queriedAt.Truncate(time.Minute).Unix(), 10))
+	}
+	if len(query) == 0 {
 		return imageURL
 	}
-	return imageURL + "?match_id=" + url.QueryEscape(matchID)
+	return imageURL + "?" + query.Encode()
 }
 
 // loadCachedSchedule 从 svc.Cache 读取实时 schedule 并解析。

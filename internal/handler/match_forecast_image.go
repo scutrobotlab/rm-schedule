@@ -13,6 +13,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+var renderForecastImage = render.RenderForecastImage
+
 // MatchForecastImageHandler 导出「王牌预言家」海报 PNG。
 // 可选 match_id 指定当前赛季任意场次；未传时沿用当前进行中比赛选择逻辑。
 func MatchForecastImageHandler(c iris.Context) {
@@ -44,7 +46,7 @@ func MatchForecastImageHandler(c iris.Context) {
 	}
 	logrus.WithFields(fields).Info("match_forecast_image start")
 
-	img, cached, err := render.RenderForecastImage(c.Request().Context(), requestedMatchID)
+	img, cached, err := renderForecastImage(c.Request().Context(), requestedMatchID)
 	if err != nil {
 		statusCode := 502
 		var paramErr *render.ParamError
@@ -69,7 +71,11 @@ func MatchForecastImageHandler(c iris.Context) {
 		`attachment; filename="%s"`,
 		matchForecastImageFilename(requestedMatchID, explicit),
 	))
-	c.Header("Cache-Control", "public, max-age=1")
+	if c.URLParam("v") != "" {
+		c.Header("Cache-Control", "public, max-age=31536000, immutable")
+	} else {
+		c.Header("Cache-Control", "public, max-age=1")
+	}
 	_, _ = c.Write(img)
 	logrus.WithFields(fields).WithFields(logrus.Fields{
 		"duration": time.Since(start).Truncate(time.Millisecond),

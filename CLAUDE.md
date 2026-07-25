@@ -98,7 +98,7 @@ rm-schedule/
 - **静态资源代理**：`/api/static/*path` 拉取 DJI CDN / 阿里云 / OSS 资源，支持 `?process=bg_white` 将 PNG 透明底转白底，结果写入内存缓存
 - **CDN 回源**：请求头携带 `Tencent-Acceleration-Domain-Name` 时，直接 301 重定向到 OSS 原始 URL，减少本机流量
 - **小程序投票**：代理 `mp.robomaster.com` 接口，计算红蓝支持比例并短时缓存；`MpMatchData` 额外记录 `QueriedAt`（上游查询时刻，`json:"-"` 不对外序列化），供竞猜接口计算截止时间
-- **比赛竞猜预测**：`/api/match_forecast` 可通过可选 `match_id` 查询当前赛季任意状态的比赛；未传时从实时 `schedule` 缓存里找第一场 `status==STARTED` 的比赛。接口下发赛区名/场次号/slug、红蓝双方校徽·校名·队名；支持率走 **1s 独立短缓存**（`mp_match_rt:` key，`resolveMpMatchRealtime`）而非 `/mp/match` 的 60s 缓存，配合 singleflight 合并并发拉取；`support_rate_deadline` 为支持率查询时刻（精确到秒，东八区）。显式 `match_id` 格式非法返回 400、不存在返回 404；未指定且无进行中比赛时 `has_match=false`。调试环境变量 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` 仅在未传参数时生效
+- **比赛竞猜预测**：`/api/match_forecast` 可通过可选 `match_id` 查询当前赛季任意状态的比赛；未传时从实时 `schedule` 缓存里找第一场 `status==STARTED` 的比赛。接口下发赛区名/场次号/slug、红蓝双方校徽·校名·队名；支持率走 **1s 独立短缓存**（`mp_match_rt:` key，`resolveMpMatchRealtime`）而非 `/mp/match` 的 60s 缓存，配合 singleflight 合并并发拉取；`support_rate_deadline` 为支持率查询时刻（精确到分钟，东八区），图片 URL 携带同一分钟稳定的 `v=<Unix 时间戳>` 供 CDN 按版本缓存。显式 `match_id` 格式非法返回 400、不存在返回 404；未指定且无进行中比赛时 `has_match=false`。调试环境变量 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` 仅在未传参数时生效
 - **历史交手查询**：从内嵌 `history_match.json` 按学校/队名检索历史对阵记录
 - **赛程图导出（同步）**：`/api/export_image` 通过 chromedp 无头浏览器打开前端 `/:season/:zoneId/export` 页面，调用 `relation-graph` 的 `getImageBase64()` 生成 PNG；结果带 15s TTL 缓存与 singleflight 去重，并发渲染上限 3；适用于历史赛季、归档赛区或手动调试
 - **赛程图后台导出（当前赛季）**：`exportjob.Watcher` 每 5 秒读取 `svc.Cache["schedule"]`，按 zone 子树 hash 检测变化，冷却期（默认 20s）过后触发 chromedp 渲染并落盘至 `SCHEDULE_EXPORT_STORAGE_DIR`；`/api/export_manifest` 返回各 part 的 `status`/`image_url`；`/api/export_static/` 托管本地图片；归档赛区（614/615/616）渲染一次后永久保留、不监听变化，但仍未 ready 的 part（如 bootstrap 重试耗尽）由 cron 按冷却期节奏长期兜底补渲染，成功后不再重试
@@ -162,8 +162,8 @@ rm-schedule/
   "order_number": 12,
   "slug": null,
   "match_id": 31088,
-  "support_rate_deadline": "2026-07-04 19:20:05",
-  "image_url": "https://schedule.scutbot.cn/api/match_forecast_image?match_id=31088",
+  "support_rate_deadline": "2026-07-04 19:20",
+  "image_url": "https://schedule.scutbot.cn/api/match_forecast_image?match_id=31088&v=1784979240",
   "red_side": {
     "team_info": {
       "team_id": "179",
@@ -182,7 +182,7 @@ rm-schedule/
 }
 ```
 
-`image_url` 为预测图下载接口；配置 `SCHEDULE_PUBLIC_BASE_URL` 时返回绝对地址。显式查询 `match_id` 时，图片地址携带相同参数；未传时图片地址不带参数并继续选择当前比赛。`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后四舍五入到整数（精度 1%）；两者均**排除平局票**、按红蓝票数归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100`。支持率不可用时双方字段均为 `-1`。
+`image_url` 为预测图下载接口；配置 `SCHEDULE_PUBLIC_BASE_URL` 时返回绝对地址。显式查询 `match_id` 时，图片地址携带相同参数；有支持率查询时间时还会携带按分钟截断的 `v=<Unix 时间戳>`，参考导出图清单实现 CDN 内容版本化；未传 `match_id` 时继续选择当前比赛。`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后四舍五入到整数（精度 1%）；两者均**排除平局票**、按红蓝票数归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100`。支持率不可用时双方字段均为 `-1`。
 
 ---
 

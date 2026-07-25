@@ -1,10 +1,13 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"testing"
+	"time"
 
 	"github.com/kataras/iris/v12"
 	"github.com/scutrobotlab/rm-schedule/internal/common"
@@ -134,7 +137,12 @@ func TestMatchForecastImageHandlerValidatesExplicitMatchID(t *testing.T) {
 
 func TestMatchForecastHandlerReturnsExplicitCompletedMatch(t *testing.T) {
 	setForecastTestSchedule(t)
-	svc.Cache.SetDefault("mp_match_rt:30988", MpMatchData{RedCount: 2, BlueCount: 1})
+	queriedAt := time.Date(2026, 7, 25, 12, 34, 56, 0, time.FixedZone("CST", 8*3600))
+	svc.Cache.SetDefault("mp_match_rt:30988", MpMatchData{
+		RedCount:  2,
+		BlueCount: 1,
+		QueriedAt: queriedAt,
+	})
 	t.Cleanup(func() {
 		svc.Cache.Delete("mp_match_rt:30988")
 	})
@@ -158,20 +166,33 @@ func TestMatchForecastHandlerReturnsExplicitCompletedMatch(t *testing.T) {
 	if !resp.HasMatch || resp.MatchID != 30988 {
 		t.Fatalf("response match = has_match:%v id:%d, want true/30988", resp.HasMatch, resp.MatchID)
 	}
-	if resp.ImageURL != "/api/match_forecast_image?match_id=30988" {
+	if resp.SupportRateDeadline != "2026-07-25 12:34" {
+		t.Fatalf("support_rate_deadline = %q", resp.SupportRateDeadline)
+	}
+	wantImageURL := "/api/match_forecast_image?match_id=30988&v=" +
+		strconv.FormatInt(queriedAt.Truncate(time.Minute).Unix(), 10)
+	if resp.ImageURL != wantImageURL {
 		t.Fatalf("image_url = %q", resp.ImageURL)
 	}
 }
 
 func TestForecastImageURL(t *testing.T) {
+	queriedAt := time.Date(2026, 7, 25, 12, 34, 56, 0, time.FixedZone("CST", 8*3600))
+	version := strconv.FormatInt(queriedAt.Truncate(time.Minute).Unix(), 10)
 	tests := []struct {
-		name     string
-		baseURL  string
-		matchID  string
-		explicit bool
-		want     string
+		name      string
+		baseURL   string
+		matchID   string
+		explicit  bool
+		queriedAt time.Time
+		want      string
 	}{
 		{name: "relative current", want: "/api/match_forecast_image"},
+		{
+			name:      "relative current versioned by minute",
+			queriedAt: queriedAt,
+			want:      "/api/match_forecast_image?v=" + version,
+		},
 		{
 			name:     "absolute explicit",
 			baseURL:  "https://schedule.scutbot.cn/",
@@ -179,13 +200,52 @@ func TestForecastImageURL(t *testing.T) {
 			explicit: true,
 			want:     "https://schedule.scutbot.cn/api/match_forecast_image?match_id=30988",
 		},
+		{
+			name:      "absolute explicit versioned by minute",
+			baseURL:   "https://schedule.scutbot.cn/",
+			matchID:   "30988",
+			explicit:  true,
+			queriedAt: queriedAt.Add(3 * time.Second),
+			want:      "https://schedule.scutbot.cn/api/match_forecast_image?match_id=30988&v=" + version,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := forecastImageURL(tt.baseURL, tt.matchID, tt.explicit); got != tt.want {
+			if got := forecastImageURL(tt.baseURL, tt.matchID, tt.explicit, tt.queriedAt); got != tt.want {
 				t.Fatalf("forecastImageURL() = %q, want %q", got, tt.want)
 			}
 		})
+	}
+}
+
+func TestMatchForecastImageCacheControl(t *testing.T) {
+	setForecastTestSchedule(t)
+
+	originalRender := renderForecastImage
+	renderForecastImage = func(context.Context, string) ([]byte, bool, error) {
+		return []byte("png"), false, nil
+	}
+	t.Cleanup(func() { renderForecastImage = originalRender })
+
+	app := iris.New()
+	app.Get("/api/match_forecast_image", MatchForecastImageHandler)
+	if err := app.Build(); err != nil {
+		t.Fatal(err)
+	}
+
+	for _, tt := range []struct {
+		query string
+		want  string
+	}{
+		{query: "?match_id=30988", want: "public, max-age=1"},
+		{query: "?match_id=30988&v=1784954040", want: "public, max-age=31536000, immutable"},
+	} {
+		rec := httptest.NewRecorder()
+		req := httptest.NewRequest(http.MethodGet, "/api/match_forecast_image"+tt.query, nil)
+		app.ServeHTTP(rec, req)
+		if got := rec.Header().Get("Cache-Control"); got != tt.want {
+			t.Fatalf("query %q Cache-Control = %q, want %q", tt.query, got, tt.want)
+		}
 	}
 }
 
