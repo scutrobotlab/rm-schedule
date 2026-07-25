@@ -171,17 +171,17 @@ rm-schedule/
       "college_name": "华南理工大学"
     },
     "support_rate": 0.623,
-    "support_rate_percent": 62.3
+    "support_rate_percent": 62
   },
   "blue_side": {
     "team_info": { "team_id": "1581", "team_name": "Taurus", "college_logo": "https://schedule.scutbot.cn/api/static/...png", "college_name": "华南农业大学" },
     "support_rate": 0.377,
-    "support_rate_percent": 37.7
+    "support_rate_percent": 38
   }
 }
 ```
 
-`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后保留 1 位小数；两者均**排除平局票**、按红蓝票数（`redCount/(redCount+blueCount)`）归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100.0`。支持率不可用（红蓝票数为 0，或拉取失败，或无进行中比赛 `has_match=false`）时，双方 `support_rate` 与 `support_rate_percent` 均为 `-1`、team_info 字段留空。调试时可用环境变量 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` 指定某个 `match_id` 强制作为「进行中」比赛（不限 status），无需真的有 `STARTED` 比赛。
+`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后四舍五入到整数（精度 1%）；两者均**排除平局票**、按红蓝票数（`redCount/(redCount+blueCount)`）归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100`。支持率不可用（红蓝票数为 0，或拉取失败，或无进行中比赛 `has_match=false`）时，双方 `support_rate` 与 `support_rate_percent` 均为 `-1`、team_info 字段留空。调试时可用环境变量 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` 指定某个 `match_id` 强制作为「进行中」比赛（不限 status），无需真的有 `STARTED` 比赛。
 
 ---
 

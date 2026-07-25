@@ -58,8 +58,8 @@ type ForecastSide struct {
 	TeamInfo ForecastTeamInfo `json:"team_info"`
 	// SupportRate 该侧支持率（0~1，已排除平局票、红蓝之和恒为 1.000），保留 3 位小数；不可用时为 -1。
 	SupportRate float64 `json:"support_rate"`
-	// SupportRatePercent 支持率百分数（support_rate * 100，红蓝之和恒为 100.0），保留 1 位小数；不可用时为 -1。
-	SupportRatePercent float64 `json:"support_rate_percent"`
+	// SupportRatePercent 支持率百分数（support_rate * 100，红蓝之和恒为 100），取整到 1%；不可用时为 -1。
+	SupportRatePercent int `json:"support_rate_percent"`
 }
 
 // ForecastTeamInfo 参考 current_match_operator.json 的 team_info 命名。
@@ -116,7 +116,7 @@ func CurrentMatchForecastHandler(c iris.Context) {
 	if !mp.QueriedAt.IsZero() {
 		resp.SupportRateDeadline = mp.QueriedAt.In(forecastLocation).Format(forecastTimeLayout)
 	}
-	// 排除平局票后归一化，保证红蓝 support_rate 之和为 1.000、百分数之和为 100.0。
+	// 排除平局票后归一化，保证红蓝 support_rate 之和为 1.000、百分数之和为 100。
 	red, blue := forecastRates(mp)
 	baseURL := storage.EnvPublicBaseURL()
 	resp.RedSide = forecastSide(match.RedSide.Player, red.rate, red.percent, baseURL)
@@ -196,12 +196,12 @@ func findStartedMatch(schedule types.ScheduleResp) (types.ZoneNode, types.MatchN
 // sideRate 保存单侧最终的支持率与百分数。
 type sideRate struct {
 	rate    float64
-	percent float64
+	percent int
 }
 
 // forecastRates 由 mp 支持率数据计算红蓝双方的支持率与百分数：
 // 排除平局票、按红蓝票数归一化，并让一侧四舍五入、另一侧取补，
-// 从而保证 red.rate + blue.rate == 1.000、red.percent + blue.percent == 100.0。
+// 从而保证 red.rate + blue.rate == 1.000、red.percent + blue.percent == 100。
 // 无有效红蓝票（redCount+blueCount<=0，含拉取失败或零票）时两侧均为 -1。
 func forecastRates(mp MpMatchData) (red, blue sideRate) {
 	denom := mp.RedCount + mp.BlueCount
@@ -209,8 +209,8 @@ func forecastRates(mp MpMatchData) (red, blue sideRate) {
 		return sideRate{-1, -1}, sideRate{-1, -1}
 	}
 	redRate := roundTo(float64(mp.RedCount)/float64(denom), 3)
-	redPct := roundTo(redRate*100, 1)
-	return sideRate{redRate, redPct}, sideRate{roundTo(1.0-redRate, 3), roundTo(100.0-redPct, 1)}
+	redPct := int(math.Round(redRate * 100))
+	return sideRate{redRate, redPct}, sideRate{roundTo(1.0-redRate, 3), 100 - redPct}
 }
 
 // resolveCollegeLogo 输出绝对 logo URL：已是绝对 URL 原样返回；
@@ -229,7 +229,7 @@ func resolveCollegeLogo(raw, baseURL string) string {
 }
 
 // forecastSide 组装单侧队伍信息与支持率；player 或 team 缺失时字段留空。
-func forecastSide(player *types.Player, rate, percent float64, baseURL string) ForecastSide {
+func forecastSide(player *types.Player, rate float64, percent int, baseURL string) ForecastSide {
 	var info ForecastTeamInfo
 	if player != nil && player.Team != nil {
 		info.TeamID = player.Team.ID
