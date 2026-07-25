@@ -3,6 +3,7 @@ package render
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -18,7 +19,7 @@ const (
 	forecastDeviceScale    = 2.0
 	forecastResultCacheTTL = 5 * time.Second
 	forecastErrorCacheTTL  = 3 * time.Second
-	// 与 handler.CurrentMatchForecast 共用：截图页请求同源 /api/current_match_forecast，
+	// 与 handler.MatchForecast 共用：截图页请求同源 /api/match_forecast，
 	// 故 Mock 场次只需设置此环境变量，无需额外查询参数。
 	envForecastDebugMatchID = "SCHEDULE_FORECAST_DEBUG_MATCH_ID"
 )
@@ -33,7 +34,10 @@ func forecastDebugMatchID() string {
 	return strings.TrimSpace(os.Getenv(envForecastDebugMatchID))
 }
 
-func forecastCacheKey(scale float64) string {
+func forecastCacheKey(scale float64, matchID string) string {
+	if matchID != "" {
+		return fmt.Sprintf("forecast:%g:match:%s", scale, matchID)
+	}
 	// 纳入 DEBUG match_id，避免「无比赛空海报」与 Mock 场次在 5s 缓存内互相污染。
 	if debugID := forecastDebugMatchID(); debugID != "" {
 		return fmt.Sprintf("forecast:%g:debug:%s", scale, debugID)
@@ -43,11 +47,11 @@ func forecastCacheKey(scale float64) string {
 
 // RenderForecastImage 打开前端 /forecast?render=1，等待 #forecast-poster 就绪后截取元素 PNG。
 // 固定 deviceScaleFactor=2，CSS 画幅 1920×1080，成品为 3840×2160。
-// Mock 场次复用 SCHEDULE_FORECAST_DEBUG_MATCH_ID（由 /api/current_match_forecast 生效）。
+// matchID 非空时透传给前端；否则由 /api/match_forecast 选择当前比赛或 Mock 场次。
 // 结果带 5s 内存缓存；并发渲染复用全局 sem（上限 3）。
-func RenderForecastImage(ctx context.Context) ([]byte, bool, error) {
+func RenderForecastImage(ctx context.Context, matchID string) ([]byte, bool, error) {
 	scale := forecastDeviceScale
-	key := forecastCacheKey(scale)
+	key := forecastCacheKey(scale, matchID)
 	if img, ok := forecastCachedImage(key); ok {
 		return img, true, nil
 	}
@@ -66,7 +70,7 @@ func RenderForecastImage(ctx context.Context) ([]byte, bool, error) {
 		renderCtx, cancel := context.WithTimeout(context.Background(), maxRenderTimeout)
 		defer cancel()
 
-		img, err := renderForecastOnce(renderCtx, scale)
+		img, err := renderForecastOnce(renderCtx, scale, matchID)
 		if err == nil {
 			forecastErrorCache.Delete(key)
 			forecastResultCache.Set(key, img, forecastResultCacheTTL)
@@ -110,7 +114,7 @@ func forecastCachedError(key string) (error, bool) {
 }
 
 // renderForecastOnce 执行一次 chromedp 元素截图，共享全局 sem，不含 TTL 缓存。
-func renderForecastOnce(ctx context.Context, scale float64) ([]byte, error) {
+func renderForecastOnce(ctx context.Context, scale float64, matchID string) ([]byte, error) {
 	select {
 	case sem <- struct{}{}:
 		defer func() { <-sem }()
@@ -129,13 +133,13 @@ func renderForecastOnce(ctx context.Context, scale float64) ([]byte, error) {
 		}
 	}()
 
-	url := fmt.Sprintf("%s/forecast?render=1", svc.RenderBaseURL)
+	renderURL := forecastRenderURL(matchID)
 
 	var status, errText string
 	var img []byte
 	err := chromedp.Run(tabCtx,
 		chromedp.EmulateViewport(defaultViewportW, defaultViewportH, chromedp.EmulateScale(scale)),
-		chromedp.Navigate(url),
+		chromedp.Navigate(renderURL),
 		chromedp.ActionFunc(func(c context.Context) error {
 			for {
 				if err := c.Err(); err != nil {
@@ -191,4 +195,12 @@ func renderForecastOnce(ctx context.Context, scale float64) ([]byte, error) {
 		return nil, &RenderError{Msg: "empty forecast screenshot"}
 	}
 	return img, nil
+}
+
+func forecastRenderURL(matchID string) string {
+	renderURL := fmt.Sprintf("%s/forecast?render=1", svc.RenderBaseURL)
+	if matchID == "" {
+		return renderURL
+	}
+	return renderURL + "&match_id=" + url.QueryEscape(matchID)
 }

@@ -20,7 +20,7 @@ const (
 	MpMatchCacheRefreshTime        = 10 * time.Second // 缓存即将过期时，异步刷新
 	MpMatchCacheExpiration         = 60 * time.Second // 缓存过期时间
 	MpMatchFailureCacheExpiration  = 30 * time.Second // 单场拉取失败的占位缓存时间
-	MpMatchRealtimeCacheExpiration = 1 * time.Second  // 实时查询（current_match_forecast）的短缓存，兼顾实时性与限流
+	MpMatchRealtimeCacheExpiration = 1 * time.Second  // 实时查询（match_forecast）的短缓存，兼顾实时性与限流
 	MpMatchUpstreamTimeout         = 5 * time.Second  // 上游拉取超时，避免 singleflight leader 卡住拖垮所有 follower
 	MpMatchDisabled                = false            // 是否禁用
 )
@@ -55,7 +55,7 @@ type MpMatchData struct {
 	BlueRate   float64 `json:"blueRate"`
 	TieRate    float64 `json:"tieRate"`
 	// QueriedAt 记录本条支持率数据从 mp.robomaster.com 拉取的时刻。
-	// 不参与 /api/mp/match 序列化（json:"-"），仅供 current_match_forecast 计算「支持率查询截止时间」。
+	// 不参与 /api/mp/match 序列化（json:"-"），仅供 match_forecast 计算「支持率查询截止时间」。
 	QueriedAt time.Time `json:"-"`
 }
 
@@ -121,7 +121,7 @@ func resolveMpMatch(idStr string, id int) MpMatchData {
 	return mpMatch.(MpMatchData)
 }
 
-// resolveMpMatchRealtime 为 current_match_forecast 提供更实时的支持率：
+// resolveMpMatchRealtime 为 match_forecast 提供更实时的支持率：
 // 使用独立的 1s 短缓存（mp_match_rt:），命中即返回，未命中则同步拉取上游。
 // 相比 resolveMpMatch 的 60s 缓存，可将当前进行中比赛的支持率延迟控制在 ~1s，
 // 同时借助 loadMpMatchShared 的 singleflight 合并并发拉取、避免打爆上游。

@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"math"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -24,19 +25,19 @@ const (
 	// envForecastDebugMatchID 调试用：手动指定「进行中」的 match_id（按 schedule 中 MatchNode.id
 	// 匹配，不限 status）。设置后覆盖 STARTED 自动探测，便于无正式进行中比赛时联调。
 	envForecastDebugMatchID = "SCHEDULE_FORECAST_DEBUG_MATCH_ID"
-	// forecastImagePath 为当前比赛预测图的下载接口路径。
-	forecastImagePath = "/api/current_match_forecast_image"
+	// forecastImagePath 为比赛预测图的下载接口路径。
+	forecastImagePath = "/api/match_forecast_image"
 )
 
 // forecastLocation 为东八区（CST），与 current_match_operator.json 中的时间保持一致。
 var forecastLocation = time.FixedZone("CST", 8*3600)
 
-// CurrentMatchForecastResp 下发当前进行中比赛的竞猜预测。
+// MatchForecastResp 下发指定比赛或当前进行中比赛的竞猜预测。
 // 变量命名与结构尽量参考 current_match_operator.json（red_side/blue_side/team_info 等）。
-type CurrentMatchForecastResp struct {
+type MatchForecastResp struct {
 	// PublishTime 本次下发时间，精确到秒。
 	PublishTime string `json:"publish_time"`
-	// HasMatch 当前是否存在进行中（STARTED）的比赛。
+	// HasMatch 是否成功选中比赛；未传 match_id 时表示是否存在进行中比赛。
 	HasMatch bool `json:"has_match"`
 	// ZoneName 赛区名称。
 	ZoneName string `json:"zone_name"`
@@ -50,7 +51,7 @@ type CurrentMatchForecastResp struct {
 	MatchID int `json:"match_id"`
 	// SupportRateDeadline 支持率查询的截止时间（该 match 从 mp.robomaster.com 查询的时刻），精确到秒。
 	SupportRateDeadline string `json:"support_rate_deadline"`
-	// ImageURL 当前比赛预测图的下载地址。
+	// ImageURL 比赛预测图的下载地址。
 	ImageURL string `json:"image_url"`
 	// RedSide / BlueSide 红蓝双方信息与支持率。
 	RedSide  ForecastSide `json:"red_side"`
@@ -77,16 +78,21 @@ type ForecastTeamInfo struct {
 	CollegeName string `json:"college_name"`
 }
 
-// CurrentMatchForecastHandler 下发当前进行中比赛的竞猜预测。
-// 约定同一时刻只有一场比赛（不同赛区不并行开赛），取 svc.Cache 中实时 schedule
-// 里第一场 status == STARTED 的比赛即可。
-func CurrentMatchForecastHandler(c iris.Context) {
+// MatchForecastHandler 下发指定比赛或当前进行中比赛的竞猜预测。
+// 显式 match_id 可选择当前赛季任意状态的比赛；未传时取第一场 status == STARTED 的比赛。
+func MatchForecastHandler(c iris.Context) {
+	requestedMatchID, explicit, err := parseForecastMatchID(c)
+	if err != nil {
+		writeForecastError(c, iris.StatusBadRequest, err.Error())
+		return
+	}
+
 	baseURL := storage.EnvPublicBaseURL()
-	resp := CurrentMatchForecastResp{
+	resp := MatchForecastResp{
 		PublishTime: time.Now().In(forecastLocation).Format(forecastTimeLayout),
 		HasMatch:    false,
 		Slug:        nil,
-		ImageURL:    forecastImageURL(baseURL),
+		ImageURL:    forecastImageURL(baseURL, requestedMatchID, explicit),
 		// 无进行中比赛时也走同一装配路径，保证 support_rate 与 support_rate_percent 均为 -1，
 		// 避免 support_rate_percent 默认成 0 被误读为真实的 0%。
 		// nil player 的 logo 恒为空，baseURL 不影响结果，故此处传 ""。
@@ -96,13 +102,21 @@ func CurrentMatchForecastHandler(c iris.Context) {
 
 	schedule, ok := loadCachedSchedule()
 	if !ok {
+		if explicit {
+			writeForecastError(c, iris.StatusServiceUnavailable, "schedule unavailable")
+			return
+		}
 		c.Header("Cache-Control", "public, max-age=1")
 		c.JSON(resp)
 		return
 	}
 
-	zone, match, found := selectForecastMatch(schedule)
+	zone, match, found := selectForecastMatch(schedule, requestedMatchID, explicit)
 	if !found {
+		if explicit {
+			writeForecastError(c, iris.StatusNotFound, "match_id not found")
+			return
+		}
 		c.Header("Cache-Control", "public, max-age=1")
 		c.JSON(resp)
 		return
@@ -131,9 +145,39 @@ func CurrentMatchForecastHandler(c iris.Context) {
 	c.JSON(resp)
 }
 
-// forecastImageURL 根据公网域名前缀生成预测图下载地址；未配置时返回相对路径。
-func forecastImageURL(baseURL string) string {
-	return strings.TrimRight(baseURL, "/") + forecastImagePath
+// parseForecastMatchID 读取可选 match_id；显式参数必须为正整数。
+func parseForecastMatchID(c iris.Context) (matchID string, explicit bool, err error) {
+	if _, explicit = c.Request().URL.Query()["match_id"]; !explicit {
+		return "", false, nil
+	}
+	raw := strings.TrimSpace(c.URLParam("match_id"))
+	id, parseErr := strconv.Atoi(raw)
+	if parseErr != nil || id <= 0 {
+		return "", true, &forecastParamError{message: "match_id must be a positive integer"}
+	}
+	return strconv.Itoa(id), true, nil
+}
+
+type forecastParamError struct {
+	message string
+}
+
+func (e *forecastParamError) Error() string {
+	return e.message
+}
+
+func writeForecastError(c iris.Context, status int, message string) {
+	c.StatusCode(status)
+	c.JSON(iris.Map{"error": message})
+}
+
+// forecastImageURL 根据公网域名前缀生成预测图下载地址；显式场次保留 match_id。
+func forecastImageURL(baseURL, matchID string, explicit bool) string {
+	imageURL := strings.TrimRight(baseURL, "/") + forecastImagePath
+	if !explicit {
+		return imageURL
+	}
+	return imageURL + "?match_id=" + url.QueryEscape(matchID)
 }
 
 // loadCachedSchedule 从 svc.Cache 读取实时 schedule 并解析。
@@ -148,20 +192,26 @@ func loadCachedSchedule() (types.ScheduleResp, bool) {
 	}
 	var schedule types.ScheduleResp
 	if err := json.Unmarshal(scheduleBytes, &schedule); err != nil {
-		logrus.Errorf("current_match_forecast: unmarshal schedule failed: %v", err)
+		logrus.Errorf("match_forecast: unmarshal schedule failed: %v", err)
 		return types.ScheduleResp{}, false
 	}
 	return schedule, true
 }
 
-// selectForecastMatch 选出用于竞猜下发的「当前比赛」：
-// 若设置了 SCHEDULE_FORECAST_DEBUG_MATCH_ID，则按该 match_id 定位（不限 status，供调试）；
-// 否则按约定取第一场 status == STARTED 的比赛。
-func selectForecastMatch(schedule types.ScheduleResp) (types.ZoneNode, types.MatchNode, bool) {
+// selectForecastMatch 选出用于竞猜下发的比赛：
+// 显式 match_id 优先；否则沿用调试环境变量，最后取第一场 status == STARTED 的比赛。
+func selectForecastMatch(
+	schedule types.ScheduleResp,
+	requestedMatchID string,
+	explicit bool,
+) (types.ZoneNode, types.MatchNode, bool) {
+	if explicit {
+		return findMatchByID(schedule, requestedMatchID)
+	}
 	if debugID := strings.TrimSpace(os.Getenv(envForecastDebugMatchID)); debugID != "" {
 		zone, match, found := findMatchByID(schedule, debugID)
 		if !found {
-			logrus.Warnf("current_match_forecast: debug match_id %q not found in schedule", debugID)
+			logrus.Warnf("match_forecast: debug match_id %q not found in schedule", debugID)
 		}
 		return zone, match, found
 	}

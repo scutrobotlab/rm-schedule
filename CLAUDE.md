@@ -98,7 +98,7 @@ rm-schedule/
 - **静态资源代理**：`/api/static/*path` 拉取 DJI CDN / 阿里云 / OSS 资源，支持 `?process=bg_white` 将 PNG 透明底转白底，结果写入内存缓存
 - **CDN 回源**：请求头携带 `Tencent-Acceleration-Domain-Name` 时，直接 301 重定向到 OSS 原始 URL，减少本机流量
 - **小程序投票**：代理 `mp.robomaster.com` 接口，计算红蓝支持比例并短时缓存；`MpMatchData` 额外记录 `QueriedAt`（上游查询时刻，`json:"-"` 不对外序列化），供竞猜接口计算截止时间
-- **当前比赛竞猜预测**：`/api/current_match_forecast` 从实时 `schedule` 缓存里找 `status==STARTED` 的比赛（约定同一时刻只有一场，取第一场即可），下发赛区名/场次号/slug、红蓝双方校徽·校名·队名；支持率走 **1s 独立短缓存**（`mp_match_rt:` key，`resolveMpMatchRealtime`）而非 `/mp/match` 的 60s 缓存，配合 singleflight 合并并发拉取，把进行中比赛的支持率延迟控制在 ~1s（HTTP 响应亦为 `max-age=1`）；`support_rate_deadline` 为该 match 支持率从 `mp.robomaster.com` 查询的时刻（精确到秒，东八区）；`college_logo` 为绝对 URL，原始相对路径会拼上 `SCHEDULE_PUBLIC_BASE_URL`（未配置则保持相对路径），不做上游 CDN 还原；无进行中比赛时 `has_match=false`；调试可用 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` Mock 指定场次（不限 status），同步作用于预览页与 `/api/current_match_forecast_image` PNG 导出
+- **比赛竞猜预测**：`/api/match_forecast` 可通过可选 `match_id` 查询当前赛季任意状态的比赛；未传时从实时 `schedule` 缓存里找第一场 `status==STARTED` 的比赛。接口下发赛区名/场次号/slug、红蓝双方校徽·校名·队名；支持率走 **1s 独立短缓存**（`mp_match_rt:` key，`resolveMpMatchRealtime`）而非 `/mp/match` 的 60s 缓存，配合 singleflight 合并并发拉取；`support_rate_deadline` 为支持率查询时刻（精确到秒，东八区）。显式 `match_id` 格式非法返回 400、不存在返回 404；未指定且无进行中比赛时 `has_match=false`。调试环境变量 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` 仅在未传参数时生效
 - **历史交手查询**：从内嵌 `history_match.json` 按学校/队名检索历史对阵记录
 - **赛程图导出（同步）**：`/api/export_image` 通过 chromedp 无头浏览器打开前端 `/:season/:zoneId/export` 页面，调用 `relation-graph` 的 `getImageBase64()` 生成 PNG；结果带 15s TTL 缓存与 singleflight 去重，并发渲染上限 3；适用于历史赛季、归档赛区或手动调试
 - **赛程图后台导出（当前赛季）**：`exportjob.Watcher` 每 5 秒读取 `svc.Cache["schedule"]`，按 zone 子树 hash 检测变化，冷却期（默认 20s）过后触发 chromedp 渲染并落盘至 `SCHEDULE_EXPORT_STORAGE_DIR`；`/api/export_manifest` 返回各 part 的 `status`/`image_url`；`/api/export_static/` 托管本地图片；归档赛区（614/615/616）渲染一次后永久保留、不监听变化，但仍未 ready 的 part（如 bootstrap 重试耗尽）由 cron 按冷却期节奏长期兜底补渲染，成功后不再重试
@@ -116,8 +116,8 @@ rm-schedule/
 | GET | `/api/robot_data` | 机器人统计数据（支持 `?season=`） |
 | GET | `/api/rank` | 积分榜与完整形态榜（`?season=`、`?school_name=`） |
 | GET | `/api/mp/match` | 小程序对局/预言家数据（`?match_ids=` 逗号分隔） |
-| GET | `/api/current_match_forecast` | 当前进行中比赛（`status==STARTED`）的竞猜预测，无参数；变量名/结构参考官方 `current_match_operator.json` |
-| GET | `/api/current_match_forecast_image` | 「王牌预言家」海报 PNG（固定 3840×2160，5s 内存缓存），下载文件名包含当前 `match_id`（如 `current-match-forecast-31056.png`）；无进行中比赛时仍返回空态海报；Mock 场次见 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` |
+| GET | `/api/match_forecast` | 比赛竞猜预测；可选 `?match_id=` 指定当前赛季任意场次，未传时选择当前 `STARTED` 比赛 |
+| GET | `/api/match_forecast_image` | 「王牌预言家」海报 PNG（固定 3840×2160，5s 内存缓存）；可选 `?match_id=`，文件名如 `match-forecast-31056.png` |
 | GET | `/api/match_id_to_video` | 比赛 ID → B 站回放元数据（`?match_id=` 或 `all`） |
 | GET | `/api/match_order_to_video` | 场次号 → B 站回放元数据（`?season=&zone=&order_number=` 或 `all`） |
 | GET | `/api/team_info` | 队伍详情及 B 站官方账号 UID（`?college_name=`） |
@@ -151,7 +151,7 @@ rm-schedule/
 
 `status` 取值：`pending`（等待/冷却中）、`ready`（已有可用图片）、`error`（最近一次渲染失败，错误信息仅存内存）。`pending` 时 `image_url` 可能为空或指向上一版旧图。
 
-**`/api/current_match_forecast` 响应示例**（有进行中比赛时）：
+**`/api/match_forecast` 响应示例**（有匹配比赛时）：
 
 ```json
 {
@@ -163,7 +163,7 @@ rm-schedule/
   "slug": null,
   "match_id": 31088,
   "support_rate_deadline": "2026-07-04 19:20:05",
-  "image_url": "https://schedule.scutbot.cn/api/current_match_forecast_image",
+  "image_url": "https://schedule.scutbot.cn/api/match_forecast_image?match_id=31088",
   "red_side": {
     "team_info": {
       "team_id": "179",
@@ -182,7 +182,7 @@ rm-schedule/
 }
 ```
 
-`image_url` 为预测图下载接口；配置 `SCHEDULE_PUBLIC_BASE_URL` 时返回绝对地址，否则返回 `/api/current_match_forecast_image`。`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后四舍五入到整数（精度 1%）；两者均**排除平局票**、按红蓝票数（`redCount/(redCount+blueCount)`）归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100`。支持率不可用（红蓝票数为 0，或拉取失败，或无进行中比赛 `has_match=false`）时，双方 `support_rate` 与 `support_rate_percent` 均为 `-1`、team_info 字段留空。调试时可用环境变量 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` 指定某个 `match_id` 强制作为「进行中」比赛（不限 status），无需真的有 `STARTED` 比赛。
+`image_url` 为预测图下载接口；配置 `SCHEDULE_PUBLIC_BASE_URL` 时返回绝对地址。显式查询 `match_id` 时，图片地址携带相同参数；未传时图片地址不带参数并继续选择当前比赛。`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后四舍五入到整数（精度 1%）；两者均**排除平局票**、按红蓝票数归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100`。支持率不可用时双方字段均为 `-1`。
 
 ---
 
@@ -296,7 +296,7 @@ docker push registry.cn-guangzhou.aliyuncs.com/scutrobot/rm-schedule:latest
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
 | `SCHEDULE_LOG_LEVEL` | `debug` | Iris 日志级别（`disable`/`fatal`/`error`/`warn`/`info`/`debug`）；`iris.Default()` 默认 debug，Docker 镜像内已设为 `info` 关闭 debug 输出 |
-| `SCHEDULE_FORECAST_DEBUG_MATCH_ID` | 空 | 调试/Mock 场次：手动指定「进行中」比赛 `match_id`（按 schedule 中 `MatchNode.id` 匹配，不限 status）。同时作用于 `/api/current_match_forecast`、预览页 `/forecast` 与 PNG `/api/current_match_forecast_image`。设置后覆盖 `STARTED` 自动探测；空则按正式逻辑取第一场 `STARTED` |
+| `SCHEDULE_FORECAST_DEBUG_MATCH_ID` | 空 | 调试/Mock 场次：未传 `match_id` 时手动指定比赛（不限 status），同步作用于 `/api/match_forecast`、预览页与 PNG 导出；显式查询参数优先级更高 |
 
 ### 赛程图同步导出（`/api/export_image`）
 
@@ -311,7 +311,7 @@ docker push registry.cn-guangzhou.aliyuncs.com/scutrobot/rm-schedule:latest
 | `SCHEDULE_EXPORT_ENABLED` | `true` | 总开关；`false` 时跳过 bootstrap 与 watcher |
 | `SCHEDULE_EXPORT_STORAGE_BACKEND` | `local` | `local` \| `cos`（后者当前为占位实现，调用会返回未实现错误） |
 | `SCHEDULE_EXPORT_STORAGE_DIR` | `./data/export_images` | 本地存储目录；容器内需挂载持久化卷 |
-| `SCHEDULE_PUBLIC_BASE_URL` | `""`（相对路径） | 本服务公网域名前缀，如 `https://schedule.scutbot.cn`；供导出图 `image_url` 与 `current_match_forecast` 的 `college_logo` 绝对化共用 |
+| `SCHEDULE_PUBLIC_BASE_URL` | `""`（相对路径） | 本服务公网域名前缀，如 `https://schedule.scutbot.cn`；供导出图 `image_url` 与 `match_forecast` 的 `college_logo` 绝对化共用 |
 | `SCHEDULE_EXPORT_RENDER_COOLDOWN` | `10s` | 同一 zone 两次后台渲染之间的最小间隔 |
 | `SCHEDULE_EXPORT_SCALE` | `2` | 后台渲染使用的 `scale` 参数（1–8） |
 | `SCHEDULE_EXPORT_RENDER_MAX_ATTEMPTS` | `3` | 归档赛区单个 part 渲染的最大尝试次数（含首次），瞬时错误退避重试 |
