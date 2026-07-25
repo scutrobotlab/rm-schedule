@@ -117,7 +117,7 @@ rm-schedule/
 | GET | `/api/rank` | 积分榜与完整形态榜（`?season=`、`?school_name=`） |
 | GET | `/api/mp/match` | 小程序对局/预言家数据（`?match_ids=` 逗号分隔） |
 | GET | `/api/current_match_forecast` | 当前进行中比赛（`status==STARTED`）的竞猜预测，无参数；变量名/结构参考官方 `current_match_operator.json` |
-| GET | `/api/current_match_forecast_image` | 「王牌预言家」海报 PNG（固定 3840×2160，5s 内存缓存）；无进行中比赛时仍返回空态海报；Mock 场次见 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` |
+| GET | `/api/current_match_forecast_image` | 「王牌预言家」海报 PNG（固定 3840×2160，5s 内存缓存），下载文件名包含当前 `match_id`（如 `current-match-forecast-31056.png`）；无进行中比赛时仍返回空态海报；Mock 场次见 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` |
 | GET | `/api/match_id_to_video` | 比赛 ID → B 站回放元数据（`?match_id=` 或 `all`） |
 | GET | `/api/match_order_to_video` | 场次号 → B 站回放元数据（`?season=&zone=&order_number=` 或 `all`） |
 | GET | `/api/team_info` | 队伍详情及 B 站官方账号 UID（`?college_name=`） |
@@ -163,6 +163,7 @@ rm-schedule/
   "slug": null,
   "match_id": 31088,
   "support_rate_deadline": "2026-07-04 19:20:05",
+  "image_url": "https://schedule.scutbot.cn/api/current_match_forecast_image",
   "red_side": {
     "team_info": {
       "team_id": "179",
@@ -181,7 +182,7 @@ rm-schedule/
 }
 ```
 
-`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后四舍五入到整数（精度 1%）；两者均**排除平局票**、按红蓝票数（`redCount/(redCount+blueCount)`）归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100`。支持率不可用（红蓝票数为 0，或拉取失败，或无进行中比赛 `has_match=false`）时，双方 `support_rate` 与 `support_rate_percent` 均为 `-1`、team_info 字段留空。调试时可用环境变量 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` 指定某个 `match_id` 强制作为「进行中」比赛（不限 status），无需真的有 `STARTED` 比赛。
+`image_url` 为预测图下载接口；配置 `SCHEDULE_PUBLIC_BASE_URL` 时返回绝对地址，否则返回 `/api/current_match_forecast_image`。`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后四舍五入到整数（精度 1%）；两者均**排除平局票**、按红蓝票数（`redCount/(redCount+blueCount)`）归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100`。支持率不可用（红蓝票数为 0，或拉取失败，或无进行中比赛 `has_match=false`）时，双方 `support_rate` 与 `support_rate_percent` 均为 `-1`、team_info 字段留空。调试时可用环境变量 `SCHEDULE_FORECAST_DEBUG_MATCH_ID` 指定某个 `match_id` 强制作为「进行中」比赛（不限 status），无需真的有 `STARTED` 比赛。
 
 ---
 

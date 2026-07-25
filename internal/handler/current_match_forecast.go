@@ -24,6 +24,8 @@ const (
 	// envForecastDebugMatchID 调试用：手动指定「进行中」的 match_id（按 schedule 中 MatchNode.id
 	// 匹配，不限 status）。设置后覆盖 STARTED 自动探测，便于无正式进行中比赛时联调。
 	envForecastDebugMatchID = "SCHEDULE_FORECAST_DEBUG_MATCH_ID"
+	// forecastImagePath 为当前比赛预测图的下载接口路径。
+	forecastImagePath = "/api/current_match_forecast_image"
 )
 
 // forecastLocation 为东八区（CST），与 current_match_operator.json 中的时间保持一致。
@@ -48,6 +50,8 @@ type CurrentMatchForecastResp struct {
 	MatchID int `json:"match_id"`
 	// SupportRateDeadline 支持率查询的截止时间（该 match 从 mp.robomaster.com 查询的时刻），精确到秒。
 	SupportRateDeadline string `json:"support_rate_deadline"`
+	// ImageURL 当前比赛预测图的下载地址。
+	ImageURL string `json:"image_url"`
 	// RedSide / BlueSide 红蓝双方信息与支持率。
 	RedSide  ForecastSide `json:"red_side"`
 	BlueSide ForecastSide `json:"blue_side"`
@@ -77,10 +81,12 @@ type ForecastTeamInfo struct {
 // 约定同一时刻只有一场比赛（不同赛区不并行开赛），取 svc.Cache 中实时 schedule
 // 里第一场 status == STARTED 的比赛即可。
 func CurrentMatchForecastHandler(c iris.Context) {
+	baseURL := storage.EnvPublicBaseURL()
 	resp := CurrentMatchForecastResp{
 		PublishTime: time.Now().In(forecastLocation).Format(forecastTimeLayout),
 		HasMatch:    false,
 		Slug:        nil,
+		ImageURL:    forecastImageURL(baseURL),
 		// 无进行中比赛时也走同一装配路径，保证 support_rate 与 support_rate_percent 均为 -1，
 		// 避免 support_rate_percent 默认成 0 被误读为真实的 0%。
 		// nil player 的 logo 恒为空，baseURL 不影响结果，故此处传 ""。
@@ -118,12 +124,16 @@ func CurrentMatchForecastHandler(c iris.Context) {
 	}
 	// 排除平局票后归一化，保证红蓝 support_rate 之和为 1.000、百分数之和为 100。
 	red, blue := forecastRates(mp)
-	baseURL := storage.EnvPublicBaseURL()
 	resp.RedSide = forecastSide(match.RedSide.Player, red.rate, red.percent, baseURL)
 	resp.BlueSide = forecastSide(match.BlueSide.Player, blue.rate, blue.percent, baseURL)
 
 	c.Header("Cache-Control", "public, max-age=1")
 	c.JSON(resp)
+}
+
+// forecastImageURL 根据公网域名前缀生成预测图下载地址；未配置时返回相对路径。
+func forecastImageURL(baseURL string) string {
+	return strings.TrimRight(baseURL, "/") + forecastImagePath
 }
 
 // loadCachedSchedule 从 svc.Cache 读取实时 schedule 并解析。

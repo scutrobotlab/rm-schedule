@@ -2,7 +2,9 @@ package handler
 
 import (
 	"errors"
+	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -44,7 +46,7 @@ func CurrentMatchForecastImageHandler(c iris.Context) {
 	}
 
 	c.Header("Content-Type", "image/png")
-	c.Header("Content-Disposition", `attachment; filename="current-match-forecast.png"`)
+	c.Header("Content-Disposition", fmt.Sprintf(`attachment; filename="%s"`, currentForecastImageFilename()))
 	c.Header("Cache-Control", "public, max-age=1")
 	_, _ = c.Write(img)
 	logrus.WithFields(fields).WithFields(logrus.Fields{
@@ -52,4 +54,22 @@ func CurrentMatchForecastImageHandler(c iris.Context) {
 		"bytes":    len(img),
 		"cached":   cached,
 	}).Info("current_match_forecast_image success")
+}
+
+// currentForecastImageFilename 将当前预测场次的 match ID 放入下载文件名。
+// 无比赛或 match ID 非法时回退到不带 ID 的文件名。
+func currentForecastImageFilename() string {
+	schedule, ok := loadCachedSchedule()
+	if !ok {
+		return "current-match-forecast.png"
+	}
+	_, match, found := selectForecastMatch(schedule)
+	if !found {
+		return "current-match-forecast.png"
+	}
+	matchID, err := strconv.Atoi(match.ID)
+	if err != nil || matchID < 0 {
+		return "current-match-forecast.png"
+	}
+	return fmt.Sprintf("current-match-forecast-%d.png", matchID)
 }
