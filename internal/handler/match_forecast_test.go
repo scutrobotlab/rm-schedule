@@ -143,8 +143,10 @@ func TestMatchForecastHandlerReturnsExplicitCompletedMatch(t *testing.T) {
 		BlueCount: 1,
 		QueriedAt: queriedAt,
 	})
+	svc.Cache.SetDefault("mp_match_rt:31056", MpMatchData{})
 	t.Cleanup(func() {
 		svc.Cache.Delete("mp_match_rt:30988")
+		svc.Cache.Delete("mp_match_rt:31056")
 	})
 
 	app := iris.New()
@@ -163,16 +165,25 @@ func TestMatchForecastHandlerReturnsExplicitCompletedMatch(t *testing.T) {
 	if err := json.Unmarshal(rec.Body.Bytes(), &resp); err != nil {
 		t.Fatal(err)
 	}
-	if !resp.HasMatch || resp.MatchID != 30988 {
-		t.Fatalf("response match = has_match:%v id:%d, want true/30988", resp.HasMatch, resp.MatchID)
+	if !resp.Current.HasMatch || resp.Current.MatchID != 30988 {
+		t.Fatalf("current match = has_match:%v id:%d, want true/30988", resp.Current.HasMatch, resp.Current.MatchID)
 	}
 	if resp.SupportRateDeadline != "2026-07-25 12:34" {
 		t.Fatalf("support_rate_deadline = %q", resp.SupportRateDeadline)
 	}
+	if resp.ZoneName != "东部赛区" || resp.ZoneID != 615 {
+		t.Fatalf("zone = %q/%d, want 东部赛区/615", resp.ZoneName, resp.ZoneID)
+	}
 	wantImageURL := "/api/match_forecast_image?match_id=30988&v=" +
 		strconv.FormatInt(queriedAt.Truncate(time.Minute).Unix(), 10)
-	if resp.ImageURL != wantImageURL {
-		t.Fatalf("image_url = %q", resp.ImageURL)
+	if resp.Current.ImageURL != wantImageURL {
+		t.Fatalf("image_url = %q", resp.Current.ImageURL)
+	}
+	if !resp.Next.HasMatch || resp.Next.MatchID != 31056 {
+		t.Fatalf("next match = has_match:%v id:%d, want true/31056", resp.Next.HasMatch, resp.Next.MatchID)
+	}
+	if resp.Next.ImageURL != "/api/match_forecast_image?match_id=31056" {
+		t.Fatalf("next image_url = %q", resp.Next.ImageURL)
 	}
 }
 

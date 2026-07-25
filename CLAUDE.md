@@ -156,33 +156,44 @@ rm-schedule/
 ```json
 {
   "publish_time": "2026-07-04 19:26:25",
-  "has_match": true,
+  "support_rate_deadline": "2026-07-04 19:20",
   "zone_name": "东部赛区",
   "zone_id": 615,
-  "order_number": 12,
-  "slug": null,
-  "match_id": 31088,
-  "support_rate_deadline": "2026-07-04 19:20",
-  "image_url": "https://schedule.scutbot.cn/api/match_forecast_image?match_id=31088&v=1784979240",
-  "red_side": {
-    "team_info": {
-      "team_id": "179",
-      "team_name": "华南虎",
-      "college_logo": "https://schedule.scutbot.cn/api/static/...png",
-      "college_name": "华南理工大学"
+  "current": {
+    "has_match": true,
+    "order_number": 12,
+    "slug": null,
+    "match_id": 31088,
+    "image_url": "https://schedule.scutbot.cn/api/match_forecast_image?match_id=31088&v=1784979240",
+    "red_side": {
+      "team_info": {
+        "team_id": "179",
+        "team_name": "华南虎",
+        "college_logo": "https://schedule.scutbot.cn/api/static/...png",
+        "college_name": "华南理工大学"
+      },
+      "support_rate": 0.623,
+      "support_rate_percent": 62
     },
-    "support_rate": 0.623,
-    "support_rate_percent": 62
+    "blue_side": {
+      "team_info": { "team_id": "1581", "team_name": "Taurus", "college_logo": "https://schedule.scutbot.cn/api/static/...png", "college_name": "华南农业大学" },
+      "support_rate": 0.377,
+      "support_rate_percent": 38
+    }
   },
-  "blue_side": {
-    "team_info": { "team_id": "1581", "team_name": "Taurus", "college_logo": "https://schedule.scutbot.cn/api/static/...png", "college_name": "华南农业大学" },
-    "support_rate": 0.377,
-    "support_rate_percent": 38
+  "next": {
+    "has_match": true,
+    "order_number": 13,
+    "slug": null,
+    "match_id": 31089,
+    "image_url": "https://schedule.scutbot.cn/api/match_forecast_image?match_id=31089&v=1784979240",
+    "red_side": {},
+    "blue_side": {}
   }
 }
 ```
 
-`image_url` 为预测图下载接口；配置 `SCHEDULE_PUBLIC_BASE_URL` 时返回绝对地址。显式查询 `match_id` 时，图片地址携带相同参数；有支持率查询时间时还会携带按分钟截断的 `v=<Unix 时间戳>`，参考导出图清单实现 CDN 内容版本化；未传 `match_id` 时继续选择当前比赛。`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后四舍五入到整数（精度 1%）；两者均**排除平局票**、按红蓝票数归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100`。支持率不可用时双方字段均为 `-1`。
+`publish_time`、`support_rate_deadline`、`zone_name`、`zone_id` 是两场共用的顶层字段；`current` 为当前/显式指定场次，`next` 为同一赛区中场次号紧随其后的比赛。没有进行中比赛时 `current.has_match=false`，`next` 返回当前赛季最早的未结束比赛。`image_url` 为预测图下载接口；配置 `SCHEDULE_PUBLIC_BASE_URL` 时返回绝对地址。显式查询 `match_id` 时，图片地址携带相同参数；有支持率查询时间时还会携带按分钟截断的 `v=<Unix 时间戳>`，参考导出图清单实现 CDN 内容版本化。`support_rate` 保留 3 位小数，`support_rate_percent` 为其 ×100 后四舍五入到整数（精度 1%）；两者均**排除平局票**、按红蓝票数归一化，并采用「一侧四舍五入、另一侧取补」，保证红蓝 `support_rate` 之和恒为 `1.000`、`support_rate_percent` 之和恒为 `100`。支持率不可用时双方字段均为 `-1`。
 
 ---
 

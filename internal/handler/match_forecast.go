@@ -34,25 +34,27 @@ const (
 // forecastLocation 为东八区（CST），与 current_match_operator.json 中的时间保持一致。
 var forecastLocation = time.FixedZone("CST", 8*3600)
 
-// MatchForecastResp 下发指定比赛或当前进行中比赛的竞猜预测。
-// 变量命名与结构尽量参考 current_match_operator.json（red_side/blue_side/team_info 等）。
+// MatchForecastResp 同时下发当前场次及其下一场的竞猜预测。
 type MatchForecastResp struct {
-	// PublishTime 本次下发时间，精确到秒。
-	PublishTime string `json:"publish_time"`
+	PublishTime         string        `json:"publish_time"`
+	SupportRateDeadline string        `json:"support_rate_deadline"`
+	ZoneName            string        `json:"zone_name"`
+	ZoneID              int           `json:"zone_id"`
+	Current             MatchForecast `json:"current"`
+	Next                MatchForecast `json:"next"`
+}
+
+// MatchForecast 下发单场比赛的竞猜预测。
+// 变量命名与结构尽量参考 current_match_operator.json（red_side/blue_side/team_info 等）。
+type MatchForecast struct {
 	// HasMatch 是否成功选中比赛；未传 match_id 时表示是否存在进行中比赛。
 	HasMatch bool `json:"has_match"`
-	// ZoneName 赛区名称。
-	ZoneName string `json:"zone_name"`
-	// ZoneID 赛区 ID。
-	ZoneID int `json:"zone_id"`
 	// OrderNumber 场次号。
 	OrderNumber int `json:"order_number"`
 	// Slug 比赛 slug（可能为 null 或字符串），透传自 schedule.json。
 	Slug interface{} `json:"slug"`
 	// MatchID 比赛 ID，即 /mp/match 使用的 matchID。
 	MatchID int `json:"match_id"`
-	// SupportRateDeadline 支持率查询的截止时间（该 match 从 mp.robomaster.com 查询的时刻），精确到分钟。
-	SupportRateDeadline string `json:"support_rate_deadline"`
 	// ImageURL 比赛预测图的下载地址。
 	ImageURL string `json:"image_url"`
 	// RedSide / BlueSide 红蓝双方信息与支持率。
@@ -92,14 +94,8 @@ func MatchForecastHandler(c iris.Context) {
 	baseURL := storage.EnvPublicBaseURL()
 	resp := MatchForecastResp{
 		PublishTime: time.Now().In(forecastLocation).Format(forecastTimeLayout),
-		HasMatch:    false,
-		Slug:        nil,
-		ImageURL:    forecastImageURL(baseURL, requestedMatchID, explicit, time.Time{}),
-		// 无进行中比赛时也走同一装配路径，保证 support_rate 与 support_rate_percent 均为 -1，
-		// 避免 support_rate_percent 默认成 0 被误读为真实的 0%。
-		// nil player 的 logo 恒为空，baseURL 不影响结果，故此处传 ""。
-		RedSide:  forecastSide(nil, -1, -1, ""),
-		BlueSide: forecastSide(nil, -1, -1, ""),
+		Current:     emptyMatchForecast(baseURL, requestedMatchID, explicit),
+		Next:        emptyMatchForecast(baseURL, "", false),
 	}
 
 	schedule, ok := loadCachedSchedule()
@@ -119,33 +115,64 @@ func MatchForecastHandler(c iris.Context) {
 			writeForecastError(c, iris.StatusNotFound, "match_id not found")
 			return
 		}
+		if nextZone, nextMatch, nextFound := findFirstUpcomingMatch(schedule); nextFound {
+			resp.ZoneName = nextZone.Name
+			resp.ZoneID, _ = strconv.Atoi(nextZone.ID)
+			resp.Next, _ = buildMatchForecast(nextMatch, baseURL, true)
+		}
 		c.Header("Cache-Control", "public, max-age=1")
 		c.JSON(resp)
 		return
 	}
 
+	resp.ZoneName = zone.Name
+	resp.ZoneID, _ = strconv.Atoi(zone.ID)
+	var currentQueriedAt, nextQueriedAt time.Time
+	resp.Current, currentQueriedAt = buildMatchForecast(match, baseURL, explicit)
+	if nextMatch, nextFound := findNextMatch(zone, match); nextFound {
+		resp.Next, nextQueriedAt = buildMatchForecast(nextMatch, baseURL, true)
+	}
+	deadline := currentQueriedAt
+	if nextQueriedAt.After(deadline) {
+		deadline = nextQueriedAt
+	}
+	if !deadline.IsZero() {
+		resp.SupportRateDeadline = deadline.In(forecastLocation).Format(forecastDeadlineLayout)
+	}
+
+	c.Header("Cache-Control", "public, max-age=1")
+	c.JSON(resp)
+}
+
+func emptyMatchForecast(baseURL, requestedMatchID string, explicit bool) MatchForecast {
+	return MatchForecast{
+		HasMatch: false,
+		Slug:     nil,
+		ImageURL: forecastImageURL(baseURL, requestedMatchID, explicit, time.Time{}),
+		// 无进行中比赛时也走同一装配路径，保证 support_rate 与 support_rate_percent 均为 -1，
+		// 避免 support_rate_percent 默认成 0 被误读为真实的 0%。
+		// nil player 的 logo 恒为空，baseURL 不影响结果，故此处传 ""。
+		RedSide:  forecastSide(nil, -1, -1, ""),
+		BlueSide: forecastSide(nil, -1, -1, ""),
+	}
+}
+
+func buildMatchForecast(match types.MatchNode, baseURL string, explicit bool) (MatchForecast, time.Time) {
 	matchID, _ := strconv.Atoi(match.ID)
-	zoneID, _ := strconv.Atoi(zone.ID)
 	// 走 1s 短缓存的实时取数，尽量降低当前进行中比赛的支持率延迟。
 	mp := resolveMpMatchRealtime(match.ID, matchID)
 
+	resp := emptyMatchForecast(baseURL, match.ID, explicit)
 	resp.HasMatch = true
-	resp.ZoneName = zone.Name
-	resp.ZoneID = zoneID
 	resp.OrderNumber = match.OrderNumber
 	resp.Slug = match.Slug
 	resp.MatchID = matchID
-	if !mp.QueriedAt.IsZero() {
-		resp.SupportRateDeadline = mp.QueriedAt.In(forecastLocation).Format(forecastDeadlineLayout)
-	}
-	resp.ImageURL = forecastImageURL(baseURL, requestedMatchID, explicit, mp.QueriedAt)
+	resp.ImageURL = forecastImageURL(baseURL, match.ID, explicit, mp.QueriedAt)
 	// 排除平局票后归一化，保证红蓝 support_rate 之和为 1.000、百分数之和为 100。
 	red, blue := forecastRates(mp)
 	resp.RedSide = forecastSide(match.RedSide.Player, red.rate, red.percent, baseURL)
 	resp.BlueSide = forecastSide(match.BlueSide.Player, blue.rate, blue.percent, baseURL)
-
-	c.Header("Cache-Control", "public, max-age=1")
-	c.JSON(resp)
+	return resp, mp.QueriedAt
 }
 
 // parseForecastMatchID 读取可选 match_id；显式参数必须为正整数。
@@ -262,6 +289,49 @@ func findStartedMatch(schedule types.ScheduleResp) (types.ZoneNode, types.MatchN
 		}
 	}
 	return types.ZoneNode{}, types.MatchNode{}, false
+}
+
+// findNextMatch 返回同一赛区内场次号紧随 current 的比赛。
+func findNextMatch(zone types.ZoneNode, current types.MatchNode) (types.MatchNode, bool) {
+	var next types.MatchNode
+	found := false
+	for _, match := range append(zone.GroupMatches.Nodes, zone.KnockoutMatches.Nodes...) {
+		if match.OrderNumber <= current.OrderNumber {
+			continue
+		}
+		if !found || match.OrderNumber < next.OrderNumber {
+			next = match
+			found = true
+		}
+	}
+	return next, found
+}
+
+// findFirstUpcomingMatch 在没有进行中比赛时返回当前赛季最早的未结束比赛。
+func findFirstUpcomingMatch(schedule types.ScheduleResp) (types.ZoneNode, types.MatchNode, bool) {
+	var selectedZone types.ZoneNode
+	var selectedMatch types.MatchNode
+	found := false
+	for _, zone := range schedule.Data.Event.Zones.Nodes {
+		for _, match := range append(zone.GroupMatches.Nodes, zone.KnockoutMatches.Nodes...) {
+			if match.Status == "DONE" || match.Status == matchStatusStarted {
+				continue
+			}
+			if !found || matchBefore(match, selectedMatch) {
+				selectedZone = zone
+				selectedMatch = match
+				found = true
+			}
+		}
+	}
+	return selectedZone, selectedMatch, found
+}
+
+func matchBefore(left, right types.MatchNode) bool {
+	if left.PlanStartedAt != "" && right.PlanStartedAt != "" && left.PlanStartedAt != right.PlanStartedAt {
+		return left.PlanStartedAt < right.PlanStartedAt
+	}
+	return left.OrderNumber < right.OrderNumber
 }
 
 // sideRate 保存单侧最终的支持率与百分数。
