@@ -117,7 +117,7 @@ rm-schedule/
 | GET | `/api/rank` | 积分榜与完整形态榜（`?season=`、`?school_name=`） |
 | GET | `/api/mp/match` | 小程序对局/预言家数据（`?match_ids=` 逗号分隔） |
 | GET | `/api/match_forecast` | 比赛竞猜预测；可选 `?match_id=` 指定当前赛季任意场次，未传时选择当前 `STARTED` 比赛 |
-| GET | `/api/match_forecast_image` | 「王牌预言家」海报 PNG（固定 3840×2160，5s 内存缓存）；可选 `?match_id=`，文件名如 `match-forecast-31056.png` |
+| GET | `/api/match_forecast_image` | 「王牌预言家」海报 PNG（固定 3840×2160，成功结果缓存到下一个整分钟）；可选 `?match_id=`，文件名如 `match-forecast-31056.png` |
 | GET | `/api/match_id_to_video` | 比赛 ID → B 站回放元数据（`?match_id=` 或 `all`） |
 | GET | `/api/match_order_to_video` | 场次号 → B 站回放元数据（`?season=&zone=&order_number=` 或 `all`） |
 | GET | `/api/team_info` | 队伍详情及 B 站官方账号 UID（`?college_name=`） |

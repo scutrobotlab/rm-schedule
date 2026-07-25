@@ -15,17 +15,16 @@ import (
 )
 
 const (
-	forecastPosterID       = "forecast-poster"
-	forecastDeviceScale    = 2.0
-	forecastResultCacheTTL = 5 * time.Second
-	forecastErrorCacheTTL  = 3 * time.Second
+	forecastPosterID      = "forecast-poster"
+	forecastDeviceScale   = 2.0
+	forecastErrorCacheTTL = 3 * time.Second
 	// 与 handler.MatchForecast 共用：截图页请求同源 /api/match_forecast，
 	// 故 Mock 场次只需设置此环境变量，无需额外查询参数。
 	envForecastDebugMatchID = "SCHEDULE_FORECAST_DEBUG_MATCH_ID"
 )
 
 var (
-	forecastResultCache = cache.New(forecastResultCacheTTL, time.Minute)
+	forecastResultCache = cache.New(time.Minute, time.Minute)
 	forecastErrorCache  = cache.New(forecastErrorCacheTTL, time.Minute)
 	forecastSfGroup     singleflight.Group
 )
@@ -48,7 +47,7 @@ func forecastCacheKey(scale float64, matchID string) string {
 // RenderForecastImage 打开前端 /forecast?render=1，等待 #forecast-poster 就绪后截取元素 PNG。
 // 固定 deviceScaleFactor=2，CSS 画幅 1920×1080，成品为 3840×2160。
 // matchID 非空时透传给前端；否则由 /api/match_forecast 选择当前比赛或 Mock 场次。
-// 结果带 5s 内存缓存；并发渲染复用全局 sem（上限 3）。
+// 成功结果缓存到下一个整分钟；并发渲染复用全局 sem（上限 3）。
 func RenderForecastImage(ctx context.Context, matchID string) ([]byte, bool, error) {
 	scale := forecastDeviceScale
 	key := forecastCacheKey(scale, matchID)
@@ -73,7 +72,7 @@ func RenderForecastImage(ctx context.Context, matchID string) ([]byte, bool, err
 		img, err := renderForecastOnce(renderCtx, scale, matchID)
 		if err == nil {
 			forecastErrorCache.Delete(key)
-			forecastResultCache.Set(key, img, forecastResultCacheTTL)
+			forecastResultCache.Set(key, img, forecastCacheTTL(time.Now()))
 			return renderCacheResult{img, false}, nil
 		}
 		forecastErrorCache.Set(key, err, forecastErrorCacheTTL)
@@ -93,6 +92,11 @@ func RenderForecastImage(ctx context.Context, matchID string) ([]byte, bool, err
 	case <-ctx.Done():
 		return nil, false, &TimeoutError{Msg: ctx.Err().Error()}
 	}
+}
+
+// forecastCacheTTL 返回从 now 到下一个整分钟的时长，使图片版本与分钟级 v 对齐。
+func forecastCacheTTL(now time.Time) time.Duration {
+	return now.Truncate(time.Minute).Add(time.Minute).Sub(now)
 }
 
 func forecastCachedImage(key string) ([]byte, bool) {
