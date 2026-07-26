@@ -31,6 +31,9 @@ var HistoryMatchBytes []byte
 //go:embed bilibili_videos.json
 var BilibiliVideosBytes []byte
 
+//go:embed team_abbreviation.csv
+var TeamAbbreviationBytes []byte
+
 // 2025 赛季的静态文件
 
 //go:embed season_2025/complete_form.json

@@ -23,6 +23,7 @@ func Router(r *iris.Application, frontend string) {
 	api.Get("/match_id_to_video", handler.MatchIDHandler)
 	api.Get("/match_order_to_video", handler.MatchOrderHandler)
 	api.Get("/team_info", handler.TeamInfoHandler)
+	api.Get("/team_abbreviations", handler.TeamAbbreviationsHandler)
 	api.Get("/history_match", handler.HistoryMatchHandler)
 	api.Get("/live_json/*path", handler.ProxyLiveJsonHandler)
 	api.Get("/export_image", handler.ExportImageHandler)
