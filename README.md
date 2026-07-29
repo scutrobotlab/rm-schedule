@@ -55,6 +55,18 @@ SCHEDULE_IS_TEST_ENVIRONMENT=true
 
 后端通过 `GET /api/config` 将该标识下发给前端。正式环境不设置此变量（或设置为 `false`）时不显示标记。
 
+移动端 Bracket UI 支持按浏览器稳定分桶灰度：
+
+```bash
+# 数字 0-100，支持 0.01% 精度；默认 0，降低比例可撤销对应范围的灰度
+SCHEDULE_MOBILE_BRACKET_ROLLOUT=12.34
+
+# 用于签名 bracket_ui_v1 分桶 Cookie，生产环境建议配置随机密钥
+SCHEDULE_EXPERIMENT_COOKIE_SECRET=replace-with-a-random-secret
+```
+
+未配置签名密钥时服务会打印错误日志，并使用内置默认值继续运行。命中灰度的移动端在普通赛程路径直接显示 Bracket UI；显式 `/bracket` 路径不受灰度影响。
+
 构建 Docker 镜像
 
 ```bash
