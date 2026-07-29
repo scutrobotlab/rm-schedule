@@ -47,6 +47,14 @@ curl "http://localhost:8080/api/export_image?season=2026&zone=616&group=0" -o ou
 
 生产/Docker 环境默认 `SCHEDULE_RENDER_BASE_URL=http://127.0.0.1:8080`，chromedp 直接访问容器内托管的前端静态资源，无需额外配置。
 
+测试环境使用与正式环境相同的镜像，并通过运行时环境变量启用页面标记：
+
+```bash
+SCHEDULE_IS_TEST_ENVIRONMENT=true
+```
+
+后端通过 `GET /api/config` 将该标识下发给前端。正式环境不设置此变量（或设置为 `false`）时不显示标记。
+
 构建 Docker 镜像
 
 ```bash

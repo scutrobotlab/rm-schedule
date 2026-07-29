@@ -12,6 +12,7 @@ import (
 // Router defines the router for this service
 func Router(r *iris.Application, frontend string) {
 	api := r.Party("/api")
+	api.Get("/config", handler.ConfigHandler)
 	api.Get("/static/*path", handler.RMStaticHandler)
 	api.Get("/mp/match", handler.MpMatchHandler)
 	api.Get("/match_forecast", handler.MatchForecastHandler)
