@@ -18,7 +18,7 @@ const (
 	exportOutputID   = "schedule-export-output"
 	maxConcurrent    = 3
 	resultCacheTTL   = 60 * time.Second
-	errorCacheTTL    = 3 * time.Second
+	errorCacheTTL    = 10 * time.Second
 	maxRenderTimeout = 90 * time.Second
 	pollInterval     = 100 * time.Millisecond
 	defaultViewportW = 1920

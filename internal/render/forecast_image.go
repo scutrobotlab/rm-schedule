@@ -17,7 +17,7 @@ import (
 const (
 	forecastPosterID      = "forecast-poster"
 	forecastDeviceScale   = 2.0
-	forecastErrorCacheTTL = 3 * time.Second
+	forecastErrorCacheTTL = 5 * time.Second
 	// 与 handler.MatchForecast 共用：截图页请求同源 /api/match_forecast，
 	// 故 Mock 场次只需设置此环境变量，无需额外查询参数。
 	envForecastDebugMatchID = "SCHEDULE_FORECAST_DEBUG_MATCH_ID"

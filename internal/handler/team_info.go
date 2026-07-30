@@ -82,7 +82,7 @@ func TeamInfoHandler(c iris.Context) {
 		return
 	}
 
-	c.Header("Cache-Control", "public, max-age=3600")
+	c.Header("Cache-Control", longLivedStaticCacheControl)
 	c.JSON(TeamInfo{
 		CollegeName: collegeName,
 		BilibiliUid: bilibiliOfficial.Uid,

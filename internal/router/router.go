@@ -13,7 +13,7 @@ func apiCacheDefaults(ctx iris.Context) {
 	requestPath := ctx.Request().URL.Path
 	if strings.HasPrefix(requestPath, "/api/export_static/") {
 		if ctx.URLParam("v") != "" {
-			ctx.Header("Cache-Control", "public, max-age=3600")
+			ctx.Header("Cache-Control", "public, max-age=3600, s-maxage=86400")
 		} else {
 			ctx.Header("Cache-Control", "public, max-age=60")
 		}

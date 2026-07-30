@@ -35,7 +35,7 @@ type exportManifestResponse struct {
 // status=pending 时 image_url 可能为空或指向上一版旧图。
 func ExportManifestHandler(c iris.Context) {
 	// 状态会被轮询，禁止缓存以免返回 stale 的 pending/ready。
-	c.Header("Cache-Control", "no-store")
+	c.Header("Cache-Control", "public, max-age=0, s-maxage=1")
 
 	seasonStr := c.URLParam("season")
 	zoneStr := c.URLParam("zone")
