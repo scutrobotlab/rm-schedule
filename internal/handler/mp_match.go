@@ -62,7 +62,7 @@ type MpMatchData struct {
 func MpMatchHandler(c iris.Context) {
 	if MpMatchDisabled {
 		// 禁用时，返回空数据
-		c.Header("Cache-Control", "public, max-age=60")
+		c.Header("Cache-Control", "public, max-age=10")
 		c.JSON(MpMatchDstResp{List: make([]MpMatchData, 0)})
 		return
 	}

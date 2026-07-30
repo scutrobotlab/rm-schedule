@@ -99,7 +99,7 @@ func HistoryMatchHandler(c iris.Context) {
 		return hits[i].Order < hits[j].Order
 	})
 
-	c.Header("Cache-Control", "public, max-age=600")
+	c.Header("Cache-Control", "public, max-age=3600")
 	c.JSON(iris.Map{
 		"total": len(hits),
 		"hits":  hits,

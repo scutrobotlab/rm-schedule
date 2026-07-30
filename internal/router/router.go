@@ -9,8 +9,26 @@ import (
 	"github.com/scutrobotlab/rm-schedule/internal/storage"
 )
 
+func apiCacheDefaults(ctx iris.Context) {
+	requestPath := ctx.Request().URL.Path
+	if strings.HasPrefix(requestPath, "/api/export_static/") {
+		if ctx.URLParam("v") != "" {
+			ctx.Header("Cache-Control", "public, max-age=3600")
+		} else {
+			ctx.Header("Cache-Control", "public, max-age=60")
+		}
+	} else if strings.HasPrefix(requestPath, "/api/") {
+		ctx.Header("Cache-Control", "no-store")
+	}
+	ctx.Next()
+}
+
 // Router defines the router for this service
 func Router(r *iris.Application, frontend string) {
+	// 所有 API 默认禁止缓存，确保参数错误、未找到和上游失败等提前返回路径
+	// 不会被 CDN 缓存。允许缓存的成功响应由各处理器显式覆盖。
+	r.UseRouter(apiCacheDefaults)
+
 	api := r.Party("/api")
 	api.Get("/config", handler.ConfigHandler)
 	api.Get("/static/*path", handler.RMStaticHandler)

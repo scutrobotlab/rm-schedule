@@ -74,7 +74,7 @@ func MatchForecastImageHandler(c iris.Context) {
 		matchForecastImageFilename(requestedMatchID, explicit),
 	))
 	if c.URLParam("v") != "" {
-		c.Header("Cache-Control", "public, max-age=31536000, immutable")
+		c.Header("Cache-Control", "public, max-age=3600")
 	} else {
 		c.Header("Cache-Control", "public, max-age=1")
 	}

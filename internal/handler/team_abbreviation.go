@@ -86,6 +86,6 @@ func TeamAbbreviationsHandler(c iris.Context) {
 		c.JSON(iris.Map{"code": -1, "msg": "Failed to parse team abbreviations"})
 		return
 	}
-	c.Header("Cache-Control", "public, max-age=86400")
+	c.Header("Cache-Control", "public, max-age=3600")
 	c.JSON(abbreviations)
 }

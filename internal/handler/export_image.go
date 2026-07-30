@@ -92,6 +92,7 @@ func ExportImageHandler(c iris.Context) {
 	}
 
 	c.Header("Content-Type", "image/png")
+	c.Header("Cache-Control", "public, max-age=60")
 	_, _ = c.Write(img)
 	logrus.WithFields(fields).WithFields(logrus.Fields{
 		"duration": time.Since(start).Truncate(time.Millisecond),

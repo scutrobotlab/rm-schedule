@@ -31,10 +31,18 @@ func ProxyLiveJsonHandler(c iris.Context) {
 	defer resp.Body.Close()
 
 	for k, v := range resp.Header {
-		if strings.Contains(k, "Access-Control") {
+		if strings.Contains(k, "Access-Control") ||
+			strings.EqualFold(k, "Cache-Control") ||
+			strings.EqualFold(k, "Expires") ||
+			strings.EqualFold(k, "Set-Cookie") {
 			continue
 		}
 		c.Header(k, v[0])
+	}
+	if resp.StatusCode >= 200 && resp.StatusCode < 300 {
+		c.Header("Cache-Control", "public, max-age=5")
+	} else {
+		c.Header("Cache-Control", "no-store")
 	}
 	c.StatusCode(resp.StatusCode)
 

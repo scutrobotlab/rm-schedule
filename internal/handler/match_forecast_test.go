@@ -244,7 +244,7 @@ func TestMatchForecastImageCacheControl(t *testing.T) {
 		want  string
 	}{
 		{query: "?match_id=30988", want: "public, max-age=1"},
-		{query: "?match_id=30988&v=1784954040", want: "public, max-age=31536000, immutable"},
+		{query: "?match_id=30988&v=1784954040", want: "public, max-age=3600"},
 	} {
 		rec := httptest.NewRecorder()
 		req := httptest.NewRequest(http.MethodGet, "/api/match_forecast_image"+tt.query, nil)
