@@ -2,6 +2,10 @@ name: Build
 
 on: [ push, pull_request ]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -47,6 +51,7 @@ jobs:
           password: ${{ secrets.ALIYUN_PASS }}
 
       - name: Docker Push
+        id: docker_push
         uses: docker/build-push-action@v5
         if: github.event_name == 'push'
         with:
@@ -67,6 +72,33 @@ jobs:
             org.opencontainers.image.title=rm-schedule
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Add image details to job summary
+        if: github.event_name == 'push'
+        env:
+          GHCR_IMAGE: ghcr.io/scutrobotlab/rm-schedule
+          ACR_IMAGE: registry.cn-guangzhou.aliyuncs.com/scutrobot/rm-schedule
+          IMAGE_DIGEST: ${{ steps.docker_push.outputs.digest }}
+        run: |
+          {
+            echo "## Published container images"
+            echo
+            echo "| Registry | Image |"
+            echo "| --- | --- |"
+            echo "| GitHub Container Registry | \`${GHCR_IMAGE}:${GITHUB_SHA}\` |"
+            echo "| Aliyun Container Registry | \`${ACR_IMAGE}:${GITHUB_SHA}\` |"
+            echo
+            echo "### Pull"
+            echo
+            echo "\`\`\`shell"
+            echo "docker pull ${GHCR_IMAGE}:${GITHUB_SHA}"
+            echo "docker pull ${ACR_IMAGE}:${GITHUB_SHA}"
+            echo "\`\`\`"
+            echo
+            echo "**Digest:** \`${IMAGE_DIGEST}\`"
+            echo
+            echo "[Open the GHCR package](https://github.com/scutrobotlab/rm-schedule/pkgs/container/rm-schedule)"
+          } >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Deploy PRE
         uses: appleboy/ssh-action@v1.0.3
