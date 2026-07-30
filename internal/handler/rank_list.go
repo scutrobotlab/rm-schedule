@@ -70,6 +70,7 @@ func RankListHandler(c iris.Context) {
 	season := c.URLParam("season")
 	rankScoreKey := fmt.Sprintf("rank_score_%s", season)
 	var rankScoreBytes []byte
+	_, historicalSeason := SeasonRankScoreMap[season]
 	if data, ok := SeasonRankScoreMap[season]; ok {
 		rankScoreBytes = data
 	} else {
@@ -120,7 +121,11 @@ func RankListHandler(c iris.Context) {
 		return
 	}
 
-	c.Header("Cache-Control", "public, max-age=3600")
+	if historicalSeason {
+		c.Header("Cache-Control", longLivedStaticCacheControl)
+	} else {
+		c.Header("Cache-Control", "public, max-age=3600")
+	}
 	c.JSON(RankListItem{
 		RankScoreItem: rankScore,
 		CompleteForm:  completeForm,

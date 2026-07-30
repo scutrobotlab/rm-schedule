@@ -55,6 +55,9 @@ func TestTeamAbbreviationsHandler(t *testing.T) {
 	if rec.Code != http.StatusOK {
 		t.Fatalf("status = %d, want %d; body=%s", rec.Code, http.StatusOK, rec.Body.String())
 	}
+	if got := rec.Header().Get("Cache-Control"); got != longLivedStaticCacheControl {
+		t.Fatalf("Cache-Control = %q, want %q", got, longLivedStaticCacheControl)
+	}
 	var got map[string]teamAbbreviation
 	if err := json.Unmarshal(rec.Body.Bytes(), &got); err != nil {
 		t.Fatalf("response is not an abbreviation map: %v", err)

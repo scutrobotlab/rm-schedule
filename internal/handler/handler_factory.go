@@ -8,6 +8,8 @@ import (
 	"github.com/scutrobotlab/rm-schedule/internal/svc"
 )
 
+const longLivedStaticCacheControl = "public, max-age=3600, s-maxage=86400"
+
 // StaticZoneSeason 定义同一赛季内已归档赛区的静态快照。
 type StaticZoneSeason struct {
 	Data        []byte
@@ -33,7 +35,7 @@ func RedirectRouteHandlerFactory(param RedirectRouteHandlerParam) func(c iris.Co
 		season := c.URLParam("season")
 		if param.SeasonMap != nil {
 			if data, ok := param.SeasonMap[season]; ok {
-				c.Header("Cache-Control", "public, max-age=3600")
+				c.Header("Cache-Control", longLivedStaticCacheControl)
 				c.ContentType("application/json")
 				_, err := c.Write(data)
 				if err != nil {
@@ -59,7 +61,7 @@ func RedirectRouteHandlerFactory(param RedirectRouteHandlerParam) func(c iris.Co
 					}
 				}
 
-				c.Header("Cache-Control", "public, max-age=3600")
+				c.Header("Cache-Control", longLivedStaticCacheControl)
 				c.ContentType("application/json")
 				_, err := c.Write(staticZoneSeason.Data)
 				if err != nil {
@@ -70,7 +72,7 @@ func RedirectRouteHandlerFactory(param RedirectRouteHandlerParam) func(c iris.Co
 		}
 
 		if param.Static {
-			c.Header("Cache-Control", "public, max-age=3600")
+			c.Header("Cache-Control", longLivedStaticCacheControl)
 			c.ContentType("application/json")
 			_, err := c.Write(param.Data)
 			if err != nil {
