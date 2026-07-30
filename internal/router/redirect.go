@@ -18,14 +18,6 @@ var RedirectParams = map[string]handler.RedirectRouteHandlerParam{
 			"2024": static.GroupRankInfoBytes2024,
 			"2025": static.GroupRankInfoBytes2025,
 		},
-		StaticZoneSeasonMap: map[string]handler.StaticZoneSeason{
-			"2026": {
-				Data:        static.GroupRankInfoBytes2026,
-				ZoneIDs:     static.ArchivedZoneIDs,
-				ZonePath:    []string{"zones"},
-				ZoneIDField: "zoneId",
-			},
-		},
 	},
 	common.UpstreamNameRobotData: {
 		Name:         common.UpstreamNameRobotData,
@@ -35,14 +27,6 @@ var RedirectParams = map[string]handler.RedirectRouteHandlerParam{
 		Data:         static.RobotDataBytes,
 		SeasonMap: map[string][]byte{
 			"2025": static.RobotDataBytes2025,
-		},
-		StaticZoneSeasonMap: map[string]handler.StaticZoneSeason{
-			"2026": {
-				Data:        static.RobotDataBytes2026,
-				ZoneIDs:     static.ArchivedZoneIDs,
-				ZonePath:    []string{"zones"},
-				ZoneIDField: "zoneId",
-			},
 		},
 	},
 	common.UpstreamNameSchedule: {

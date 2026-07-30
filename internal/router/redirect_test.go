@@ -6,13 +6,20 @@ import (
 	"github.com/scutrobotlab/rm-schedule/internal/common"
 )
 
-func TestCurrentScheduleSeasonIsNotStatic(t *testing.T) {
-	param := RedirectParams[common.UpstreamNameSchedule]
-
-	if _, ok := param.SeasonMap["2026"]; ok {
-		t.Fatal("2026 schedule must not use a static season snapshot")
+func TestCurrentSeasonRedirectRoutesAreNotStatic(t *testing.T) {
+	names := []string{
+		common.UpstreamNameGroupRankInfo,
+		common.UpstreamNameRobotData,
+		common.UpstreamNameSchedule,
 	}
-	if _, ok := param.StaticZoneSeasonMap["2026"]; ok {
-		t.Fatal("2026 schedule must not use static zone merging")
+
+	for _, name := range names {
+		param := RedirectParams[name]
+		if _, ok := param.SeasonMap["2026"]; ok {
+			t.Fatalf("2026 %s must not use a static season snapshot", name)
+		}
+		if _, ok := param.StaticZoneSeasonMap["2026"]; ok {
+			t.Fatalf("2026 %s must not use static zone merging", name)
+		}
 	}
 }
