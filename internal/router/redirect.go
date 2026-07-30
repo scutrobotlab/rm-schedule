@@ -55,13 +55,5 @@ var RedirectParams = map[string]handler.RedirectRouteHandlerParam{
 			"2024": static.ScheduleBytes2024,
 			"2025": static.ScheduleBytes2025,
 		},
-		StaticZoneSeasonMap: map[string]handler.StaticZoneSeason{
-			"2026": {
-				Data:        static.ScheduleBytes2026,
-				ZoneIDs:     static.ArchivedZoneIDs,
-				ZonePath:    []string{"data", "event", "zones", "nodes"},
-				ZoneIDField: "id",
-			},
-		},
 	},
 }
