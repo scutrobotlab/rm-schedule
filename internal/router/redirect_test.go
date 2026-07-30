@@ -18,8 +18,8 @@ func TestCurrentSeasonRedirectRoutesAreNotStatic(t *testing.T) {
 
 	for _, name := range names {
 		param := RedirectParams[name]
-		if param.CacheControl != "public, max-age=5" {
-			t.Fatalf("%s current-season redirect Cache-Control = %q, want public, max-age=5", name, param.CacheControl)
+		if param.CacheControl != "public, max-age=1, s-maxage=5" {
+			t.Fatalf("%s current-season redirect Cache-Control = %q, want public, max-age=1, s-maxage=5", name, param.CacheControl)
 		}
 		if _, ok := param.SeasonMap["2026"]; ok {
 			t.Fatalf("2026 %s must not use a static season snapshot", name)

@@ -15,7 +15,7 @@ var RedirectParams = map[string]handler.RedirectRouteHandlerParam{
 	common.UpstreamNameGroupRankInfo: {
 		Name:         common.UpstreamNameGroupRankInfo,
 		Static:       false,
-		CacheControl: "public, max-age=5",
+		CacheControl: "public, max-age=1, s-maxage=5",
 		OriginalUrl:  common.UpstreamUrlGroupRankInfo,
 		Data:         static.GroupRankInfoBytes,
 		SeasonMap: map[string][]byte{
@@ -26,7 +26,7 @@ var RedirectParams = map[string]handler.RedirectRouteHandlerParam{
 	common.UpstreamNameRobotData: {
 		Name:         common.UpstreamNameRobotData,
 		Static:       false,
-		CacheControl: "public, max-age=5",
+		CacheControl: "public, max-age=1, s-maxage=5",
 		OriginalUrl:  common.UpstreamUrlRobotData,
 		Data:         static.RobotDataBytes,
 		SeasonMap: map[string][]byte{
@@ -36,7 +36,7 @@ var RedirectParams = map[string]handler.RedirectRouteHandlerParam{
 	common.UpstreamNameSchedule: {
 		Name:         common.UpstreamNameSchedule,
 		Static:       false,
-		CacheControl: "public, max-age=5",
+		CacheControl: "public, max-age=1, s-maxage=5",
 		OriginalUrl:  common.UpstreamUrlSchedule,
 		Data:         static.ScheduleBytes,
 		SeasonMap: map[string][]byte{

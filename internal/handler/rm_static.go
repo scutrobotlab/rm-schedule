@@ -20,7 +20,7 @@ func RMStaticHandler(c iris.Context) {
 
 	cached, b := svc.Cache.Get(cacheKey)
 	if b {
-		c.Header("Cache-Control", "public, max-age=3600")
+		c.Header("Cache-Control", longLivedStaticCacheControl)
 		c.ContentType("image/png")
 		c.Write(cached.([]byte))
 		return
@@ -74,7 +74,7 @@ func RMStaticHandler(c iris.Context) {
 
 	svc.Cache.Set(cacheKey, bytes, cache.DefaultExpiration)
 
-	c.Header("Cache-Control", "public, max-age=3600")
+	c.Header("Cache-Control", longLivedStaticCacheControl)
 	c.ContentType(resp.Header.Get("Content-Type"))
 	c.Write(bytes)
 }

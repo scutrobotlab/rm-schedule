@@ -18,7 +18,7 @@ func MatchIDHandler(c iris.Context) {
 		if err != nil {
 			logrus.Error(err)
 		} else {
-			c.Header("Cache-Control", "public, max-age=60, s-maxage=300")
+			c.Header("Cache-Control", "public, max-age=60, s-maxage=300, stale-while-revalidate=60")
 			c.JSON(string(jsonData))
 			return
 		}
@@ -45,7 +45,7 @@ func MatchIDHandler(c iris.Context) {
 		c.JSON(iris.Map{"code": -1, "msg": "Match not found"})
 		return
 	}
-	c.Header("Cache-Control", "public, max-age=60, s-maxage=300")
+	c.Header("Cache-Control", "public, max-age=60, s-maxage=300, stale-while-revalidate=60")
 	c.JSON(video)
 	return
 }
@@ -59,7 +59,7 @@ func MatchOrderHandler(c iris.Context) {
 		if err != nil {
 			logrus.Error(err)
 		} else {
-			c.Header("Cache-Control", "public, max-age=60, s-maxage=300")
+			c.Header("Cache-Control", "public, max-age=60, s-maxage=300, stale-while-revalidate=60")
 			c.JSON(string(jsonData))
 			return
 		}
@@ -106,7 +106,7 @@ func MatchOrderHandler(c iris.Context) {
 		c.JSON(iris.Map{"code": -1, "msg": "Match not found"})
 		return
 	}
-	c.Header("Cache-Control", "public, max-age=60, s-maxage=300")
+	c.Header("Cache-Control", "public, max-age=60, s-maxage=300, stale-while-revalidate=60")
 	c.JSON(video)
 	return
 }
