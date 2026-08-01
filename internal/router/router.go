@@ -10,12 +10,16 @@ import (
 )
 
 func apiCacheDefaults(ctx iris.Context) {
+	ctx.Next()
+
+	// Handlers own the cache policy for successful responses. Only provide a
+	// default when the handler (including an early error path) did not set one.
+	if ctx.ResponseWriter().Header().Get("Cache-Control") != "" {
+		return
+	}
+
 	requestPath := ctx.Request().URL.Path
-	if strings.HasPrefix(requestPath, "/api/static/") {
-		// Static proxy responses set their cache policy in RMStaticHandler.
-		// Do not add the API default "no-store", which would make the combined
-		// Cache-Control value uncacheable by browsers and shared caches.
-	} else if strings.HasPrefix(requestPath, "/api/export_static/") {
+	if strings.HasPrefix(requestPath, "/api/export_static/") {
 		if ctx.URLParam("v") != "" {
 			ctx.Header("Cache-Control", "public, max-age=3600, s-maxage=86400")
 		} else {
@@ -24,7 +28,6 @@ func apiCacheDefaults(ctx iris.Context) {
 	} else if strings.HasPrefix(requestPath, "/api/") {
 		ctx.Header("Cache-Control", "no-store")
 	}
-	ctx.Next()
 }
 
 // Router defines the router for this service

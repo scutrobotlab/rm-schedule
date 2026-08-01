@@ -37,7 +37,7 @@ func TestAPICacheDefaults(t *testing.T) {
 		want string
 	}{
 		{name: "API defaults to no-store", path: "/api/missing", want: "no-store"},
-		{name: "static proxy owns cache policy", path: "/api/static/image.png", want: ""},
+		{name: "static proxy error defaults to no-store", path: "/api/static/image.png", want: "no-store"},
 		{name: "unversioned export", path: "/api/export_static/image.png", want: "public, max-age=60"},
 		{name: "versioned export", path: "/api/export_static/image.png?v=123", want: "public, max-age=3600, s-maxage=86400"},
 	}
@@ -61,5 +61,25 @@ func TestAPICacheDefaults(t *testing.T) {
 				t.Fatalf("Cache-Control = %q, want %q", got, tt.want)
 			}
 		})
+	}
+}
+
+func TestAPICacheDefaultsPreservesHandlerPolicy(t *testing.T) {
+	app := iris.New()
+	app.UseRouter(apiCacheDefaults)
+	app.Get("/api/cached", func(ctx iris.Context) {
+		ctx.Header("Cache-Control", "public, max-age=3600")
+		ctx.StatusCode(http.StatusOK)
+	})
+	if err := app.Build(); err != nil {
+		t.Fatal(err)
+	}
+
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "/api/cached", nil)
+	app.ServeHTTP(rec, req)
+
+	if got, want := rec.Header().Get("Cache-Control"), "public, max-age=3600"; got != want {
+		t.Fatalf("Cache-Control = %q, want %q", got, want)
 	}
 }
