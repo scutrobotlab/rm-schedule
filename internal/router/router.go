@@ -11,7 +11,11 @@ import (
 
 func apiCacheDefaults(ctx iris.Context) {
 	requestPath := ctx.Request().URL.Path
-	if strings.HasPrefix(requestPath, "/api/export_static/") {
+	if strings.HasPrefix(requestPath, "/api/static/") {
+		// Static proxy responses set their cache policy in RMStaticHandler.
+		// Do not add the API default "no-store", which would make the combined
+		// Cache-Control value uncacheable by browsers and shared caches.
+	} else if strings.HasPrefix(requestPath, "/api/export_static/") {
 		if ctx.URLParam("v") != "" {
 			ctx.Header("Cache-Control", "public, max-age=3600, s-maxage=86400")
 		} else {

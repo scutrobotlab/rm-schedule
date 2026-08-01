@@ -37,6 +37,7 @@ func TestAPICacheDefaults(t *testing.T) {
 		want string
 	}{
 		{name: "API defaults to no-store", path: "/api/missing", want: "no-store"},
+		{name: "static proxy owns cache policy", path: "/api/static/image.png", want: ""},
 		{name: "unversioned export", path: "/api/export_static/image.png", want: "public, max-age=60"},
 		{name: "versioned export", path: "/api/export_static/image.png?v=123", want: "public, max-age=3600, s-maxage=86400"},
 	}
