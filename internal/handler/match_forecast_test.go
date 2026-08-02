@@ -76,6 +76,37 @@ func TestSelectForecastMatch(t *testing.T) {
 	}
 }
 
+func TestFindNextMatchSkipsMatchesWithScore(t *testing.T) {
+	zone := types.ZoneNode{
+		GroupMatches: types.Matches{Nodes: []types.MatchNode{
+			{ID: "31426", OrderNumber: 2, Status: matchStatusStarted},
+			{ID: "31427", OrderNumber: 3, Status: "PENDING", RedSideWinGameCount: 1, BlueSideWinGameCount: 2},
+			{ID: "31428", OrderNumber: 4, Status: "WAITING"},
+		}},
+	}
+
+	next, found := findNextMatch(zone, zone.GroupMatches.Nodes[0])
+	if !found || next.ID != "31428" {
+		t.Fatalf("next match = %q, found=%v; want 31428", next.ID, found)
+	}
+}
+
+func TestFindFirstUpcomingMatchSkipsMatchesWithScore(t *testing.T) {
+	schedule := types.ScheduleResp{}
+	schedule.Data.Event.Zones.Nodes = []types.ZoneNode{{
+		ID: "618",
+		GroupMatches: types.Matches{Nodes: []types.MatchNode{
+			{ID: "31427", OrderNumber: 3, PlanStartedAt: "2026-08-04T02:10:00Z", Status: "PENDING", RedSideWinGameCount: 1, BlueSideWinGameCount: 2},
+			{ID: "31428", OrderNumber: 4, PlanStartedAt: "2026-08-04T02:45:00Z", Status: "WAITING"},
+		}},
+	}}
+
+	_, next, found := findFirstUpcomingMatch(schedule)
+	if !found || next.ID != "31428" {
+		t.Fatalf("upcoming match = %q, found=%v; want 31428", next.ID, found)
+	}
+}
+
 func TestMatchForecastHandlerValidatesExplicitMatchID(t *testing.T) {
 	setForecastTestSchedule(t)
 

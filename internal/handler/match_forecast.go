@@ -286,12 +286,12 @@ func findStartedMatch(schedule types.ScheduleResp) (types.ZoneNode, types.MatchN
 	return types.ZoneNode{}, types.MatchNode{}, false
 }
 
-// findNextMatch 返回同一赛区内场次号紧随 current 的比赛。
+// findNextMatch 返回同一赛区内 current 之后最早且尚未产生比分的比赛。
 func findNextMatch(zone types.ZoneNode, current types.MatchNode) (types.MatchNode, bool) {
 	var next types.MatchNode
 	found := false
 	for _, match := range append(zone.GroupMatches.Nodes, zone.KnockoutMatches.Nodes...) {
-		if match.OrderNumber <= current.OrderNumber {
+		if match.OrderNumber <= current.OrderNumber || hasMatchScore(match) {
 			continue
 		}
 		if !found || match.OrderNumber < next.OrderNumber {
@@ -309,7 +309,7 @@ func findFirstUpcomingMatch(schedule types.ScheduleResp) (types.ZoneNode, types.
 	found := false
 	for _, zone := range schedule.Data.Event.Zones.Nodes {
 		for _, match := range append(zone.GroupMatches.Nodes, zone.KnockoutMatches.Nodes...) {
-			if match.Status == "DONE" || match.Status == matchStatusStarted {
+			if match.Status == "DONE" || match.Status == matchStatusStarted || hasMatchScore(match) {
 				continue
 			}
 			if !found || matchBefore(match, selectedMatch) {
@@ -320,6 +320,13 @@ func findFirstUpcomingMatch(schedule types.ScheduleResp) (types.ZoneNode, types.
 		}
 	}
 	return selectedZone, selectedMatch, found
+}
+
+// hasMatchScore 同时检查对局得分和获胜局数。上游偶尔会先更新比分、稍后才把
+// status 推进到 DONE；这段窗口内不能再把该场比赛作为 next 下发。
+func hasMatchScore(match types.MatchNode) bool {
+	return match.RedSideScore != 0 || match.BlueSideScore != 0 ||
+		match.RedSideWinGameCount != 0 || match.BlueSideWinGameCount != 0
 }
 
 func matchBefore(left, right types.MatchNode) bool {
