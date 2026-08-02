@@ -91,6 +91,21 @@ func TestFindNextMatchSkipsMatchesWithScore(t *testing.T) {
 	}
 }
 
+func TestFindNextMatchDoesNotTreatSideScoreAsGameScore(t *testing.T) {
+	zone := types.ZoneNode{
+		GroupMatches: types.Matches{Nodes: []types.MatchNode{
+			{ID: "31426", OrderNumber: 2, Status: matchStatusStarted},
+			{ID: "31427", OrderNumber: 3, Status: "WAITING", RedSideScore: 3},
+			{ID: "31428", OrderNumber: 4, Status: "WAITING"},
+		}},
+	}
+
+	next, found := findNextMatch(zone, zone.GroupMatches.Nodes[0])
+	if !found || next.ID != "31427" {
+		t.Fatalf("next match = %q, found=%v; want 31427", next.ID, found)
+	}
+}
+
 func TestFindFirstUpcomingMatchSkipsMatchesWithScore(t *testing.T) {
 	schedule := types.ScheduleResp{}
 	schedule.Data.Event.Zones.Nodes = []types.ZoneNode{{

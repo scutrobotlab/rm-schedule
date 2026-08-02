@@ -322,11 +322,10 @@ func findFirstUpcomingMatch(schedule types.ScheduleResp) (types.ZoneNode, types.
 	return selectedZone, selectedMatch, found
 }
 
-// hasMatchScore 同时检查对局得分和获胜局数。上游偶尔会先更新比分、稍后才把
+// hasMatchScore 检查红蓝双方的获胜局数。上游偶尔会先更新局分、稍后才把
 // status 推进到 DONE；这段窗口内不能再把该场比赛作为 next 下发。
 func hasMatchScore(match types.MatchNode) bool {
-	return match.RedSideScore != 0 || match.BlueSideScore != 0 ||
-		match.RedSideWinGameCount != 0 || match.BlueSideWinGameCount != 0
+	return match.RedSideWinGameCount != 0 || match.BlueSideWinGameCount != 0
 }
 
 func matchBefore(left, right types.MatchNode) bool {
