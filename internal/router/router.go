@@ -76,6 +76,6 @@ func Router(r *iris.Application, frontend string) {
 		if strings.HasPrefix(ctx.Path(), "/api/") {
 			return
 		}
-		ctx.ServeFile(frontend + "/index.html")
+		_ = ctx.ServeFile(frontend + "/index.html")
 	})
 }
