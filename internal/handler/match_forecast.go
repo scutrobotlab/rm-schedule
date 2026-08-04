@@ -11,6 +11,7 @@ import (
 
 	"github.com/kataras/iris/v12"
 	"github.com/scutrobotlab/rm-schedule/internal/common"
+	"github.com/scutrobotlab/rm-schedule/internal/render"
 	"github.com/scutrobotlab/rm-schedule/internal/storage"
 	"github.com/scutrobotlab/rm-schedule/internal/svc"
 	"github.com/scutrobotlab/rm-schedule/internal/types"
@@ -33,6 +34,8 @@ const (
 
 // forecastLocation 为东八区（CST），与 current_match_operator.json 中的时间保持一致。
 var forecastLocation = time.FixedZone("CST", 8*3600)
+
+var forecastImageVersion = render.ForecastImageVersion
 
 // MatchForecastResp 同时下发当前场次及其下一场的竞猜预测。
 type MatchForecastResp struct {
@@ -167,7 +170,8 @@ func buildMatchForecast(match types.MatchNode, baseURL string) (MatchForecast, t
 	resp.OrderNumber = match.OrderNumber
 	resp.Slug = match.Slug
 	resp.MatchID = matchID
-	resp.ImageURL = forecastImageURL(baseURL, match.ID, mp.QueriedAt)
+	version, _ := forecastImageVersion(match.ID)
+	resp.ImageURL = forecastImageURL(baseURL, match.ID, version)
 	// 排除平局票后归一化，保证红蓝 support_rate 之和为 1.000、百分数之和为 100。
 	red, blue := forecastRates(mp)
 	resp.RedSide = forecastSide(match.RedSide.Player, red.rate, red.percent, baseURL)
@@ -202,13 +206,13 @@ func writeForecastError(c iris.Context, status int, message string) {
 }
 
 // forecastImageURL 根据公网域名前缀生成预测图下载地址；match_id 必定写入地址。
-// 支持率查询时间按分钟截断后作为内容版本，便于 CDN 长时间缓存同一版图片。
-func forecastImageURL(baseURL, matchID string, queriedAt time.Time) string {
+// version 来自已经成功发布的内存图片；尚无图片时不写 v，避免 CDN 长缓存未就绪版本。
+func forecastImageURL(baseURL, matchID string, version int64) string {
 	imageURL := strings.TrimRight(baseURL, "/") + forecastImagePath
 	query := url.Values{}
 	query.Set("match_id", matchID)
-	if !queriedAt.IsZero() {
-		query.Set("v", strconv.FormatInt(queriedAt.Truncate(time.Minute).Unix(), 10))
+	if version > 0 {
+		query.Set("v", strconv.FormatInt(version, 10))
 	}
 	return imageURL + "?" + query.Encode()
 }

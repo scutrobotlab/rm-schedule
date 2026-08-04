@@ -9,6 +9,7 @@ import (
 	"github.com/kataras/iris/v12/middleware/recover"
 	"github.com/kataras/iris/v12/middleware/requestid"
 	"github.com/scutrobotlab/rm-schedule/internal/exportjob"
+	"github.com/scutrobotlab/rm-schedule/internal/handler"
 	"github.com/scutrobotlab/rm-schedule/internal/job"
 	"github.com/scutrobotlab/rm-schedule/internal/router"
 	"github.com/scutrobotlab/rm-schedule/internal/storage"
@@ -41,6 +42,9 @@ func main() {
 	checkAndRenderExport := func() { exportjob.CheckAndRender(exportStore) }
 	if _, err := cron.AddFunc("@every 5s", checkAndRenderExport); err != nil {
 		logrus.Fatalf("cron add func failed: %v", err)
+	}
+	if _, err := cron.AddFunc("@every 5s", handler.CheckAndPrewarmForecastImages); err != nil {
+		logrus.Fatalf("cron add forecast prewarm func failed: %v", err)
 	}
 
 	cron.Start()

@@ -68,12 +68,26 @@ func MatchForecastImageHandler(c iris.Context) {
 		return
 	}
 
+	requestedVersion, versionedRequest := parseForecastImageVersion(c.URLParam("v"))
+	servedVersion, hasServedVersion := forecastImageVersion(requestedMatchID)
+	if versionedRequest && hasServedVersion && requestedVersion != servedVersion {
+		location := forecastImageURL("", requestedMatchID, servedVersion)
+		c.Header("Cache-Control", "no-store")
+		logrus.WithFields(fields).WithFields(logrus.Fields{
+			"requested_version": requestedVersion,
+			"served_version":    servedVersion,
+			"location":          location,
+		}).Info("match_forecast_image redirect to published version")
+		c.Redirect(location, iris.StatusTemporaryRedirect)
+		return
+	}
+
 	c.Header("Content-Type", "image/png")
 	c.Header("Content-Disposition", fmt.Sprintf(
 		`attachment; filename="%s"`,
 		matchForecastImageFilename(requestedMatchID, explicit),
 	))
-	if c.URLParam("v") != "" {
+	if versionedRequest && hasServedVersion && requestedVersion == servedVersion {
 		c.Header("Cache-Control", "public, max-age=3600")
 	} else {
 		c.Header("Cache-Control", "public, max-age=1")
@@ -84,6 +98,11 @@ func MatchForecastImageHandler(c iris.Context) {
 		"bytes":    len(img),
 		"cached":   cached,
 	}).Info("match_forecast_image success")
+}
+
+func parseForecastImageVersion(raw string) (int64, bool) {
+	version, err := strconv.ParseInt(strings.TrimSpace(raw), 10, 64)
+	return version, err == nil && version > 0
 }
 
 // matchForecastImageFilename 将预测场次的 match ID 放入下载文件名。

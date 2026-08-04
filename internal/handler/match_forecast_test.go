@@ -182,6 +182,15 @@ func TestMatchForecastImageHandlerValidatesExplicitMatchID(t *testing.T) {
 func TestMatchForecastHandlerReturnsExplicitCompletedMatch(t *testing.T) {
 	setForecastTestSchedule(t)
 	queriedAt := time.Date(2026, 7, 25, 12, 34, 56, 0, time.FixedZone("CST", 8*3600))
+	publishedVersion := queriedAt.Add(-time.Minute).Truncate(time.Minute).Unix()
+	originalVersion := forecastImageVersion
+	forecastImageVersion = func(matchID string) (int64, bool) {
+		if matchID == "30988" {
+			return publishedVersion, true
+		}
+		return 0, false
+	}
+	t.Cleanup(func() { forecastImageVersion = originalVersion })
 	svc.Cache.SetDefault("mp_match_rt:30988", MpMatchData{
 		RedCount:  2,
 		BlueCount: 1,
@@ -218,8 +227,7 @@ func TestMatchForecastHandlerReturnsExplicitCompletedMatch(t *testing.T) {
 	if resp.ZoneName != "东部赛区" || resp.ZoneID != 615 {
 		t.Fatalf("zone = %q/%d, want 东部赛区/615", resp.ZoneName, resp.ZoneID)
 	}
-	wantImageURL := "/api/match_forecast_image?match_id=30988&v=" +
-		strconv.FormatInt(queriedAt.Truncate(time.Minute).Unix(), 10)
+	wantImageURL := "/api/match_forecast_image?match_id=30988&v=" + strconv.FormatInt(publishedVersion, 10)
 	if resp.Current.ImageURL != wantImageURL {
 		t.Fatalf("image_url = %q", resp.Current.ImageURL)
 	}
@@ -233,19 +241,19 @@ func TestMatchForecastHandlerReturnsExplicitCompletedMatch(t *testing.T) {
 
 func TestForecastImageURL(t *testing.T) {
 	queriedAt := time.Date(2026, 7, 25, 12, 34, 56, 0, time.FixedZone("CST", 8*3600))
-	version := strconv.FormatInt(queriedAt.Truncate(time.Minute).Unix(), 10)
+	version := queriedAt.Truncate(time.Minute).Unix()
 	tests := []struct {
-		name      string
-		baseURL   string
-		matchID   string
-		queriedAt time.Time
-		want      string
+		name    string
+		baseURL string
+		matchID string
+		version int64
+		want    string
 	}{
 		{
-			name:      "relative versioned by minute",
-			matchID:   "30988",
-			queriedAt: queriedAt,
-			want:      "/api/match_forecast_image?match_id=30988&v=" + version,
+			name:    "relative versioned by published image",
+			matchID: "30988",
+			version: version,
+			want:    "/api/match_forecast_image?match_id=30988&v=" + strconv.FormatInt(version, 10),
 		},
 		{
 			name:    "absolute",
@@ -254,16 +262,16 @@ func TestForecastImageURL(t *testing.T) {
 			want:    "https://schedule.scutbot.cn/api/match_forecast_image?match_id=30988",
 		},
 		{
-			name:      "absolute versioned by minute",
-			baseURL:   "https://schedule.scutbot.cn/",
-			matchID:   "30988",
-			queriedAt: queriedAt.Add(3 * time.Second),
-			want:      "https://schedule.scutbot.cn/api/match_forecast_image?match_id=30988&v=" + version,
+			name:    "absolute versioned by published image",
+			baseURL: "https://schedule.scutbot.cn/",
+			matchID: "30988",
+			version: version,
+			want:    "https://schedule.scutbot.cn/api/match_forecast_image?match_id=30988&v=" + strconv.FormatInt(version, 10),
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := forecastImageURL(tt.baseURL, tt.matchID, tt.queriedAt); got != tt.want {
+			if got := forecastImageURL(tt.baseURL, tt.matchID, tt.version); got != tt.want {
 				t.Fatalf("forecastImageURL() = %q, want %q", got, tt.want)
 			}
 		})
@@ -272,12 +280,18 @@ func TestForecastImageURL(t *testing.T) {
 
 func TestMatchForecastImageCacheControl(t *testing.T) {
 	setForecastTestSchedule(t)
+	const publishedVersion int64 = 1784954040
 
 	originalRender := renderForecastImage
+	originalVersion := forecastImageVersion
 	renderForecastImage = func(context.Context, string) ([]byte, bool, error) {
 		return []byte("png"), false, nil
 	}
-	t.Cleanup(func() { renderForecastImage = originalRender })
+	forecastImageVersion = func(string) (int64, bool) { return publishedVersion, true }
+	t.Cleanup(func() {
+		renderForecastImage = originalRender
+		forecastImageVersion = originalVersion
+	})
 
 	app := iris.New()
 	app.Get("/api/match_forecast_image", MatchForecastImageHandler)
@@ -286,17 +300,32 @@ func TestMatchForecastImageCacheControl(t *testing.T) {
 	}
 
 	for _, tt := range []struct {
-		query string
-		want  string
+		query        string
+		wantStatus   int
+		wantCache    string
+		wantLocation string
 	}{
-		{query: "?match_id=30988", want: "public, max-age=1"},
-		{query: "?match_id=30988&v=1784954040", want: "public, max-age=3600"},
+		{query: "?match_id=30988", wantStatus: http.StatusOK, wantCache: "public, max-age=1"},
+		{query: "?match_id=30988&v=invalid", wantStatus: http.StatusOK, wantCache: "public, max-age=1"},
+		{query: "?match_id=30988&v=1784954040", wantStatus: http.StatusOK, wantCache: "public, max-age=3600"},
+		{
+			query:        "?match_id=30988&v=1784953980",
+			wantStatus:   http.StatusTemporaryRedirect,
+			wantCache:    "no-store",
+			wantLocation: "/api/match_forecast_image?match_id=30988&v=1784954040",
+		},
 	} {
 		rec := httptest.NewRecorder()
 		req := httptest.NewRequest(http.MethodGet, "/api/match_forecast_image"+tt.query, nil)
 		app.ServeHTTP(rec, req)
-		if got := rec.Header().Get("Cache-Control"); got != tt.want {
-			t.Fatalf("query %q Cache-Control = %q, want %q", tt.query, got, tt.want)
+		if rec.Code != tt.wantStatus {
+			t.Fatalf("query %q status = %d, want %d", tt.query, rec.Code, tt.wantStatus)
+		}
+		if got := rec.Header().Get("Cache-Control"); got != tt.wantCache {
+			t.Fatalf("query %q Cache-Control = %q, want %q", tt.query, got, tt.wantCache)
+		}
+		if got := rec.Header().Get("Location"); got != tt.wantLocation {
+			t.Fatalf("query %q Location = %q, want %q", tt.query, got, tt.wantLocation)
 		}
 	}
 }
