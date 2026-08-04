@@ -155,7 +155,7 @@ func refreshForecastImage(ctx context.Context, matchID string, requestedVersion 
 		return active.Data, true, nil
 	}
 
-	// 同一场次跨分钟也只允许一个渲染任务；完成时按实际发布时间生成版本，
+	// 同一场次跨分钟也只允许一个渲染任务；版本取渲染开始前确定的目标分钟，
 	// 避免分钟边界的 HTTP 兜底与后台预热各自启动 Chromium。
 	flightKey := forecastCacheKey(forecastDeviceScale, matchID)
 	ch := forecastSfGroup.DoChan(flightKey, func() (interface{}, error) {
