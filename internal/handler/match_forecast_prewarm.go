@@ -46,11 +46,12 @@ func CheckAndPrewarmForecastImages() {
 		return
 	}
 
-	now := forecastPrewarmNow()
-	version := now.Truncate(time.Minute).Unix()
 	pruneForecastPrewarmAttempts(matchIDs)
 
 	for _, matchID := range matchIDs {
+		// 每场次单独取当前分钟，避免前一场 chromedp 跨分钟后仍用过期 version 误跳过。
+		now := forecastPrewarmNow()
+		version := now.Truncate(time.Minute).Unix()
 		if activeVersion, ok := prewarmedImageVersion(matchID); ok && activeVersion >= version {
 			continue
 		}

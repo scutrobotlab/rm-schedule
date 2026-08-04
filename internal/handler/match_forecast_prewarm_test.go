@@ -2,11 +2,14 @@ package handler
 
 import (
 	"context"
+	"encoding/json"
 	"reflect"
 	"sync"
 	"testing"
 	"time"
 
+	"github.com/scutrobotlab/rm-schedule/internal/common"
+	"github.com/scutrobotlab/rm-schedule/internal/svc"
 	"github.com/scutrobotlab/rm-schedule/internal/types"
 )
 
@@ -142,6 +145,59 @@ func TestForecastPrewarmRetryIntervalAppliesAcrossMinuteBoundary(t *testing.T) {
 	}
 	if !shouldAttemptForecastPrewarm("31056", first.Add(forecastPrewarmRetryInterval)) {
 		t.Fatal("retry was not allowed at 15 seconds")
+	}
+}
+
+func TestCheckAndPrewarmForecastImagesRecomputesVersionPerMatch(t *testing.T) {
+	resetForecastPrewarmGlobals(t)
+	t.Setenv(envForecastDebugMatchID, "")
+	schedule := types.ScheduleResp{}
+	schedule.Data.Event.Zones.Nodes = []types.ZoneNode{{
+		ID: "618",
+		GroupMatches: types.Matches{Nodes: []types.MatchNode{
+			{ID: "31451", OrderNumber: 1, Status: matchStatusStarted},
+			{ID: "31452", OrderNumber: 2, Status: "WAITING"},
+		}},
+	}}
+	raw, err := json.Marshal(schedule)
+	if err != nil {
+		t.Fatal(err)
+	}
+	svc.Cache.SetDefault(common.UpstreamNameSchedule, raw)
+	t.Cleanup(func() { svc.Cache.Delete(common.UpstreamNameSchedule) })
+
+	now := time.Date(2026, 8, 5, 6, 35, 50, 0, time.UTC)
+	forecastPrewarmNow = func() time.Time { return now }
+
+	var mu sync.Mutex
+	versions := map[string]int64{
+		// 下一场已有旧分钟图；若循环外冻结 version，跨分钟后会被误跳过。
+		"31452": now.Truncate(time.Minute).Unix(),
+	}
+	var calls []string
+	prewarmedImageVersion = func(matchID string) (int64, bool) {
+		mu.Lock()
+		defer mu.Unlock()
+		version, ok := versions[matchID]
+		return version, ok
+	}
+	refreshForecastImage = func(_ context.Context, matchID string) ([]byte, bool, error) {
+		mu.Lock()
+		defer mu.Unlock()
+		calls = append(calls, matchID)
+		if matchID == "31451" {
+			now = now.Add(20 * time.Second) // 跨入下一分钟
+		}
+		versions[matchID] = now.Truncate(time.Minute).Unix()
+		return []byte("png"), false, nil
+	}
+
+	CheckAndPrewarmForecastImages()
+	mu.Lock()
+	got := append([]string(nil), calls...)
+	mu.Unlock()
+	if want := []string{"31451", "31452"}; !reflect.DeepEqual(got, want) {
+		t.Fatalf("render calls = %v, want %v", got, want)
 	}
 }
 

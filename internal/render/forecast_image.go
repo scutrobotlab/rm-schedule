@@ -159,7 +159,12 @@ func refreshForecastImage(ctx context.Context, matchID string, requestedVersion 
 	// 避免分钟边界的 HTTP 兜底与后台预热各自启动 Chromium。
 	flightKey := forecastCacheKey(forecastDeviceScale, matchID)
 	ch := forecastSfGroup.DoChan(flightKey, func() (interface{}, error) {
-		if active, ok := forecastImages.get(matchID, forecastNow(), forecastMaxStale); ok && active.Version >= requestedVersion {
+		now := forecastNow()
+		need := requestedVersion
+		if current := now.Truncate(time.Minute).Unix(); current > need {
+			need = current
+		}
+		if active, ok := forecastImages.get(matchID, now, forecastMaxStale); ok && active.Version >= need {
 			return renderCacheResult{active.Data, true}, nil
 		}
 
@@ -170,7 +175,10 @@ func refreshForecastImage(ctx context.Context, matchID string, requestedVersion 
 		if err != nil {
 			return renderCacheResult{}, err
 		}
-		published := forecastImages.publish(matchID, img, requestedVersion, forecastNow())
+		renderedAt := forecastNow()
+		// 图片内容在页面加载阶段取数，版本必须使用渲染开始前确定的目标分钟；
+		// RenderedAt 仅用于判断图片是否超过最大陈旧时间。
+		published := forecastImages.publish(matchID, img, need, renderedAt)
 		return renderCacheResult{published.Data, false}, nil
 	})
 	forecastFlightJoined(requestedVersion)
@@ -184,7 +192,11 @@ func refreshForecastImage(ctx context.Context, matchID string, requestedVersion 
 		if !ok {
 			return nil, false, &RenderError{Msg: "empty forecast render result"}
 		}
-		return val.img, val.cached, nil
+		// 可能并入了更早分钟的 flight；若已发布版本仍落后于本次请求，再刷一轮。
+		if active, ok := forecastImages.get(matchID, forecastNow(), forecastMaxStale); ok && active.Version >= requestedVersion {
+			return active.Data, val.cached, nil
+		}
+		return refreshForecastImage(ctx, matchID, requestedVersion)
 	case <-ctx.Done():
 		return nil, false, &TimeoutError{Msg: ctx.Err().Error()}
 	}

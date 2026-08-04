@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -137,34 +138,64 @@ func TestRenderForecastImageRefreshesActiveOlderThanFiveMinutes(t *testing.T) {
 	}
 }
 
-func TestForecastRefreshSingleflightCoalescesAcrossMinuteBoundary(t *testing.T) {
+func TestForecastRefreshKeepsTargetVersionWhenRenderCrossesMinute(t *testing.T) {
 	resetForecastImageGlobals(t)
-	now := time.Date(2026, 7, 25, 17, 9, 3, 0, time.UTC)
+	now := time.Date(2026, 7, 25, 17, 9, 58, 0, time.UTC)
+	forecastNow = func() time.Time { return now }
+	leaderVersion := now.Truncate(time.Minute).Unix()
+	var calls atomic.Int32
+	runForecastRender = func(context.Context, float64, string) ([]byte, error) {
+		calls.Add(1)
+		now = now.Add(time.Minute)
+		return []byte("png"), nil
+	}
+
+	if _, _, err := refreshForecastImage(context.Background(), "30988", leaderVersion); err != nil {
+		t.Fatal(err)
+	}
+	if got := calls.Load(); got != 1 {
+		t.Fatalf("render calls = %d, want 1", got)
+	}
+	active, ok := forecastImages.get("30988", now, forecastMaxStale)
+	if !ok || active.Version != leaderVersion {
+		t.Fatalf("published version = %d, ok=%v; want target-minute %d", active.Version, ok, leaderVersion)
+	}
+}
+
+func TestForecastRefreshRetriesWhenCoalescedFlightPublishesOlderVersion(t *testing.T) {
+	resetForecastImageGlobals(t)
+	now := time.Date(2026, 7, 25, 17, 9, 58, 0, time.UTC)
 	forecastNow = func() time.Time { return now }
 	started := make(chan struct{})
 	release := make(chan struct{})
 	secondJoined := make(chan struct{})
+	var secondJoinedOnce sync.Once
+	leaderVersion := now.Truncate(time.Minute).Unix()
 	nextVersion := now.Add(time.Minute).Truncate(time.Minute).Unix()
 	forecastFlightJoined = func(version int64) {
 		if version == nextVersion {
-			close(secondJoined)
+			secondJoinedOnce.Do(func() { close(secondJoined) })
 		}
 	}
 	var calls atomic.Int32
 	runForecastRender = func(context.Context, float64, string) ([]byte, error) {
-		if calls.Add(1) == 1 {
+		n := calls.Add(1)
+		if n == 1 {
 			close(started)
+			<-release
+			return []byte("old-minute"), nil
 		}
-		<-release
-		return []byte("png"), nil
+		return []byte("new-minute"), nil
 	}
 
 	done := make(chan error, 2)
 	go func() {
-		_, _, err := refreshForecastImage(context.Background(), "30988", now.Truncate(time.Minute).Unix())
+		_, _, err := refreshForecastImage(context.Background(), "30988", leaderVersion)
 		done <- err
 	}()
 	<-started
+	// 新分钟的调用并入旧 flight；旧图发布后应自动再刷一次新分钟版本。
+	now = now.Add(time.Minute)
 	go func() {
 		_, _, err := refreshForecastImage(context.Background(), "30988", nextVersion)
 		done <- err
@@ -176,8 +207,12 @@ func TestForecastRefreshSingleflightCoalescesAcrossMinuteBoundary(t *testing.T) 
 			t.Fatal(err)
 		}
 	}
-	if got := calls.Load(); got != 1 {
-		t.Fatalf("render calls = %d, want 1", got)
+	if got := calls.Load(); got != 2 {
+		t.Fatalf("render calls = %d, want 2 (retry after stale coalesce)", got)
+	}
+	active, ok := forecastImages.get("30988", now, forecastMaxStale)
+	if !ok || active.Version != nextVersion || string(active.Data) != "new-minute" {
+		t.Fatalf("active=%q version=%d ok=%v; want new-minute/%d", active.Data, active.Version, ok, nextVersion)
 	}
 }
 
